@@ -7,6 +7,7 @@
              stylingMode="filled"
              (onValueChanged)="valueChanged($event)"
              valueChangeEvent="keyup input change"
+             (onEnterKey)="entered($event)"
 >
   <dx-validator [validationRules]="validators"></dx-validator>
   <dxi-button *ngIf="icon"

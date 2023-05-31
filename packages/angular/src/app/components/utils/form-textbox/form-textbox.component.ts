@@ -29,10 +29,16 @@ export class FormTextboxComponent {
 
   @Output() valueChange = new EventEmitter<string>();
 
+  @Output() enter = new EventEmitter<any>();
+
   valueChanged(e) {
     this.valueChange.emit(e.value);
   }
 
+  entered(e) {
+    console.log('entered');
+    this.enter.emit(e.value);
+  }
 }
 
 @NgModule({

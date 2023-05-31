@@ -30,7 +30,6 @@ export class GroupNewFormComponent extends AbstractNewFormComponent {
 
   constructor() {
     super();
-    console.log('hel');
   }
 }
 

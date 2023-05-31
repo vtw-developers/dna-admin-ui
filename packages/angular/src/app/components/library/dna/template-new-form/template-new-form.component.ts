@@ -15,6 +15,7 @@ import {
 import {newContact} from 'src/app/types/contact';
 import {getSizeQualifier} from 'src/app/services/screen.service';
 import {AbstractNewFormComponent} from '../abstract-new-form/abstract-new-form.component';
+import test from 'node:test';
 
 @Component({
   selector: 'flow-template-new-form',
