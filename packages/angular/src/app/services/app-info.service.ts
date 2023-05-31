@@ -5,7 +5,7 @@ export class AppInfoService {
   constructor() {}
 
   public get title() {
-    return 'UI Template Gallery';
+    return 'DnA Admin';
   }
 
   public get currentYear() {

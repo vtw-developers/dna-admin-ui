@@ -292,8 +292,7 @@ body, .dx-widget {
   padding-bottom: 6px !important;
 }
 
-
-/* Icons */
+/* Custom Icons */
 html[data-theme="light"] .dx-icon-database,
 html[data-theme="dark"] .dx-button-default .dx-icon-database
 {
@@ -310,7 +309,6 @@ html[data-theme="light"] .dx-button-default .dx-icon-database
   background-position: center !important;
 }
 
-
 html[data-theme="light"] .dx-icon-flow,
 html[data-theme="dark"] .dx-button-default .dx-icon-flow
 {
@@ -326,8 +324,6 @@ html[data-theme="light"] .dx-button-default .dx-icon-flow
   background-repeat: no-repeat;
   background-position: center !important;
 }
-
-
 
 html[data-theme="light"] .dx-icon-template,
 html[data-theme="dark"] .dx-button-default .dx-icon-template

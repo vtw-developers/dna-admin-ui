@@ -38,6 +38,8 @@ export class ThemeService {
 
     currentVizTheme(currentVizTheme().replace(/\.[a-z]+\.compact$/, `.${theme}.compact`));
     refreshTheme();
+
+    document.documentElement.setAttribute("data-theme", this.currentTheme);
   }
 
   getCurrentTheme() {
