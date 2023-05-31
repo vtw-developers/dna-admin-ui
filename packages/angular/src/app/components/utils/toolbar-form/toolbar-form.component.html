@@ -1,10 +1,10 @@
 <dx-toolbar>
   <dxi-item location="before"
-    ><span [class]="titleClass">Details</span>
+    ><span [class]="titleClass">기본 정보</span>
   </dxi-item>
   <dxi-item location="after" locateInMenu="after" [visible]="!isEditing">
     <dx-button
-      text="Edit"
+      text="변경"
       icon="edit"
       stylingMode="outlined"
       type="default"
@@ -13,7 +13,7 @@
   </dxi-item>
   <dxi-item location="after" locateInMenu="after" [visible]="isEditing">
     <dx-button
-      text="Save"
+      text="저장"
       stylingMode="outlined"
       type="default"
       (onClick)="handleSaveButtonClick($event)"
@@ -21,7 +21,7 @@
   </dxi-item>
   <dxi-item location="after" locateInMenu="after" [visible]="isEditing">
     <dx-button
-      text="Cancel"
+      text="취소"
       (onClick)="handleCancelEditClick()"
       stylingMode="text"
     ></dx-button>
