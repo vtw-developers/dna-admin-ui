@@ -12,6 +12,8 @@ header {
 
   ::ng-deep .header-title {
     color: $accent-color;
+    font-size: 22px;
+    font-weight: 900;
   }
 
   .header-toolbar {
@@ -51,5 +53,5 @@ header {
 ::ng-deep .header-logo .dx-item-content img {
   padding-left: 6px;
   margin: 0;
-  width: 34px;
+  width: 160px;
 }
