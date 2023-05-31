@@ -12,8 +12,9 @@ header {
 
   ::ng-deep .header-title {
     color: $accent-color;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 900;
+    min-width: 160px;
   }
 
   .header-toolbar {

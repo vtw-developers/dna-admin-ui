@@ -12,17 +12,16 @@
       }"
     >
     </dxi-item>
-    <dxi-item location="before" widget="dxButton" cssClass="header-logo">
-      <img src="/assets/logo/영문 기본형2.png"/>
-    </dxi-item>
     <dxi-item
-      location="center"
+      location="before"
       cssClass="header-title"
       *ngIf="title"
       [text]="title"
     >
     </dxi-item>
-
+    <dxi-item location="center" widget="dxButton" cssClass="header-logo">
+      <img [src]="logo"/>
+    </dxi-item>
     <dxi-item
       location="after"
       widget="dxTextBox"

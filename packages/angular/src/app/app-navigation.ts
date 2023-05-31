@@ -1,7 +1,7 @@
 export const navigation = [
   {
     text: '플로우',
-    icon: 'database',
+    icon: 'flow',
     path: '',
     items: [
       {

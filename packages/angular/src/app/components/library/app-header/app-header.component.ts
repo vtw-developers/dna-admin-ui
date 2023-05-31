@@ -7,7 +7,7 @@ import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
 
 import { UserPanelModule } from '../user-panel/user-panel.component';
-import { AuthService, IUser } from 'src/app/services';
+import {AuthService, IUser, ThemeService} from 'src/app/services';
 import { ThemeSwitcherModule } from 'src/app/components/library/theme-switcher/theme-switcher.component';
 
 @Component({
@@ -37,7 +37,8 @@ export class AppHeaderComponent implements OnInit {
     },
   }];
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private themeService: ThemeService) { }
 
   ngOnInit() {
     this.authService.getUser().then((e) => this.user = e.data);
@@ -46,6 +47,10 @@ export class AppHeaderComponent implements OnInit {
   toggleMenu = () => {
     this.menuToggle.emit();
   };
+
+  get logo() {
+    return this.themeService.getCurrentTheme() === 'light' ? '/assets/logo/국문 기본형.png' : '/assets/logo/국문 기본형(w).png'
+  }
 }
 
 @NgModule({
