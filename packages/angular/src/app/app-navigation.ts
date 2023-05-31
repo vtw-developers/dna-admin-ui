@@ -1,5 +1,172 @@
 export const navigation = [
   {
+    text: '플로우',
+    icon: 'database',
+    path: '',
+    items: [
+      {
+        text: '플로우 관리 (TreeView)',
+        path: '/flow-tree',
+      },
+      {
+        text: '플로우 템플릿',
+        path: '/flow-template-list',
+      },
+      {
+        text: '플로우',
+        path: '/extract-deta24234ils',
+      }
+    ],
+  },
+  {
+    text: '메타관리',
+    icon: 'globe',
+    path: '',
+    items: [
+      {
+        text: '메타정의',
+        path: '/extract-list222343434',
+      },
+      {
+        text: '데이터소스',
+        path: '/extract-list222343433',
+      },
+      {
+        text: '외부API',
+        path: '/extract-list222343434d',
+      },
+    ],
+  },
+  {
+    text: '배포/제어',
+    icon: 'globe',
+    path: '',
+    items: [
+      {
+        text: '서버(인스턴스)',
+        path: '/extract-list2223434',
+      },
+      {
+        text: '애플리케이션(에이전트)',
+        path: '/extract-details223',
+      },
+      {
+        text: '프로그램(플로우)',
+        path: '/extract-details223ㅇㅈㅂㅇ',
+      },
+    ],
+  },
+  {
+    text: '모니터링',
+    icon: 'globe',
+    path: '',
+    items: [
+      {
+        text: '서버(인스턴스)',
+        path: '/extract-list22234343',
+      },
+      {
+        text: '애플리케이션(에이전트)',
+        path: '/extract-details2234',
+      },
+      {
+        text: '프로그램(플로우)',
+        path: '/extract-details223ㅇㅈㅂㅇ3',
+      },
+    ],
+  },
+
+
+
+
+
+
+  {
+    text: '메타 관리',
+    icon: 'globe',
+    path: '',
+    items: [
+      {
+        text: '원천 시스템',
+        path: '/swagger',
+      },
+      {
+        text: '원천 테이블',
+        path: '/extract-details3',
+      },
+      {
+        text: '개방 테이블',
+        path: '/extract-details4',
+      },
+      {
+        text: '소스/타겟 매핑룰',
+        path: '/extract-details5',
+      },
+    ],
+  },
+
+  {
+    text: '추출',
+    icon: 'assets/icons/database.svg',
+    path: '',
+    items: [
+      {
+        text: '프로그램 목록',
+        path: '/extract-list',
+      },
+      {
+        text: '프로그램 상세',
+        path: '/extract-details',
+      },
+      {
+        text: '스케줄링',
+        path: '/extract-details333',
+      },
+    ],
+  },
+  {
+    text: 'Open API',
+    icon: 'globe',
+    path: '',
+    items: [
+      {
+        text: '프로그램 목록',
+        path: '/extract-list2',
+      },
+      {
+        text: '프로그램 상세',
+        path: '/extract-details2',
+      },
+    ],
+  },
+  {
+    text: '메타 관리',
+    icon: 'globe',
+    path: '',
+    items: [
+      {
+        text: '원천 시스템',
+        path: '/extract-list3ㄷ',
+      },
+      {
+        text: '원천 테이블',
+        path: '/extract-details3ㅈ',
+      },
+      {
+        text: '개방 테이블',
+        path: '/extract-details4ㅁ',
+      },
+      {
+        text: '소스/타겟 매핑룰',
+        path: '/extract-details5ㅇ',
+      },
+    ],
+  },
+
+
+
+
+  /*{
     text: 'CRM',
     icon: 'user',
     path: '',
@@ -81,5 +248,5 @@ export const navigation = [
         path: '/user-profile',
       },
     ]
-  }
+  }*/
 ];

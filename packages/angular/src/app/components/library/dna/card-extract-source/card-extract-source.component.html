@@ -1,0 +1,125 @@
+<div id="activities-list" class="data-wrapper" [ngClass]="activities ? 'load' : null">
+
+    <dx-accordion [multiple]="true" [collapsible]="true">
+        <div class="accordion-title" *dxTemplate="let t of 'title'"
+             style="vertical-align: middle;
+                    padding-right: 10px;
+                    display: flex;
+                    align-items: center;">
+            <span style="font-size: 16px">원천 DB</span>
+        </div>
+
+        <dxi-item title="Opportunities">
+            <div *dxTemplate="let i of 'item'" [class.view-mode]="true">
+                <dx-form class="form last plain-styled-form"
+                         [formData]="contactData"
+                         labelMode="floating"
+                         [class.view-mode]="true"
+                >
+                    <dxi-item itemType="group" [colCount]="2">
+                        <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
+                        <dxi-item itemType="group">
+                            <dxi-item>
+                                <form-textbox *dxTemplate
+                                              label="시스템"
+                                              [(value)]="contactData.system"
+                                              [isEditing]="false"
+                                ></form-textbox>
+                            </dxi-item>
+                            <dxi-item>
+                                <form-textbox *dxTemplate
+                                              label="프로그램명"
+                                              [(value)]="contactData.name"
+                                              [isEditing]="false"
+                                ></form-textbox>
+                            </dxi-item>
+                            <dxi-item>
+                                <form-textbox *dxTemplate
+                                              label="추출 방식"
+                                              [(value)]="contactData.template"
+                                              [isEditing]="false"
+                                ></form-textbox>
+                            </dxi-item>
+                        </dxi-item>
+                    </dxi-item>
+                </dx-form>
+            </div>
+        </dxi-item>
+    </dx-accordion>
+
+    <dx-accordion [multiple]="true" [collapsible]="true">
+        <div class="accordion-title" *dxTemplate="let t of 'title'"
+             style="vertical-align: middle;
+                    padding-right: 10px;
+                    display: flex;
+                    align-items: center;">
+            <span style="font-size: 16px">원천 테이블</span>
+        </div>
+
+        <dxi-item title="Opportunities">
+            <div *dxTemplate="let i of 'item'" [class.view-mode]="true">
+                <dx-form class="form last plain-styled-form"
+                         [formData]="contactData"
+                         labelMode="floating"
+                         [class.view-mode]="true"
+                >
+                    <dxi-item itemType="group" [colCount]="2">
+                        <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
+                        <dxi-item itemType="group">
+                            <dxi-item>
+                                <form-textbox *dxTemplate
+                                              label="시스템"
+                                              [(value)]="contactData.system"
+                                              [isEditing]="false"
+                                ></form-textbox>
+                            </dxi-item>
+                            <dxi-item>
+                                <form-textbox *dxTemplate
+                                              label="프로그램명"
+                                              [(value)]="contactData.name"
+                                              [isEditing]="false"
+                                ></form-textbox>
+                            </dxi-item>
+                            <dxi-item>
+                                <form-textbox *dxTemplate
+                                              label="추출 방식"
+                                              [(value)]="contactData.template"
+                                              [isEditing]="false"
+                                ></form-textbox>
+                            </dxi-item>
+                        </dxi-item>
+                    </dxi-item>
+                </dx-form>
+            </div>
+        </dxi-item>
+    </dx-accordion>
+
+    <!--  <dx-list
+        *ngIf="activities"
+        class="activities-list"
+        [items]="activities"
+        [scrollingEnabled]="false"
+      >
+        <div *dxTemplate="let item of 'item'">
+          <div class="activity">
+            <div class="name">{{ item.name }}</div>
+            <div class="date" [ngClass]="{ by: showBy }">
+              <span>{{ item.date | date: "MM/dd/yyyy" }}</span>
+              <span *ngIf="showBy">by</span>
+              <span>{{ item.manager }}</span>
+            </div>
+            <card-menu
+              [items]="activityMenuItems"
+              >
+            </card-menu>
+          </div>
+        </div>
+      </dx-list>
+
+      <dx-load-panel
+        container="#activities-list"
+        [position]="{ of: '#activities-list' }"
+        [visible]="!activities || isLoading"
+        [showPane]="false"
+      ></dx-load-panel>-->
+</div>

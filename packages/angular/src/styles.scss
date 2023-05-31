@@ -1,5 +1,41 @@
 @use "variables.scss" as *;
 
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("./assets/fonts/Noto_Sans_KR/NotoSansKR-Thin.otf") format("opentype");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("./assets/fonts/Noto_Sans_KR/NotoSansKR-Light.otf") format("opentype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("./assets/fonts/Noto_Sans_KR/NotoSansKR-Regular.otf") format("opentype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("./assets/fonts/Noto_Sans_KR/NotoSansKR-Medium.otf") format("opentype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("./assets/fonts/Noto_Sans_KR/NotoSansKR-Bold.otf") format("opentype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("./assets/fonts/Noto_Sans_KR/NotoSansKR-Black.otf") format("opentype");
+  font-weight: 900;
+}
+
 html,
 body {
   margin: 0;
@@ -225,3 +261,92 @@ body {
 .status-indicator-high {
   @include status(#ff5722);
 }
+
+
+/* Custom */
+body, .dx-widget {
+  font-family: "Noto Sans KR" !important;
+}
+
+* {
+  text-transform: none !important;
+}
+
+.status-running {
+  @include status(#03a9f4);
+}
+
+.status-stopped {
+  @include status(lightgray);
+}
+
+.status-error {
+  @include status(red);
+}
+
+.dx-editor-filled.dx-texteditor-with-label .dx-texteditor-input,
+.dx-editor-filled.dx-texteditor-with-label.dx-lookup .dx-lookup-field,
+.dx-editor-filled.dx-texteditor-with-floating-label .dx-texteditor-input,
+.dx-editor-filled.dx-texteditor-with-floating-label.dx-lookup .dx-lookup-field {
+  padding-top: 20px !important;
+  padding-bottom: 6px !important;
+}
+
+
+/* Icons */
+html[data-theme="light"] .dx-icon-database,
+html[data-theme="dark"] .dx-button-default .dx-icon-database
+{
+  background-image: url("assets/icons/database.svg");
+  background-repeat: no-repeat;
+  background-position: center !important;
+}
+
+html[data-theme="dark"] .dx-icon-database,
+html[data-theme="light"] .dx-button-default .dx-icon-database
+{
+  background-image: url("assets/icons/database_dark.svg");
+  background-repeat: no-repeat;
+  background-position: center !important;
+}
+
+
+html[data-theme="light"] .dx-icon-flow,
+html[data-theme="dark"] .dx-button-default .dx-icon-flow
+{
+  background-image: url("assets/icons/flow.svg");
+  background-repeat: no-repeat;
+  background-position: center !important;
+}
+
+html[data-theme="dark"] .dx-icon-flow,
+html[data-theme="light"] .dx-button-default .dx-icon-flow
+{
+  background-image: url("assets/icons/flow_dark.svg");
+  background-repeat: no-repeat;
+  background-position: center !important;
+}
+
+
+
+html[data-theme="light"] .dx-icon-template,
+html[data-theme="dark"] .dx-button-default .dx-icon-template
+{
+  background-image: url("assets/icons/template.svg");
+  background-repeat: no-repeat;
+  background-position: center !important;
+}
+
+html[data-theme="dark"] .dx-icon-template,
+html[data-theme="light"] .dx-button-default .dx-icon-template
+{
+  background-image: url("assets/icons/template_dark.svg");
+  background-repeat: no-repeat;
+  background-position: center !important;
+}
+
+.dx-context-menu .dx-menu-items-container {
+  min-width: 120px !important;
+}
+
+

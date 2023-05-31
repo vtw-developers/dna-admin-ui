@@ -1,28 +1,33 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser';
 import {
   LoginFormComponent,
   ResetPasswordFormComponent,
   CreateAccountFormComponent,
   ChangePasswordFormComponent,
 } from './components';
-import { AuthGuardService } from './services';
+import {AuthGuardService} from './services';
 
-import { SideNavOuterToolbarComponent, UnauthenticatedContentComponent } from './layouts';
+import {SideNavOuterToolbarComponent, UnauthenticatedContentComponent} from './layouts';
 
-import { CrmContactListComponent } from './pages/crm-contact-list/crm-contact-list.component';
-import { CrmContactDetailsComponent } from './pages/crm-contact-details/crm-contact-details.component';
-import { PlanningTaskListComponent } from './pages/planning-task-list/planning-task-list.component';
-import { PlanningTaskDetailsComponent } from './pages/planning-task-details/planning-task-details.component';
-import { AnalyticsDashboardComponent } from './pages/analytics-dashboard/analytics-dashboard.component';
-import { AnalyticsSalesReportComponent } from './pages/analytics-sales-report/analytics-sales-report.component';
-import { AnalyticsGeographyComponent } from './pages/analytics-geography/analytics-geography.component';
-import { PlanningSchedulerComponent } from './pages/planning-scheduler/planning-scheduler.component';
-import { AppSignInComponent } from './pages/sign-in-form/sign-in-form.component';
-import { AppSignUpComponent } from './pages/sign-up-form/sign-up-form.component';
-import { AppResetPasswordComponent } from './pages/reset-password-form/reset-password-form.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import {CrmContactListComponent} from './pages/crm-contact-list/crm-contact-list.component';
+import {CrmContactDetailsComponent} from './pages/crm-contact-details/crm-contact-details.component';
+import {PlanningTaskListComponent} from './pages/planning-task-list/planning-task-list.component';
+import {PlanningTaskDetailsComponent} from './pages/planning-task-details/planning-task-details.component';
+import {AnalyticsDashboardComponent} from './pages/analytics-dashboard/analytics-dashboard.component';
+import {AnalyticsSalesReportComponent} from './pages/analytics-sales-report/analytics-sales-report.component';
+import {AnalyticsGeographyComponent} from './pages/analytics-geography/analytics-geography.component';
+import {PlanningSchedulerComponent} from './pages/planning-scheduler/planning-scheduler.component';
+import {AppSignInComponent} from './pages/sign-in-form/sign-in-form.component';
+import {AppSignUpComponent} from './pages/sign-up-form/sign-up-form.component';
+import {AppResetPasswordComponent} from './pages/reset-password-form/reset-password-form.component';
+import {UserProfileComponent} from './pages/user-profile/user-profile.component';
+import {ExtractListComponent} from './pages/dna/extract-list/extract-list.component';
+import {ExtractDetailsComponent} from './pages/dna/extract-details/extract-details.component';
+import {SwaggerComponent} from './pages/dna/swagger/swagger.component';
+import {FlowTemplateListComponent} from './pages/dna/flow-template-list/flow-template-list.component';
+import {FlowTreeComponent} from './pages/dna/flow-tree/flow-tree.component';
 
 const routes: Routes = [
   {
@@ -60,6 +65,36 @@ const routes: Routes = [
     path: '',
     component: SideNavOuterToolbarComponent,
     children: [
+      {
+        path: 'flow-tree',
+        component: FlowTreeComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'flow-template-list',
+        component: FlowTemplateListComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'swagger',
+        component: SwaggerComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'extract-list',
+        component: ExtractListComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'extract-details',
+        component: ExtractDetailsComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'crm-contact-details2',
+        component: CrmContactDetailsComponent,
+        canActivate: [AuthGuardService],
+      },
       {
         path: 'crm-contact-list',
         component: CrmContactListComponent,
@@ -128,11 +163,12 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { useHash: true, }),
+    RouterModule.forRoot(routes, {useHash: true,}),
     BrowserModule,
   ],
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

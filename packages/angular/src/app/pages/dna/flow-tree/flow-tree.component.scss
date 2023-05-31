@@ -1,0 +1,91 @@
+@use "../../../../variables.scss" as *;
+@use "sass:math";
+
+$side-panel-toolbar-height: 76px;
+
+:host {
+  width: 100%;
+  display: contents;
+}
+
+.flow-tree-view .dx-treeview-item-without-checkbox.dx-state-selected > .dx-treeview-item {
+  background-color: #1ba6c6;
+}
+
+.dx-treeview-node {
+  padding-left: 16px;
+}
+
+.flow-tree {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  flex-direction: row;
+
+  margin: 12px;
+
+  .grid {
+    .name-template {
+      .position {
+        font-size: 12px;
+        color: $texteditor-label-color;
+      }
+    }
+
+    ::ng-deep .dx-row-focused {
+      .name-template {
+        color: $base-focus-color;
+
+        .position.position {
+          color: $base-focus-color;
+        }
+      }
+
+      .status {
+        @include status($base-focus-color);
+      }
+    }
+
+    ::ng-deep & {
+      .dx-datagrid-header-panel {
+        padding: 0 $content-padding;
+      }
+
+      .dx-toolbar {
+        margin-bottom: 0;
+        padding: $toolbar-margin-bottom 0;
+      }
+
+      .dx-datagrid-content .dx-row {
+        cursor: pointer;
+      }
+    }
+
+    .grid-header {
+      @include header();
+    }
+  }
+
+  user-panel {
+    display: inherit;
+  }
+}
+
+.edit-cell {
+  position: relative;
+
+  contact-status {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 11px;
+  }
+}
+
+.flow-tree-view {
+  .tool-bar {
+    display: flex;
+    gap: var(--popup-toolbar-item-spacing);
+  }
+}

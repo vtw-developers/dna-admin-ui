@@ -1,0 +1,20 @@
+<dx-form
+  class="plain-styled-form"
+  [screenByWidth]="getSizeQualifier"
+>
+  <dxi-item itemType="group">
+    <dxo-col-count-by-screen [xs]="1" [sm]="1" [md]="1" [lg]="1"></dxo-col-count-by-screen>
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          label="그룹명"
+          [(value)]="newGroup.name"
+          [isEditing]="true"
+          (onEnterKey)="submit($event)"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+  </dxi-item>
+</dx-form>
+

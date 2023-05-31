@@ -1,0 +1,28 @@
+<dx-form
+  class="plain-styled-form"
+  [screenByWidth]="getSizeQualifier"
+>
+  <dxi-item itemType="group">
+    <dxo-col-count-by-screen [xs]="1" [sm]="1" [md]="1" [lg]="1"></dxo-col-count-by-screen>
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          label="템플릿명"
+          [(value)]="newTemplate.name"
+          [isEditing]="true"
+          (onEnterKey)="submit($event)"
+        ></form-textbox>
+      </div>
+    </dxi-item>
+    <dxi-item>
+      <div *dxTemplate id="fileuploader-container">
+        <dx-file-uploader
+          selectButtonText="배포파일 선택"
+          labelText=""
+          accept="*"
+          uploadMode="useForm"
+        ></dx-file-uploader>
+      </div>
+    </dxi-item>
+  </dxi-item>
+</dx-form>

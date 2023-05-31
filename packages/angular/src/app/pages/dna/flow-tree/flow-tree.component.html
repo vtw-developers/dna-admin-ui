@@ -1,0 +1,70 @@
+<div class="view-wrapper flow-tree">
+  <div class="flow-tree-view" style="border-right: solid 2px lightgrey">
+<!--    <div class="tool-bar">
+      <dx-button
+        text="새 그룹"
+        icon="plus"
+        type="default"
+        stylingMode="contained"
+        [width]="110"
+        (onClick)="addGroup()"
+      ></dx-button>
+      <dx-button
+        text="새 템플릿"
+        icon="database"
+        type="default"
+        stylingMode="contained"
+        [width]="110"
+        (onClick)="addTemplate()"
+      ></dx-button>
+    </div>-->
+    <dx-tree-view
+      id="treeview"
+      [items]="treeItems"
+      dataStructure="plain"
+      parentIdExpr="parentId"
+      keyExpr="id"
+      displayExpr="name"
+      [width]="300"
+      (onItemClick)="selectItem($event)"
+      (onItemContextMenu)="treeViewItemContextMenu($event)"
+      selectionMode="single"
+      showCheckBoxesMode="none"
+      [selectByClick]="true"
+      [hoverStateEnabled]="false"
+      [focusStateEnabled]="false"
+    >
+    </dx-tree-view>
+
+    <dx-context-menu
+      [dataSource]="menuItems"
+      target="#treeview .dx-treeview-item"
+      (onItemClick)="contextMenuItemClick($event)"
+    >
+    </dx-context-menu>
+
+
+  </div>
+
+  <div class="flow-tree-details" style="width: 100%; height: 100%">
+    <template-details *ngIf="currentItem?.type === 'Template'"></template-details>
+  </div>
+
+  <form-popup
+    #newTemplatePopup
+    [(visible)]="isNewTemplatePopupOpened"
+    titleText="새 플로우 템플릿"
+    (save)="onTemplateSaved()"
+  >
+    <flow-template-new-form [save]="newTemplatePopup.save"></flow-template-new-form>
+  </form-popup>
+
+  <form-popup
+    #newGroupPopup
+    [(visible)]="isNewGroupPopupOpened"
+    titleText="새 그룹"
+    (save)="onGroupSaved()"
+  >
+    <group-new-form [save]="newGroupPopup.save"></group-new-form>
+  </form-popup>
+</div>

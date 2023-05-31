@@ -12,16 +12,16 @@
          [class.flex-buttons]="width <= 360"
     >
       <dx-button
-      text="Cancel"
-      stylingMode="contained"
-      (click)="onCancelClick()"
-    ></dx-button>
-      <dx-button
-        text="Save"
+        text="저장"
         stylingMode="contained"
         type="default"
         [disabled]="isSaveDisabled"
-        (click)="onSaveClick()"
+        (onClick)="onSaveClick()"
+      ></dx-button>
+      <dx-button
+        text="취소"
+        stylingMode="contained"
+        (onClick)="onCancelClick()"
       ></dx-button>
     </div>
 

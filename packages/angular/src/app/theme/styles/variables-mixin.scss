@@ -1,8 +1,15 @@
 $theme: null !default;
 $theme-type: 'material';
+$main-color: #145e8d !default;
 
-@use "/node_modules/devextreme/scss/widgets/material/colors" as * with ($color: "blue", $mode: $theme);
+@use "/node_modules/devextreme/scss/widgets/material/colors" as * with (
+$color: $main-color,
+$mode: $theme,
+$base-accent: $main-color,
+$material-color-accent-modificator: $main-color
+);
 @use "/node_modules/devextreme/scss/widgets/material/sizes" as * with ($size: "compact");
+@use "/node_modules/devextreme/scss/widgets/material/button/colors" as * ;
 @use "/node_modules/devextreme/scss/widgets/material/button/mixins" as *;
 @use "/node_modules/devextreme/scss/widgets/material/popup/sizes" as *;
 @use "/node_modules/devextreme/scss/widgets/material/textEditor/colors" as *;
@@ -10,6 +17,9 @@ $theme-type: 'material';
 @use '/node_modules/devextreme/scss/widgets/material/toolbar/sizes' as toolbar_sizes;
 @use "/node_modules/devextreme/scss/widgets/material/list/sizes" as *;
 @use "/node_modules/devextreme/scss/widgets/material/button/sizes" as *;
+
+@use "/node_modules/devextreme/scss/widgets/material/button/index" as *;
+@use "/node_modules/devextreme/scss/widgets/material/tabs/index" as *;
 
 @forward "/node_modules/devextreme/scss/widgets/material/colors";
 @forward "/node_modules/devextreme/scss/widgets/material/textEditor/colors";
