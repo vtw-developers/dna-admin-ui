@@ -1,0 +1,95 @@
+<div id="activities-list" class="data-wrapper" [ngClass]="activities ? 'load' : null">
+  <dx-diagram #diagram id="diagram"
+              [simpleView]="true"
+              [showGrid]="false"
+              [zoomLevel]="0.75"
+              (onSelectionChanged)="onSelectionChanged($event)"
+              class="flex-none"
+              [historyToolbar]="{visible: false}"
+              [viewToolbar]="{visible: false}"
+              [mainToolbar]="{visible: false}"
+  >
+    <dxo-context-toolbox [enabled]="false">
+    </dxo-context-toolbox>
+    <ng-container *ngFor="let item of nodeInfos">
+      <dxi-custom-shape
+        [category]="item.category"
+        [type]="item.type"
+        [title]="item.title"
+        [defaultText]="item.defaultText"
+        [backgroundImageUrl]="item.icon"
+        [backgroundImageLeft]="0.15"
+        [backgroundImageTop]="0"
+        [backgroundImageWidth]="0.7"
+        [backgroundImageHeight]="0.7"
+        [defaultWidth]="0.75"
+        [defaultHeight]="0.75"
+        [allowEditText]="true"
+        [textLeft]="-1"
+        [textTop]="0.7"
+        [textWidth]="3"
+        [textHeight]="0.3"
+        [allowResize]="false"
+      >
+        <dxi-connection-point [x]="0.5" [y]="0"></dxi-connection-point>
+        <dxi-connection-point [x]="0.9" [y]="0.5"></dxi-connection-point>
+        <dxi-connection-point [x]="0.5" [y]="1"></dxi-connection-point>
+        <dxi-connection-point [x]="0.1" [y]="0.5"></dxi-connection-point>
+      </dxi-custom-shape>
+    </ng-container>
+    <dxo-toolbox [showSearch]="true" [visibility]="'disabled'">
+      <dxi-group
+        category="consumer"
+        [title]="formatMessage('Consumer')"
+        [expanded]="true"
+        displayMode="texts"
+      ></dxi-group>
+      <dxi-group
+        category="logic"
+        [title]="formatMessage('Logic')"
+        [expanded]="true"
+        displayMode="texts"
+      ></dxi-group>
+      <dxi-group
+        category="producer"
+        [title]="formatMessage('Producer')"
+        [expanded]="true"
+        displayMode="texts"
+      ></dxi-group>
+      <dxi-group
+        category="marshaler"
+        [title]="formatMessage('Serializer')"
+        [expanded]="true"
+        displayMode="texts"
+      ></dxi-group>
+      <dxi-group
+        category="aop"
+        [title]="formatMessage('Handler')"
+        [expanded]="true"
+        displayMode="texts"
+      ></dxi-group>
+    </dxo-toolbox>
+    <dxo-default-item-properties
+      connectorLineStart="none"
+      connectorLineEnd="filledTriangle"
+      style="fill: #d9d9d9; stroke: #999999"
+      textStyle="font-size: 16px">
+    </dxo-default-item-properties>
+    <dxo-nodes
+      [dataSource]="nodesDataSource"
+      keyExpr="id"
+      textExpr="label"
+      typeExpr="type"
+      leftExpr="position.x"
+      topExpr="position.y"
+    >
+    </dxo-nodes>
+    <dxo-edges
+      [dataSource]="edgesDataSource"
+      keyExpr="id"
+      fromExpr="fromId"
+      toExpr="toId"
+      textExpr="text"
+    ></dxo-edges>
+  </dx-diagram>
+</div>

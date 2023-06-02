@@ -1,30 +1,24 @@
 <div class="dx-card details-card">
   <dx-tab-panel [showNavButtons]="true">
     <dxi-item title="워크플로우">
-      <extract-source
+      <card-workflow
           [activities]="activities"
           [showBy]="true"
           [isLoading]="isLoading">
-      </extract-source>
+      </card-workflow>
     </dxi-item>
-    <dxi-item title="타겟">
+    <dxi-item title="파라미터">
       <card-activities
         [activities]="activities"
         [showBy]="true"
         [isLoading]="isLoading"
       ></card-activities>
     </dxi-item>
-    <dxi-item title="매핑">
+    <dxi-item title="YAML코드">
       <card-opportunities
         [openedOpportunities]="activeOpportunities"
         [closedOpportunities]="closedOpportunities"
       ></card-opportunities>
-    </dxi-item>
-    <dxi-item title="연계이력">
-      <card-notes [user]="contactName" [items]="notes"></card-notes>
-    </dxi-item>
-    <dxi-item title="모니터링" [badge]="messages?.length">
-      <card-messages [user]="contactName" [items]="messages"></card-messages>
     </dxi-item>
   </dx-tab-panel>
 </div>

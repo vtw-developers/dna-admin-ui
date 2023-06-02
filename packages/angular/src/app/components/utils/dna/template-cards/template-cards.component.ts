@@ -20,6 +20,7 @@ import { Notes } from 'src/app/types/notes';
 import { Opportunities } from 'src/app/types/opportunities';
 import { Task } from 'src/app/types/task';
 import {ExtractSourceModule} from '../../../library/dna/card-extract-source/card-extract-source.component';
+import {CardWorkflowModule} from '../../../library/dna/card-workflow/card-workflow.component';
 
 @Component({
   selector: 'template-cards',
@@ -59,6 +60,7 @@ export class TemplateCardsComponent {
     CardTasksModule,
 
     CommonModule,
+    CardWorkflowModule,
   ],
   providers: [],
   exports: [TemplateCardsComponent],

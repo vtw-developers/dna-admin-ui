@@ -64,7 +64,7 @@ export class TemplateDetailsComponent implements OnInit {
   }
 
   loadData = () => {
-    this.contactName = '자격취득자 추출';
+    this.contactName = '변동 테이블 추출 템플릿';
     this.contactData = {
       id: 1,
       name: '변동 테이블 추출 템플릿',
