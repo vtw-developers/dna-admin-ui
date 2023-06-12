@@ -163,7 +163,21 @@ export const navigation = [
     ],
   },
 
-
+  {
+    text: 'Common',
+    icon: 'box',
+    path: '',
+    items: [
+      {
+        text: 'User Profile',
+        path: '/user-profile',
+      },
+      {
+        text: 'Authority',
+        path: '/authority',
+      },
+    ]
+  }
 
 
   /*{
@@ -237,16 +251,6 @@ export const navigation = [
         path: '/reset-password-form',
       }
     ],
-  },
-  {
-    text: 'Common',
-    icon: 'box',
-    path: '',
-    items: [
-      {
-        text: 'User Profile',
-        path: '/user-profile',
-      },
-    ]
-  }*/
+  },*/
+
 ];

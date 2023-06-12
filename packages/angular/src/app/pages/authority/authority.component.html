@@ -1,0 +1,50 @@
+<h2 class="content-block">권한 관리</h2>
+
+<div class="content-block dx-card responsive-paddings">
+
+  <dx-data-grid
+    #grid
+    [dataSource]="authorities"
+    [showBorders]="true"
+    [remoteOperations]="true"
+    [hoverStateEnabled]="true"
+    [selectedRowKeys]="[]"
+    (onRowClick)="searchUser()"
+  >
+
+    <dxi-column dataField="name" dataType="string" caption="권한명"></dxi-column>
+    <dxi-column dataField="detail" dataType="string" caption="내용"></dxi-column>
+    <dxi-column dataField="registerDate" dataType="string" caption="등록일자"></dxi-column>
+    <dxo-selection mode="single"></dxo-selection>
+  </dx-data-grid>
+  <div *ngIf="grid.selectedRowKeys.length">
+
+    <dx-data-grid
+      #grid
+      [dataSource]="users"
+      [showBorders]="true"
+      [remoteOperations]="true"
+      [hoverStateEnabled]="true"
+    >
+      <dxi-column dataField="userId" dataType="string" caption="사용자"></dxi-column>
+      <dxi-column dataField="userCompany" dataType="string" caption="회사명"></dxi-column>
+      <dxi-column>
+        <dx-button
+          class="crud-button"
+          text="삭제"
+          (onClick)="delete()"
+        ></dx-button>
+      </dxi-column>
+    </dx-data-grid>
+  </div>
+</div>
+
+<div class="content-block crud-buttons">
+  <dx-button
+    class="crud-button"
+    text="생성"
+    (onClick)="create()"
+  ></dx-button>
+</div>
+
+<authority-edit-popup (onSaved)="onSaved($event)"></authority-edit-popup>

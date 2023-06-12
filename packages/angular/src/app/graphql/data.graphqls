@@ -1,0 +1,27 @@
+type Query {
+  authorities(name: String): [Authority]
+  users(name: String): [Authority]
+}
+
+type Mutation {
+  createAuthority(authority: AuthorityInput): Authority
+  deleteAuthority(id: ID): Authority
+}
+
+type Authority {
+  id: ID
+  name: String
+  detail: String
+  registerDate: String
+  userId: String
+  userCompany: String
+}
+
+input AuthorityInput {
+  id: ID
+  name: String
+  detail: String
+  registerDate: String
+  userId: String
+  userCompany: String
+}
