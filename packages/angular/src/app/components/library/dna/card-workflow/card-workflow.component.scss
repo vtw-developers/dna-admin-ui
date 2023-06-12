@@ -25,7 +25,7 @@
 
   .activity {
     box-shadow: 0 1px 4px 0 #00000026;
-    border-left: 2px solid $accent-color;
+    border-left: 2px solid var(--accent-color);
     margin-right: 4px;
     padding: 8px 2px 8px 16px;
     display: grid;
@@ -40,7 +40,7 @@
     .date {
       padding: 0 10px;
       font-size: 12px;
-      color: $texteditor-label-color;
+      color: var(--texteditor-label-color);
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
@@ -70,50 +70,3 @@
   }
 }
 
-#page-inner {
-  height: 100vh;
-}
-/*****************************/
-#header-inner {
-  overflow: auto;
-  grid-area: header;
-}
-
-#diagram {
-  overflow: auto;
-  grid-area: diagram;
-  height:  calc( 100% - 20px );
-  width: 100%;
-  .dx-diagram-toolbox-input-container, .dx-diagram-toolbox-panel, .dx-accordion{
-    width: 155px;
-  }
-  .dx-diagram-toolbox-panel{
-    overflow: hidden;
-  }
-}
-#rightdragbar-inner {
-  background-color: rgba(169, 169, 170, 0.2);
-  grid-area: rightdragbar-inner;
-  cursor: ew-resize;
-}
-
-
-#rightcol-inner {
-  overflow: auto;
-  grid-area: rightcol-inner;
-}
-
-.grid-buttons{
-  display: flex;
-  justify-content: flex-end;
-}
-
-.run-button{
-  border: none;
-}
-
-#statusText {
-  border: none;
-  pointer-events: none;
-  font-weight: 500;
-}
