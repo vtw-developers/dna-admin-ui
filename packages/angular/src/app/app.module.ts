@@ -22,6 +22,7 @@ import { AnalyticsDashboardModule } from './pages/analytics-dashboard/analytics-
 import { AnalyticsSalesReportModule } from './pages/analytics-sales-report/analytics-sales-report.component';
 import { AnalyticsGeographyModule } from './pages/analytics-geography/analytics-geography.component';
 import { ThemeService } from './services';
+import {GraphQLModule} from "./graphql.module";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { ThemeService } from './services';
     AnalyticsSalesReportModule,
     AnalyticsGeographyModule,
 
-    AppRoutingModule,
+    AppRoutingModule, GraphQLModule
   ],
   providers: [AuthService, ScreenService, AppInfoService, ThemeService],
   bootstrap: [AppComponent],
