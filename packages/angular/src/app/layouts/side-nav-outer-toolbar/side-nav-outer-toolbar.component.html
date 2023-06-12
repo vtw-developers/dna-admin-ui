@@ -3,8 +3,7 @@
   [menuToggleEnabled]="true"
   (menuToggle)="menuOpened = !menuOpened"
   [title]="appInfo.title"
->
-</app-header>
+></app-header>
 
 <dx-drawer
   class="layout-body"
@@ -27,7 +26,7 @@
     <app-footer>Copyright © {{ appInfo.currentYear }} <br> vtw Inc.</app-footer>
   </side-navigation-menu>
 
-    <div class="content">
-      <router-outlet></router-outlet>
-    </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 </dx-drawer>

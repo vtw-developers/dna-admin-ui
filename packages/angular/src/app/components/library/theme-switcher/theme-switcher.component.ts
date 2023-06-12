@@ -11,8 +11,8 @@ import { ThemeService } from 'src/app/services';
     <dx-button
       class="theme-button"
       [icon]="themeService.currentTheme !== 'dark' ? 'moon' : 'sun'"
-      (click)="onButtonClick()">
-    </dx-button>
+      (onClick)="onButtonClick()"
+    ></dx-button>
 `,
   styleUrls: [],
 })

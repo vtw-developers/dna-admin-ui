@@ -1,26 +1,20 @@
-@use "../../../../variables.scss" as *;
+@use "../../variables.scss" as *;
 @use "sass:math";
 
-$left-panel-width: 400px;
-$right-panel-width: 360px;
-
-.dx-toolbar ::ng-deep {
-  margin-bottom: calc(#{$toolbar-margin-bottom} / 2);
+.toolbar-details {
+  margin-bottom: calc(var(--toolbar-margin-bottom) / 2);
 
   .dx-toolbar-label > div {
     @include header();
   }
 }
 
-:host {
-  display: flex;
+.view-wrapper-details {
+  position: relative;
   flex-direction: column;
+  display: flex;
   flex-grow: 1;
-  height: 100%;
-}
-
-.view-wrapper {
-  padding: $content-padding $content-padding 0 $content-padding;
+  padding: var(--content-padding) var(--content-padding) 0 var(--content-padding);
 
   .panels {
     display: flex;
@@ -29,12 +23,12 @@ $right-panel-width: 360px;
     gap: 20px;
 
     .left {
-      flex: 1 $left-panel-width;
+      flex: 1 400px;
       margin-top: 8px;
     }
 
     .right {
-      flex: 1 calc(100% - #{$left-panel-width} - 20px);
+      flex: 1 calc(100% - 400px - 20px);
       margin-top: 8px;
       min-width: 340px;
     }

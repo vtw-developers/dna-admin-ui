@@ -7,27 +7,24 @@
   (onHidden)="close()"
   height="auto"
 >
-  <dxi-toolbar-item
-    toolbar="bottom"
-    location="center"
-  >
-    <div class="form-popup-buttons-container"
+  <dxi-toolbar-item toolbar="bottom" location="center">
+    <div
+      class="form-popup-buttons-container"
       [class.flex-buttons]="width <= 360"
     >
       <dx-button
         text="저장"
         stylingMode="contained"
-        type="default"
-        [disabled]="isSaveDisabled"
-        (onClick)="onCancelClick()"
-      ></dx-button>
-      <dx-button
-        text="Save"
-        stylingMode="contained"
         (onClick)="onSaveClick()"
       ></dx-button>
+      <dx-button
+        text="취소"
+        stylingMode="contained"
+        type="default"
+        [disabled]="isSaveDisabled"
+        (onClick)="close()"
+      ></dx-button>
     </div>
-
   </dxi-toolbar-item>
   <dx-validation-group #validationGroup>
     <ng-content></ng-content>
