@@ -7,7 +7,13 @@ import {
   DxDataGridComponent,
   DxDropDownButtonModule,
   DxSelectBoxModule,
-  DxTextBoxModule, DxTreeViewModule, DxContextMenuModule, DxContextMenuComponent, DxPopupModule, DxPopupComponent,
+  DxTextBoxModule,
+  DxTreeViewModule,
+  DxContextMenuModule,
+  DxContextMenuComponent,
+  DxPopupModule,
+  DxPopupComponent,
+  DxScrollViewModule, DxToolbarModule,
 } from 'devextreme-angular';
 import {RowClickEvent} from 'devextreme/ui/data_grid';
 import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter';
@@ -273,6 +279,8 @@ export class FlowTreeComponent {
     DxPopupModule,
     ExtractDetailsModule,
     TemplateDetailsModule,
+    DxScrollViewModule,
+    DxToolbarModule,
   ],
   providers: [],
   exports: [],
