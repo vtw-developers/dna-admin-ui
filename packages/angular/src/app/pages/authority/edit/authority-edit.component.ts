@@ -72,12 +72,12 @@ export class AuthorityEditComponent {
         }
       }).subscribe({
         next: (result: any) => {
-          notify('예약 정보가 등록되었습니다.', 'success', 3000);
+          notify('권한이 생성되었습니다.', 'success', 3000);
           this.onSaved.emit(result.data.createAuthority);
         },
         error: (e) => {
           console.error(e);
-          notify('등록에 실패하였습니다.', 'error', 3000);
+          notify('권한 생성에 실패하였습니다.', 'error', 3000);
         }
       });
     } else {

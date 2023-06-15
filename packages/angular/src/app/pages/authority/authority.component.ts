@@ -1,33 +1,27 @@
-import {Component, Input, NgModule, ViewChild} from '@angular/core';
+import {Component, NgModule, ViewChild} from '@angular/core';
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
 import DataSource from "devextreme/data/data_source";
-import {ActivatedRoute, Router} from "@angular/router";
-import {firstValueFrom} from 'rxjs';
 import {
   DxButtonModule,
   DxDataGridComponent,
-  DxDataGridModule,
-  DxDropDownButtonModule, DxSelectBoxModule, DxTextBoxModule,
-  getElement
+  DxDataGridModule
 } from "devextreme-angular";
 import notify from "devextreme/ui/notify";
 import {Authority} from "./authority.service";
 import {AuthorityEditComponent, AuthorityEditModule} from "./edit/authority-edit.component";
-import {ContactPanelModule} from "../../components/library/contact-panel/contact-panel.component";
-import {ExtractNewFormModule} from "../../components/library/dna/extract-new-form/extract-new-form.component";
-import {CardActivitiesModule, ContactStatusModule, FormPopupModule} from "../../components";
 import {CommonModule} from "@angular/common";
+import {confirm} from "devextreme/ui/dialog";
 
 
 @Component({
   templateUrl: './authority.component.html',
 })
-
 export class AuthorityComponent {
   authorities: DataSource
-  users: DataSource
-  name;
+  authorityLists: DataSource
+  name = "";
+  id;
   authority: Authority = {} as any;
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(AuthorityEditComponent, {static: false}) editPopup: AuthorityEditComponent;
@@ -45,12 +39,11 @@ export class AuthorityComponent {
             id
             name
             detail
-            registerDate
           }
         }
       `,
       variables: {
-        name: ""
+        name: this.name
       }
     }).subscribe({
       next: (result: any) => {
@@ -67,11 +60,14 @@ export class AuthorityComponent {
     this.name = this.grid?.instance.getSelectedRowKeys()[0].name;
     this.apollo.query({
       query: gql`
-        query users(
+        query authorityLists(
           $name: String) {
-          users(name: $name) {
+          authorityLists(name: $name) {
+            id
+            name
             userId
             userCompany
+            registerDate
           }
         }
       `,
@@ -80,8 +76,7 @@ export class AuthorityComponent {
       }
     }).subscribe({
       next: (result: any) => {
-        console.log(result.data.users);
-        this.users = result.data.users
+        this.authorityLists = result.data.authorityLists
       },
       error: (e) => {
         console.error(e);
@@ -94,27 +89,86 @@ export class AuthorityComponent {
     this.editPopup.open('create');
   }
 
-  delete(){
+  delete = (e) => {
+    this.id = e.row.data.id;
+    this.name = e.row.data.name;
+    const result = confirm('<i>등록을 취소하시겠습니까?</i>','삭제');
+    result.then(dialogResult => {
+      if (dialogResult) {
+        this.apollo.mutate({
+          mutation: gql`
+            mutation deleteAuthority($id: ID) {
+              deleteAuthority(id: $id) {
+                id
+              }
+            }
+          `,
+          variables: {
+            id: this.id
+          }
+        }).subscribe({
+          next: (v) => {
+            this.name = "";
+            this.search();
+            this.searchUser();
+            notify('권한이 삭제되었습니다.', 'success', 3000);
+          },
+          error: (e) => {
+            console.error(e);
+            notify('삭제를 실패하였습니다.', 'error', 3000);
+          }
+        });
+      }
+    });
+  }
 
+  deleteList = (e) =>{
+    this.id = e.row.data.id;
+    const result = confirm('<i>권한을 삭제하시겠습니까?</i>','삭제');
+    result.then(dialogResult => {
+      if (dialogResult) {
+        this.apollo.mutate({
+          mutation: gql`
+            mutation deleteAuthorityList($id: ID) {
+              deleteAuthorityList(id: $id) {
+                id
+              }
+            }
+          `,
+          variables: {
+            id: this.id
+          }
+        }).subscribe({
+          next: (v) => {
+            notify('등록이 취소되었습니다.', 'success', 3000);
+            this.name = "";
+            this.search();
+            this.searchUser();
+          },
+          error: (e) => {
+            console.error(e);
+            notify('등록 취소에 실패하였습니다.', 'error', 3000);
+          }
+        });
+      }
+    });
   }
+
   onSaved(authority:Authority){
-    this.search();
+    this.refresh();
   }
+
+  refresh = () => {
+    this.name = "";
+    this.search();
+    this.searchUser();
+  };
 }
 
 @NgModule({
   imports: [
     DxButtonModule,
     DxDataGridModule,
-    DxDropDownButtonModule,
-    DxSelectBoxModule,
-    DxTextBoxModule,
-
-    ContactPanelModule,
-    ExtractNewFormModule,
-    FormPopupModule,
-    CardActivitiesModule,
-    ContactStatusModule,
 
     CommonModule,
     AuthorityEditModule,
