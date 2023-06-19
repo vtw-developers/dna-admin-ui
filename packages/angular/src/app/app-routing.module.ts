@@ -29,6 +29,7 @@ import {SwaggerComponent} from './pages/dna/swagger/swagger.component';
 import {FlowTemplateListComponent} from './pages/dna/flow-template-list/flow-template-list.component';
 import {FlowTreeComponent} from './pages/dna/flow-tree/flow-tree.component';
 import {AuthorityComponent} from "./pages/authority/authority.component";
+import {UsersComponent} from "./pages/users/users.component";
 
 
 const routes: Routes = [
@@ -157,6 +158,11 @@ const routes: Routes = [
       {
         path: 'authority',
         component: AuthorityComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
         canActivate: [AuthGuardService],
       },
       {

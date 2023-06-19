@@ -1,0 +1,74 @@
+<dx-popup
+  [width]="'27vw'"
+  [height]="isCreateMode() ? 330 : 330"
+  [showTitle]="true"
+  [title]="isCreateMode() ? '예약 정보 생성' : '예약 정보 변경'"
+  [dragEnabled]="true"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="true"
+  container=".dx-viewport"
+  [(visible)]="popupVisible"
+  [enableBodyScroll]="false"
+>
+  <div *dxTemplate="let data of 'content'">
+    <dx-validation-group>
+      <form class="flex flex-col" (submit)="save($event)">
+        <div [style.height]="isCreateMode() ? '220px' : '220px'">
+          <div class="dx-field" *ngIf="isUpdateMode()">
+            <div class="dx-field-label">ID</div>
+            <div class="dx-field-value-static">{{users.id}}</div>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">사용자명</div>
+            <dx-text-box class="dx-field-value" [(value)]="users.userId">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="사용자명을 입력하세요."></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">회사명</div>
+            <dx-text-box class="dx-field-value" [(value)]="users.company">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="회사명을 입력하세요."></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">연락처</div>
+            <dx-text-box class="dx-field-value" [(value)]="users.phone">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="연락처를 입력하세요."></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">권한</div>
+            <dx-text-box class="dx-field-value" [(value)]="users.authority">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="권한명을 입력하세요."></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <dx-validation-summary class="mt-2"></dx-validation-summary>
+        </div>
+
+        <div class="popup-buttons">
+          <dx-button
+            [text]="isCreateMode() ? '생성' : '변경'"
+            [width]="100"
+            [useSubmitBehavior]="true"
+          >
+          </dx-button>
+          <dx-button
+            [text]="'취소'"
+            [width]="100"
+            (onClick)="close()"
+          >
+          </dx-button>
+        </div>
+      </form>
+    </dx-validation-group>
+  </div>
+
+</dx-popup>

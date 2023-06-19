@@ -176,6 +176,10 @@ export const navigation = [
         text: 'Authority',
         path: '/authority',
       },
+      {
+        text: 'Users',
+        path: '/users',
+      },
     ]
   }
 
