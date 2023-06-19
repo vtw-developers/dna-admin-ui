@@ -117,8 +117,8 @@ export class UsersComponent {
     });
   }
 
-  update(){
-
+  update= (e) =>{
+    this.editPopup.open('update', e.row.data.id);
   }
 
   onSaved(users:Users){

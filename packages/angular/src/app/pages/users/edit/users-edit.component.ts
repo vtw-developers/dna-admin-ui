@@ -39,7 +39,35 @@ export class UsersEditComponent {
   open(editMode: 'create' | 'update', userId?: number) {
     this.validationGroup?.instance.reset();
     this.editMode = editMode;
-    this.popupVisible = true;
+    if(this.isUpdateMode()){
+      this.apollo.query({
+        query: gql`
+          query user($id: ID) {
+            user(id: $id) {
+              id
+              userId
+              company
+              phone
+              authority
+            }
+          }
+        `,
+        variables: {
+          id: userId
+        }
+      }).subscribe({
+        next: (result: any) => {
+          this.users = result.data.user;
+          this.popupVisible = true;
+        },
+        error: (e) => {
+          console.error(e);
+          notify('사용자 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+        }
+      });
+    } else {
+      this.popupVisible = true;
+    }
   }
 
   close() {
@@ -72,16 +100,36 @@ export class UsersEditComponent {
         }
       }).subscribe({
         next: (result: any) => {
-          notify('권한이 생성되었습니다.', 'success', 3000);
+          notify('사용자가 등록되었습니다.', 'success', 3000);
           this.onSaved.emit(result.data.createUsers);
         },
         error: (e) => {
           console.error(e);
-          notify('권한 생성에 실패하였습니다.', 'error', 3000);
+          notify('사용자 등록에 실패하였습니다.', 'error', 3000);
         }
       });
     } else {
-
+      this.apollo.mutate({
+        mutation: gql`
+          mutation updateUsers($users: UsersInput) {
+            updateUsers(users: $users) {
+              id
+            }
+          }
+        `,
+        variables: {
+          users: this.users
+        }
+      }).subscribe({
+        next: (result: any) => {
+          notify('사용자 변경이 성공적으로 완료되었습니다.', 'success', 3000);
+          this.onSaved.emit(result.data.updateUsers);
+        },
+        error: (e) => {
+          console.error(e);
+          notify('사용자 변경에 실패하였습니다.', 'error', 3000);
+        }
+      });
     }
   }
 }

@@ -14,11 +14,7 @@
     <dx-validation-group>
       <form class="flex flex-col" (submit)="save($event)">
         <div [style.height]="isCreateMode() ? '220px' : '220px'">
-          <div class="dx-field" *ngIf="isUpdateMode()">
-            <div class="dx-field-label">ID</div>
-            <div class="dx-field-value-static">{{users.id}}</div>
-          </div>
-          <div class="dx-field">
+          <div class="dx-field" *ngIf="isCreateMode()">
             <div class="dx-field-label">사용자명</div>
             <dx-text-box class="dx-field-value" [(value)]="users.userId">
               <dx-validator>
