@@ -7,13 +7,14 @@ import {
   DxButtonModule, DxDateBoxModule,
   DxFormComponent,
   DxPopupComponent,
-  DxPopupModule,
+  DxPopupModule, DxSelectBoxModule,
   DxTextBoxModule,
   DxValidationGroupComponent,
   DxValidationGroupModule, DxValidationSummaryModule, DxValidatorModule,
   getElement
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
+import DataSource from "devextreme/data/data_source";
 
 
 @Component({
@@ -22,9 +23,11 @@ import {CommonModule} from "@angular/common";
 })
 
 export class UsersEditComponent {
+  authorities: DataSource
   users: Users = {} as any;
   editMode: 'create' | 'update';
   popupVisible = false;
+  name: string = "";
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onSaved = new EventEmitter<Users>();
@@ -34,6 +37,29 @@ export class UsersEditComponent {
   @ViewChild(DxPopupComponent, {static: false}) popup: DxPopupComponent;
 
   constructor(private apollo: Apollo) {
+    this.apollo.query({
+      query: gql`
+        query authorities(
+          $name: String) {
+          authorities(name: $name) {
+            id
+            name
+            detail
+          }
+        }
+      `,
+      variables: {
+        name: this.name
+      }
+    }).subscribe({
+      next: (result: any) => {
+        this.authorities = result.data.authorities
+      },
+      error: (e) => {
+        console.error(e);
+        notify('오류가 발생하였습니다.', 'error', 3000);
+      }
+    });
   }
 
   open(editMode: 'create' | 'update', userId?: number) {
@@ -144,6 +170,7 @@ export class UsersEditComponent {
     DxValidationSummaryModule,
     DxButtonModule,
     DxDateBoxModule,
+    DxSelectBoxModule,
   ],
   providers: [],
   exports: [

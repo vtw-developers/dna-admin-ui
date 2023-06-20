@@ -1,8 +1,8 @@
 <dx-popup
   [width]="'27vw'"
-  [height]="isCreateMode() ? 330 : 330"
+  [height]="isCreateMode() ? 330 : 280"
   [showTitle]="true"
-  [title]="isCreateMode() ? '예약 정보 생성' : '예약 정보 변경'"
+  [title]="isCreateMode() ? '사용자 등록' : '사용자 정보 변경'"
   [dragEnabled]="true"
   [hideOnOutsideClick]="true"
   [showCloseButton]="true"
@@ -13,7 +13,7 @@
   <div *dxTemplate="let data of 'content'">
     <dx-validation-group>
       <form class="flex flex-col" (submit)="save($event)">
-        <div [style.height]="isCreateMode() ? '220px' : '220px'">
+        <div [style.height]="isCreateMode() ? '220px' : '170px'">
           <div class="dx-field" *ngIf="isCreateMode()">
             <div class="dx-field-label">사용자명</div>
             <dx-text-box class="dx-field-value" [(value)]="users.userId">
@@ -38,14 +38,8 @@
               </dx-validator>
             </dx-text-box>
           </div>
-          <div class="dx-field">
-            <div class="dx-field-label">권한</div>
-            <dx-text-box class="dx-field-value" [(value)]="users.authority">
-              <dx-validator>
-                <dxi-validation-rule type="required" message="권한명을 입력하세요."></dxi-validation-rule>
-              </dx-validator>
-            </dx-text-box>
-          </div>
+          <dx-select-box class="select-box" [dataSource]="authorities" displayExpr="name" valueExpr="name" [(value)]="users.authority" placeholder="권한 선택" style="margin-top: 20px">
+          </dx-select-box>
           <dx-validation-summary class="mt-2"></dx-validation-summary>
         </div>
 

@@ -39,7 +39,33 @@ export class AuthorityEditComponent {
   open(editMode: 'create' | 'update', authorityId?: number) {
     this.validationGroup?.instance.reset();
     this.editMode = editMode;
-    this.popupVisible = true;
+    if(this.isUpdateMode()){
+      this.apollo.query({
+        query: gql`
+          query authority($id: ID) {
+            authority(id: $id) {
+              id
+              name
+              detail
+            }
+          }
+        `,
+        variables: {
+          id: authorityId
+        }
+      }).subscribe({
+        next: (result: any) => {
+          this.authority = result.data.authority;
+          this.popupVisible = true;
+        },
+        error: (e) => {
+          console.error(e);
+          notify('권한 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+        }
+      });
+    } else {
+      this.popupVisible = true;
+    }
   }
 
   close() {
@@ -81,7 +107,27 @@ export class AuthorityEditComponent {
         }
       });
     } else {
-
+      this.apollo.mutate({
+        mutation: gql`
+          mutation updateAuthority($authority: AuthorityInput) {
+            updateAuthority(authority: $authority) {
+              id
+            }
+          }
+        `,
+        variables: {
+          authority: this.authority
+        }
+      }).subscribe({
+        next: (result: any) => {
+          notify('권한 정보가 성공적으로 변경되었습니다.', 'success', 3000);
+          this.onSaved.emit(result.data.updateUsers);
+        },
+        error: (e) => {
+          console.error(e);
+          notify('정보 변경에 실패하였습니다.', 'error', 3000);
+        }
+      });
     }
   }
 }

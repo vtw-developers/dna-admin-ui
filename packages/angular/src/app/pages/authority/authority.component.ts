@@ -89,6 +89,10 @@ export class AuthorityComponent {
     this.editPopup.open('create');
   }
 
+  update= (e) =>{
+    this.editPopup.open('update', e.row.data.id);
+  }
+
   delete = (e) => {
     this.id = e.row.data.id;
     this.name = e.row.data.name;

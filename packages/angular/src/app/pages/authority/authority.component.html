@@ -37,10 +37,16 @@
       <dxi-item name="searchPanel" locateInMenu="auto" onEnter></dxi-item>
     </dxo-toolbar>
 
-    <dxi-column dataField="id" dataType="string" caption="ID"></dxi-column>
     <dxi-column dataField="name" dataType="string" caption="권한명"></dxi-column>
     <dxi-column dataField="detail" dataType="string" caption="내용"></dxi-column>
-    <dxi-column type="buttons" caption="권한 삭제">
+    <dxi-column type="buttons" caption="수정">
+      <dxi-button
+        text="수정"
+        icon="../../../assets/icons/common/edit.svg"
+        [onClick]="update"
+      ></dxi-button>
+    </dxi-column>
+    <dxi-column type="buttons" caption="삭제">
       <dxi-button
         text="삭제"
         icon="../../../assets/icons/common/DeleteTest_riderLight.svg"

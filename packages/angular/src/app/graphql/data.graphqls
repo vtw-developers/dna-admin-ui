@@ -1,5 +1,6 @@
 type Query {
   authorities(name: String): [Authority]
+  authority(id: ID): Authority
   authorityLists(name: String): [AuthorityList]
   users(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): UsersPage
   user(id: ID): Users
@@ -7,6 +8,7 @@ type Query {
 
 type Mutation {
   createAuthority(authority: AuthorityInput): Authority
+  updateAuthority(authority: AuthorityInput): Authority
   deleteAuthority(id: ID): Authority
 
   createAuthorityList(authorityList: AuthorityListInput): AuthorityList
