@@ -30,3 +30,4 @@ packages/testing/testing
 .env
 swa-cli.config.json
 /.idea/
+/.github/
