@@ -30,6 +30,7 @@ import {FlowTemplateListComponent} from './pages/dna/flow-template-list/flow-tem
 import {FlowTreeComponent} from './pages/dna/flow-tree/flow-tree.component';
 import {AuthorityComponent} from "./pages/authority/authority.component";
 import {UsersComponent} from "./pages/users/users.component";
+import {FlowSchedulerComponent} from "./pages/dna/flow-scheduler/flow-scheduler.component";
 
 
 const routes: Routes = [
@@ -71,6 +72,11 @@ const routes: Routes = [
       {
         path: 'flow-tree',
         component: FlowTreeComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'flow-scheduler',
+        component: FlowSchedulerComponent,
         canActivate: [AuthGuardService],
       },
       {

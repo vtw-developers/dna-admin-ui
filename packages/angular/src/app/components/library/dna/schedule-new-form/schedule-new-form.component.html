@@ -1,0 +1,57 @@
+<dx-popup
+  [width]="'20vw'"
+  [title]="createMode? '스케줄 생성' : '스케줄 변경'"
+  height="auto"
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="false"
+  [(visible)]="popupVisible"
+>
+  <dxo-position at="center" my="center"></dxo-position>
+  <div *dxTemplate="let data of 'content'">
+    <dx-validation-group #validationGroup>
+      <form (submit)="save($event)">
+        <dxi-item itemType="group">
+          <dxo-col-count-by-screen [xs]="1" [sm]="1" [md]="1" [lg]="1"></dxo-col-count-by-screen>
+          <dxi-item>
+            <form-textbox
+              label="플로우명"
+              [(value)]="schedule.flow"
+              [isEditing]="true">
+            </form-textbox>
+          </dxi-item>
+          <dxi-item>
+            <form-textbox
+              label="스케줄"
+              [(value)]="schedule.cron"
+              [isEditing]="true">
+            </form-textbox>
+          </dxi-item>
+          <dxi-item>
+            <dx-date-box
+              label="시작시간"
+              type="datetime"
+              [(value)]="schedule.startTime"
+            >
+            </dx-date-box>
+          </dxi-item>
+        </dxi-item>
+        <br>
+        <div class="popup-buttons">
+          <dx-button
+            text="저장"
+            stylingMode="contained"
+            [useSubmitBehavior]="true"
+          ></dx-button>
+          <dx-button
+            text="취소"
+            stylingMode="contained"
+            type="default"
+            (onClick)="cancel()"
+          ></dx-button>
+        </div>
+      </form>
+    </dx-validation-group>
+  </div>
+</dx-popup>

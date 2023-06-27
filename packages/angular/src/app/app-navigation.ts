@@ -9,6 +9,10 @@ export const navigation = [
         path: '/flow-tree',
       },
       {
+        text: '플로우 스케줄',
+        path: '/flow-scheduler',
+      },
+      {
         text: '플로우 템플릿',
         path: '/flow-template-list',
       },
