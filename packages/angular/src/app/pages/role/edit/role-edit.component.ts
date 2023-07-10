@@ -2,9 +2,9 @@ import {Component, EventEmitter, Output, NgModule, ViewChild} from '@angular/cor
 import notify from "devextreme/ui/notify";
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
-import {Authority} from "../authority.service";
+import {Role} from "./role.service";
 import {
-  DxButtonModule, DxDateBoxModule,
+  DxButtonModule, DxCheckBoxModule, DxDataGridComponent, DxDataGridModule, DxDateBoxModule,
   DxFormComponent,
   DxPopupComponent,
   DxPopupModule,
@@ -14,36 +14,43 @@ import {
   getElement
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
-
+import {
+  DxiColumnModule,
+  DxoPagerModule,
+  DxoSearchPanelModule,
+  DxoSelectionModule,
+  DxoToolbarModule
+} from "devextreme-angular/ui/nested";
 
 @Component({
-  selector: 'authority-edit-popup',
-  templateUrl: './authority-edit.component.html',
+  selector: 'role-edit-popup',
+  templateUrl: './role-edit.component.html',
 })
 
-export class AuthorityEditComponent {
-  authority: Authority = {} as any;
+export class RoleEditComponent {
+  role: Role = {} as any;
   editMode: 'create' | 'update';
   popupVisible = false;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
-  @Output() onSaved = new EventEmitter<Authority>();
+  @Output() onSaved = new EventEmitter<Role>();
 
   @ViewChild(DxFormComponent, {static: false}) form: DxFormComponent;
   @ViewChild(DxValidationGroupComponent, {static: false}) validationGroup: DxValidationGroupComponent;
   @ViewChild(DxPopupComponent, {static: false}) popup: DxPopupComponent;
+  @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
 
   constructor(private apollo: Apollo) {
   }
 
-  open(editMode: 'create' | 'update', authorityId?: number) {
+  open(editMode: 'create' | 'update', id?: any) {
     this.validationGroup?.instance.reset();
     this.editMode = editMode;
     if(this.isUpdateMode()){
       this.apollo.query({
         query: gql`
-          query authority($id: ID) {
-            authority(id: $id) {
+          query role($id: ID) {
+            role(id: $id) {
               id
               name
               detail
@@ -51,20 +58,21 @@ export class AuthorityEditComponent {
           }
         `,
         variables: {
-          id: authorityId
+          id: id
         }
       }).subscribe({
         next: (result: any) => {
-          this.authority = result.data.authority;
+          this.role = result.data.role;
           this.popupVisible = true;
         },
         error: (e) => {
           console.error(e);
-          notify('권한 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+          notify('직원 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
         }
       });
     } else {
       this.popupVisible = true;
+      this.role = {id: null, name: null, detail: null};
     }
   }
 
@@ -87,19 +95,19 @@ export class AuthorityEditComponent {
     if (this.isCreateMode()) {
       this.apollo.mutate({
         mutation: gql`
-          mutation createAuthority($authority: AuthorityInput) {
-            createAuthority(authority: $authority) {
+          mutation createRole($role: RolesInput) {
+            createRole(role: $role) {
               id
             }
           }
         `,
         variables: {
-          authority: this.authority
+          role: this.role
         }
       }).subscribe({
         next: (result: any) => {
           notify('권한이 생성되었습니다.', 'success', 3000);
-          this.onSaved.emit(result.data.createAuthority);
+          this.onSaved.emit(result.data.createRole);
         },
         error: (e) => {
           console.error(e);
@@ -109,23 +117,23 @@ export class AuthorityEditComponent {
     } else {
       this.apollo.mutate({
         mutation: gql`
-          mutation updateAuthority($authority: AuthorityInput) {
-            updateAuthority(authority: $authority) {
+          mutation updateRole($role: RolesInput) {
+            updateRole(role: $role) {
               id
             }
           }
         `,
         variables: {
-          authority: this.authority
+          role: this.role
         }
       }).subscribe({
         next: (result: any) => {
-          notify('권한 정보가 성공적으로 변경되었습니다.', 'success', 3000);
-          this.onSaved.emit(result.data.updateUsers);
+          notify('권한이 변경되었습니다.', 'success', 3000);
+          this.onSaved.emit(result.data.updateRole);
         },
         error: (e) => {
           console.error(e);
-          notify('정보 변경에 실패하였습니다.', 'error', 3000);
+          notify('권한 변경에 실패하였습니다.', 'error', 3000);
         }
       });
     }
@@ -142,12 +150,19 @@ export class AuthorityEditComponent {
     DxValidationSummaryModule,
     DxButtonModule,
     DxDateBoxModule,
+    DxDataGridModule,
+    DxiColumnModule,
+    DxoPagerModule,
+    DxoSearchPanelModule,
+    DxoSelectionModule,
+    DxoToolbarModule,
+    DxCheckBoxModule,
   ],
   providers: [],
   exports: [
-    AuthorityEditComponent
+    RoleEditComponent
   ],
-  declarations: [AuthorityEditComponent],
+  declarations: [RoleEditComponent],
 })
-export class AuthorityEditModule {
+export class RoleEditModule {
 }
