@@ -28,10 +28,9 @@ import {ExtractDetailsComponent} from './pages/dna/extract-details/extract-detai
 import {SwaggerComponent} from './pages/dna/swagger/swagger.component';
 import {FlowTemplateListComponent} from './pages/dna/flow-template-list/flow-template-list.component';
 import {FlowTreeComponent} from './pages/dna/flow-tree/flow-tree.component';
-import {AuthorityComponent} from "./pages/authority/authority.component";
-import {UsersComponent} from "./pages/users/users.component";
 import {FlowSchedulerComponent} from "./pages/dna/flow-scheduler/flow-scheduler.component";
-
+import {RoleComponent} from "./pages/role/role.component";
+import {RoleGroupComponent} from "./pages/role/roleGroup.component";
 
 const routes: Routes = [
   {
@@ -162,13 +161,13 @@ const routes: Routes = [
         component: UserProfileComponent
       },
       {
-        path: 'authority',
-        component: AuthorityComponent,
+        path: 'role',
+        component: RoleComponent,
         canActivate: [AuthGuardService],
       },
       {
-        path: 'users',
-        component: UsersComponent,
+        path: 'role-group',
+        component: RoleGroupComponent,
         canActivate: [AuthGuardService],
       },
       {

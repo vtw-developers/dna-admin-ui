@@ -177,12 +177,12 @@ export const navigation = [
         path: '/user-profile',
       },
       {
-        text: 'Authority',
-        path: '/authority',
+        text: 'Role',
+        path: '/role',
       },
       {
-        text: 'Users',
-        path: '/users',
+        text: 'Role Group',
+        path: '/role-group',
       },
     ]
   }
