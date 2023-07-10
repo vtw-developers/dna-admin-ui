@@ -2,41 +2,33 @@ import {Component, NgModule, ViewChild} from '@angular/core';
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
 import DataSource from "devextreme/data/data_source";
-import {PageableService} from '../../services/pageable.service';
 import {
   DxButtonModule,
   DxDataGridComponent,
   DxDataGridModule
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
-
-import {firstValueFrom} from "rxjs";
-import {UsersEditComponent, UsersEditModule} from "./edit/users-edit.component";
-import {Users} from "./users.service";
 import CustomStore from "devextreme/data/custom_store";
-import {confirm} from "devextreme/ui/dialog";
+import {firstValueFrom} from "rxjs";
+import {PageableService} from "../../services/pageable.service";
+import {RoleEditComponent, RoleEditModule} from "./edit/role-edit.component";
+import {Role} from "./edit/role.service";
+import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
 
 
 @Component({
+  templateUrl: './roleGroup.component.html',
   providers: [PageableService],
-  templateUrl: './users.component.html',
 })
-export class UsersComponent {
-  users: DataSource;
+export class RoleGroupComponent {
+  roles: DataSource
   filter = '';
-  id;
-
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
-  @ViewChild(DxDataGridComponent, {static: false}) gridInner: DxDataGridComponent;
-  @ViewChild(UsersEditComponent, {static: false}) editPopup: UsersEditComponent;
+  @ViewChild(RoleEditComponent, {static: false}) editPopup: RoleEditComponent;
 
   constructor(private pageableService: PageableService, private apollo: Apollo) {
-    this.search();
-  }
-
-  search(){
-    this.users = new DataSource({
+    this.roles = new DataSource({
       store: new CustomStore({
         key: 'id',
         load: (loadOptions) => {
@@ -47,20 +39,18 @@ export class UsersComponent {
 
           const page$ = this.apollo.query({
             query: gql`
-              query users(
+              query roles(
                 $page: Int = 0,
                 $size: Int = 10,
                 $sortBy: String = "id",
                 $sortDir: String = "asc",
                 $filter: String = "") {
-                users(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
+                roles(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
                   totalElements
                   content {
                     id
-                    userId
-                    company
-                    phone
-                    authority
+                    name
+                    detail
                   }
                 }
               }
@@ -76,57 +66,57 @@ export class UsersComponent {
 
           return firstValueFrom(page$)
             .then((page: any) => {
-              return this.pageableService.transformPage(page.data.users);
+              return this.pageableService.transformPage(page.data.roles);
             });
-        }
+        },
       })
-    })
+    });
   }
 
   create(){
     this.editPopup.open('create');
   }
 
+  update= (e) =>{
+    this.editPopup.open('update', e.row.data.id);
+  }
+
   delete = (e) => {
-    this.id = e.row.data.id;
-    const result = confirm('<i>사용자를 삭제하시겠습니까?</i>','삭제');
+    // @ts-ignore
+    const result = confirm('<i>그룹을 삭제하시겠습니까?</i>', '삭제');
     result.then(dialogResult => {
       if (dialogResult) {
         this.apollo.mutate({
           mutation: gql`
-            mutation deleteUsers($id: ID) {
-              deleteUsers(id: $id) {
+            mutation deleteRole($id: ID) {
+              deleteRole(id: $id) {
                 id
               }
             }
           `,
           variables: {
-            id: this.id
+            id: e.row.data.id
           }
         }).subscribe({
           next: (v) => {
+            notify('그룹 삭제가 완료되었습니다.', 'success', 3000);
             this.search();
-            notify('권한이 삭제되었습니다.', 'success', 3000);
           },
           error: (e) => {
             console.error(e);
-            notify('삭제를 실패하였습니다.', 'error', 3000);
+            notify('그룹 삭제에 실패하였습니다.', 'error', 3000);
           }
         });
       }
     });
   }
 
-  update= (e) =>{
-    this.editPopup.open('update', e.row.data.id);
-  }
-
-  onSaved(users:Users){
-    this.refresh();
-  }
-
-  refresh = () => {
+  onSaved(role: Role){
     this.search();
+  }
+
+  search() {
+    this.roles.reload();
   }
 }
 
@@ -136,11 +126,11 @@ export class UsersComponent {
     DxDataGridModule,
 
     CommonModule,
-    UsersEditModule,
+    RoleEditModule,
   ],
   providers: [],
   exports: [],
-  declarations: [UsersComponent],
+  declarations: [RoleGroupComponent],
 })
-export class UsersModule {
+export class RoleGroupModule {
 }
