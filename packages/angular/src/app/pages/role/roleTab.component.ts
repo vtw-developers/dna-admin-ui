@@ -18,7 +18,7 @@ import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
 
 @Component({
-  selector: 'users',
+  selector: 'roleTab',
   providers: [PageableService],
   templateUrl: './roleTab.component.html',
 })

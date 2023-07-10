@@ -1,7 +1,6 @@
 import {Component, NgModule, ViewChild} from '@angular/core';
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
-import DataSource from "devextreme/data/data_source";
 import {
   DxButtonModule, DxContextMenuComponent, DxContextMenuModule,
   DxDataGridComponent,
@@ -9,7 +8,6 @@ import {
 } from "devextreme-angular";
 import notify from "devextreme/ui/notify";
 import {CommonModule} from "@angular/common";
-import {confirm} from "devextreme/ui/dialog";
 import {
   FlowTemplateNewFormModule,
   TemplateNewFormComponent
@@ -30,25 +28,6 @@ import {RoleTab, UsersTwoModule} from "./roleTab.component";
 })
 export class RoleComponent {
 
-  treeItems: any[] = [
-    {
-      type: 'Template',
-      id: '1',
-      name: '권한그룹1',
-      icon: 'template',
-      expanded: true,
-    }, {
-      type: 'Template',
-      id: '2',
-      name: '권한그룹2',
-      icon: 'template',
-      expanded: true,
-    },
-  ];
-
-  isNewRolePopupOpened = false;
-  isNewDeptPopupOpened = false;
-
   @ViewChild(GroupNewFormComponent) newGroupForm: GroupNewFormComponent;
   @ViewChild(TemplateNewFormComponent) newTemplateForm: TemplateNewFormComponent;
 
@@ -59,6 +38,7 @@ export class RoleComponent {
   @ViewChild('newDeptPopup', {static: false}) newDeptPopup: FormPopupComponent;
   @ViewChild('newRolePopup', {static: false}) newRolePopup: FormPopupComponent;
 
+  treeItems: any[];
   currentItem: any;
   currentParent: any;
   selectedTreeItem: any;
@@ -66,7 +46,32 @@ export class RoleComponent {
   company = "";
 
   constructor(private apollo: Apollo) {
-
+    this.apollo.query({
+      query: gql`
+        query rolesList($name: String) {
+          rolesList(name: $name) {
+            id
+            name
+            type
+            icon
+            expanded
+          }
+        }
+      `,
+      variables: {
+        name: ''
+      }
+    }).subscribe({
+      next: (result: any) => {
+        console.log(result.data.rolesList);
+        this.treeItems = result.data.rolesList;
+        console.log(this.treeItems);
+      },
+      error: (e) => {
+        console.error(e);
+        notify('오류가 발생하였습니다.', 'error', 3000);
+      }
+    });
   }
 
   selectItem(e) {
@@ -77,31 +82,6 @@ export class RoleComponent {
     this.company = this.currentParent.name;
 
     // this.userRole.search(this.company, this.role);
-  }
-
-  onDeptSaved() {
-    this.treeItems.push({
-      type: 'Group',
-      id: uuid(),
-      parentId: this.selectedTreeItem?.id,
-      icon: 'folder',
-      expanded: true,
-      ...this.newGroupForm.newGroup
-    });
-    this.newDeptPopup.close();
-  }
-
-  onRoleSaved() {
-    console.log(this.newTemplateForm.newTemplate);
-    this.treeItems.push({
-      type: 'Template',
-      id: uuid(),
-      parentId: this.selectedTreeItem?.id,
-      expanded: true,
-      icon: 'template',
-      ...this.newTemplateForm.newTemplate
-    })
-    this.newRolePopup.close();
   }
 
   treeViewItemContextMenu(e) {

@@ -72,7 +72,7 @@ export class RoleEditComponent {
       });
     } else {
       this.popupVisible = true;
-      this.role = {id: null, name: null, detail: null};
+      this.role = {id: null, name: null, detail: null, type: null, expanded: null, icon: null};
     }
   }
 
@@ -93,6 +93,9 @@ export class RoleEditComponent {
     e.preventDefault();
     this.close();
     if (this.isCreateMode()) {
+      this.role.type = 'Template';
+      this.role.icon = 'template';
+      this.role.expanded = true;
       this.apollo.mutate({
         mutation: gql`
           mutation createRole($role: RolesInput) {
