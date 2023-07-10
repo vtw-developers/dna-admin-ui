@@ -1,0 +1,28 @@
+<dx-scroll-view class="view-wrapper-scroll">
+  <div class="tree-view-wrapper">
+    <div class="panels">
+      <div class="left" style="border-right: solid 2px lightgrey">
+        <dx-tree-view
+          id="treeview"
+          [items]="treeItems"
+          dataStructure="plain"
+          parentIdExpr="parentId"
+          keyExpr="id"
+          displayExpr="name"
+          (onItemClick)="selectItem($event)"
+          (onItemContextMenu)="treeViewItemContextMenu($event)"
+          selectionMode="single"
+          showCheckBoxesMode="none"
+          [selectByClick]="true"
+          [hoverStateEnabled]="false"
+          [focusStateEnabled]="false"
+        >
+        </dx-tree-view>
+      </div>
+
+      <div class="right">
+        <users *ngIf="currentItem?.type === 'Template'"></users>
+      </div>
+    </div>
+  </div>
+</dx-scroll-view>

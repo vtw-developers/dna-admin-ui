@@ -1,0 +1,121 @@
+<div id="tabs">
+  <dx-tabs
+    #apiTabs
+    [dataSource]="tabs"
+    [selectedIndex]="0"
+    (onItemClick)="selectTab($event)"
+  ></dx-tabs>
+  <div class="content dx-fieldset"  *ngIf="apiTabs.selectedIndex === 0">
+    <dx-data-grid
+      #grid
+      [dataSource]= authorities
+      [showBorders]="true"
+      [remoteOperations]="true"
+      [hoverStateEnabled]="true"
+      [selectedRowKeys]="[]"
+    >
+      <dxi-column dataField="name" dataType="string" caption="권한명"></dxi-column>
+      <dxi-column dataField="detail" dataType="string" caption="내용"></dxi-column>
+      <dxi-column type="buttons" caption="수정">
+        <dxi-button
+          text="수정"
+          icon="../../../assets/icons/common/edit.svg"
+          [onClick]="updateAuth"
+        ></dxi-button>
+      </dxi-column>
+      <dxi-column type="buttons" caption="삭제">
+        <dxi-button
+          text="삭제"
+          icon="../../../assets/icons/common/DeleteTest_riderLight.svg"
+          [onClick]="deleteAuth"
+        ></dxi-button>
+      </dxi-column>
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[5, 10, 20]"
+        [showInfo]="true"
+        [visible]="true"
+      ></dxo-pager>
+
+      <dxo-search-panel
+        [visible]="true"
+        placeholder="권한 검색"
+      ></dxo-search-panel>
+
+      <dxo-toolbar>
+        <dxi-item location="after" locateInMenu="auto">
+          <dx-button
+            text="새 권한"
+            icon="plus"
+            type="default"
+            stylingMode="contained"
+            (onClick)="createAuth()"
+          ></dx-button>
+        </dxi-item>
+        <dxi-item
+          location="after"
+          locateInMenu="auto"
+          showText="inMenu"
+          widget="dxButton"
+          [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+        ></dxi-item>
+        <dxi-item name="searchPanel" locateInMenu="auto" onEnter></dxi-item>
+      </dxo-toolbar>
+    </dx-data-grid>
+  </div>
+
+  <div class="content dx-fieldset"  *ngIf="apiTabs.selectedIndex === 1">
+    <dx-data-grid
+      #grid
+      [dataSource]= users
+      [showBorders]="true"
+      [remoteOperations]="true"
+      [hoverStateEnabled]="true"
+      [selectedRowKeys]="[]"
+    >
+      <dxi-column dataField="userId" dataType="string" caption="사용자명"></dxi-column>
+      <dxi-column type="buttons" caption="수정">
+        <dxi-button
+          text="수정"
+          icon="../../../assets/icons/common/edit.svg"
+          [onClick]="update"
+        ></dxi-button>
+      </dxi-column>
+      <dxi-column type="buttons" caption="삭제">
+        <dxi-button
+          text="삭제"
+          icon="../../../assets/icons/common/DeleteTest_riderLight.svg"
+          [onClick]="delete"
+        ></dxi-button>
+      </dxi-column>
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[5, 10, 20]"
+        [showInfo]="true"
+        [visible]="true"
+      ></dxo-pager>
+
+      <dxo-search-panel
+        [visible]="true"
+        placeholder="사용자 검색"
+      ></dxo-search-panel>
+
+      <dxo-toolbar>
+        <dxi-item
+          location="after"
+          locateInMenu="auto"
+          showText="inMenu"
+          widget="dxButton"
+          [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+        ></dxi-item>
+        <dxi-item name="searchPanel" locateInMenu="auto" onEnter></dxi-item>
+      </dxo-toolbar>
+    </dx-data-grid>
+  </div>
+</div>
+
+<authority-edit-popup (onSaved)="onSavedAuth($event)"></authority-edit-popup>
