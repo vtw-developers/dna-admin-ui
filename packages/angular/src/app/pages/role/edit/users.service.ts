@@ -3,7 +3,7 @@ export interface Users {
   id: number;
   userId: string;
   company: string;
-  phone: string;
+  role: string;
   authority: string;
 }
 

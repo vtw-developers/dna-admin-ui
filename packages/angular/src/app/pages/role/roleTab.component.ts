@@ -1,4 +1,4 @@
-import {Component, NgModule, ViewChild} from '@angular/core';
+import {Component, Input, NgModule, OnInit, ViewChild} from '@angular/core';
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
 import DataSource from "devextreme/data/data_source";
@@ -23,12 +23,16 @@ import notify from "devextreme/ui/notify";
   templateUrl: './roleTab.component.html',
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class RoleTab {
+export class RoleTab implements OnInit{
 
+  @Input() set selectedGroupId(groupId) {
+    this.groupId = groupId
+  };
   authorities: DataSource;
   users: DataSource;
   filter = '';
   name;
+  groupId;
 
   tabs = [
     {
@@ -49,11 +53,13 @@ export class RoleTab {
   @ViewChild(AuthorityEditComponent, {static: false}) authEditPopup: AuthorityEditComponent;
 
   constructor(private pageableService: PageableService, private apollo: Apollo) {
+  }
+
+  ngOnInit() {
     this.searchAuth();
   }
 
   selectTab(e) {
-
     if (this.tabs[e.itemIndex].id == 0){
       this.searchAuth();
 
@@ -155,6 +161,7 @@ export class RoleTab {
   }
 
   createAuth(){
+    console.log(this.groupId)
     this.authEditPopup.open('create');
   }
 
@@ -200,6 +207,8 @@ export class RoleTab {
     this.authorities.reload();
     this.users.reload();
   }
+
+
 }
 @NgModule({
   imports: [

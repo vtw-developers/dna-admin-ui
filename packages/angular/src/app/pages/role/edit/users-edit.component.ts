@@ -2,7 +2,7 @@ import {Component, EventEmitter, Output, NgModule, ViewChild} from '@angular/cor
 import notify from "devextreme/ui/notify";
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
-import {Users} from "../users.service";
+import {Users} from "./users.service";
 import {
   DxButtonModule, DxDateBoxModule,
   DxFormComponent,
@@ -73,7 +73,7 @@ export class UsersEditComponent {
               id
               userId
               company
-              phone
+              role
               authority
             }
           }

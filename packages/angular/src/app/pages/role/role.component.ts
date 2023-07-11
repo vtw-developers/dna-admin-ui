@@ -40,7 +40,7 @@ export class RoleComponent {
 
   treeItems: any[];
   currentItem: any;
-  currentParent: any;
+  groupId: any;
   selectedTreeItem: any;
   role = "";
   company = "";
@@ -63,9 +63,7 @@ export class RoleComponent {
       }
     }).subscribe({
       next: (result: any) => {
-        console.log(result.data.rolesList);
         this.treeItems = result.data.rolesList;
-        console.log(this.treeItems);
       },
       error: (e) => {
         console.error(e);
@@ -75,13 +73,9 @@ export class RoleComponent {
   }
 
   selectItem(e) {
-    console.log(e);
     this.currentItem = e.itemData;
-    this.currentParent = e.node.parent.itemData;
-    this.role = this.currentItem.name;
-    this.company = this.currentParent.name;
-
-    // this.userRole.search(this.company, this.role);
+    this.groupId = this.currentItem.id;
+    console.log("##### selectItem + groupId : " + this.groupId);
   }
 
   treeViewItemContextMenu(e) {
