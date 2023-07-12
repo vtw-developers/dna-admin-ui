@@ -66,7 +66,7 @@ export class ScheduleNewFormComponent {
         id: (this.flowSchedulerComponent.schedules.length + 1).toString(),
         flowName: 'testFlow',
         status: 'Stopped',
-        cronExpression: '0 0/1 * 1/1 * ? *',
+        cronExpression: '0/10 * * * * ?',
         nextFireTime: '',
         prevFireTime: '',
         startTime: this.now,

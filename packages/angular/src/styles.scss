@@ -280,6 +280,10 @@ body, .dx-widget {
   @include status(lightgray);
 }
 
+.status-notstarted {
+  @include status(lightgray);
+}
+
 .status-error {
   @include status(red);
 }

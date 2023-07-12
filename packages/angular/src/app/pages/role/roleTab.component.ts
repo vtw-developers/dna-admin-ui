@@ -12,10 +12,10 @@ import {CommonModule} from "@angular/common";
 import CustomStore from "devextreme/data/custom_store";
 import {firstValueFrom} from "rxjs";
 import {UsersEditComponent, UsersEditModule} from "./edit/users-edit.component";
-import {AuthorityEditComponent, AuthorityEditModule} from "./edit/authority-edit.component";
-import {Authority} from "./edit/authority.service";
 import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
+import {AuthorityEditComponent, AuthorityEditModule} from "../authority/edit/authority-edit.component";
+import {Authority} from "../authority/authority.service";
 
 @Component({
   selector: 'roleTab',

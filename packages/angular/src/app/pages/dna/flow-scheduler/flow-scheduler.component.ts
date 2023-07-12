@@ -44,7 +44,7 @@ export class FlowSchedulerComponent {
   @ViewChild(DxDataGridComponent, {static: true}) dataGrid: DxDataGridComponent;
   @ViewChild(ScheduleNewFormComponent, {static: true}) editSchedulePopup: ScheduleNewFormComponent;
 
-  filterStatusList = ['All', 'Running', 'Stopped', 'Error'];
+  filterStatusList = ['All', 'Running', 'Stopped', 'Error', 'Not Started'];
   isPanelOpened = false;
   flowName;
   schedule;
@@ -63,7 +63,7 @@ export class FlowSchedulerComponent {
       id: '2',
       flowName: 'Flow2',
       status: 'Error',
-      cronExpression: '0 0 12 * * *',
+      cronExpression: '0 0/1 * 1/1 * ? *',
       nextFireTime: '2023-05-23 14:13:25',
       prevFireTime: '2023-05-23 14:13:25',
       startTime: '2023-05-23 14:13:25'
@@ -72,7 +72,16 @@ export class FlowSchedulerComponent {
       id: '3',
       flowName: 'Flow3',
       status: 'Stopped',
-      cronExpression: '0 0 12 * * *',
+      cronExpression: '0 0/1 * 1/1 * ? *',
+      nextFireTime: '2023-05-23 14:13:25',
+      prevFireTime: '2023-05-23 14:13:25',
+      startTime: '2023-05-23 14:13:25'
+    },
+    {
+      id: '4',
+      flowName: 'Flow4',
+      status: 'Not Started',
+      cronExpression: '0/10 * * * * ?',
       nextFireTime: '2023-05-23 14:13:25',
       prevFireTime: '2023-05-23 14:13:25',
       startTime: '2023-05-23 14:13:25'
