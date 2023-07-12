@@ -2,7 +2,7 @@
 
   <dx-data-grid
     #grid
-    [dataSource]="roles"
+    [dataSource]="authorities"
     [showBorders]="true"
     [remoteOperations]="true"
     [hoverStateEnabled]="true"
@@ -10,12 +10,12 @@
   >
     <dxo-search-panel
       [visible]="true"
-      placeholder="그룹 검색"
+      placeholder="권한 검색"
     ></dxo-search-panel>
 
     <dxo-toolbar>
       <dxi-item location="before">
-        <div class="header-text">권한 그룹 관리</div>
+        <div class="header-text">권한 관리</div>
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto">
         <dx-button
@@ -31,13 +31,13 @@
         locateInMenu="auto"
         showText="inMenu"
         widget="dxButton"
-        [options]="{ text: 'Refresh', icon: 'refresh', onClick: search, stylingMode: 'text' }"
+        [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
       ></dxi-item>
       <dxi-item name="searchPanel" locateInMenu="auto" onEnter></dxi-item>
     </dxo-toolbar>
 
     <dxi-column dataField="id" dataType="string" caption="ID"></dxi-column>
-    <dxi-column dataField="name" dataType="string" caption="그룹명"></dxi-column>
+    <dxi-column dataField="name" dataType="string" caption="권한명"></dxi-column>
     <dxi-column dataField="detail" dataType="string" caption="설명"></dxi-column>
     <dxi-column type="buttons" caption="수정">
       <dxi-button
@@ -64,4 +64,4 @@
   </dx-data-grid>
 </div>
 
-<role-edit-popup (onSaved)="onSaved($event)"></role-edit-popup>
+<authority-edit-popup (onSaved)="onSaved($event)"></authority-edit-popup>

@@ -31,6 +31,7 @@ import {FlowTreeComponent} from './pages/dna/flow-tree/flow-tree.component';
 import {FlowSchedulerComponent} from "./pages/dna/flow-scheduler/flow-scheduler.component";
 import {RoleComponent} from "./pages/role/role.component";
 import {RoleGroupComponent} from "./pages/role/roleGroup.component";
+import {AuthorityComponent} from "./pages/authority/authority.component";
 
 const routes: Routes = [
   {
@@ -168,6 +169,11 @@ const routes: Routes = [
       {
         path: 'role-group',
         component: RoleGroupComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'authority',
+        component: AuthorityComponent,
         canActivate: [AuthGuardService],
       },
       {

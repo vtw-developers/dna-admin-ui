@@ -75,7 +75,6 @@ export class RoleComponent {
   selectItem(e) {
     this.currentItem = e.itemData;
     this.groupId = this.currentItem.id;
-    console.log("##### selectItem + groupId : " + this.groupId);
   }
 
   treeViewItemContextMenu(e) {

@@ -2,7 +2,7 @@ import {Component, EventEmitter, Output, NgModule, ViewChild} from '@angular/cor
 import notify from "devextreme/ui/notify";
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
-import {Authority} from "./authority.service";
+import {Authority} from "../authority.service";
 import {
   DxButtonModule, DxCheckBoxModule, DxDataGridComponent, DxDataGridModule, DxDateBoxModule,
   DxFormComponent,
@@ -22,8 +22,6 @@ import {
   DxoToolbarModule
 } from "devextreme-angular/ui/nested";
 import DataSource from "devextreme/data/data_source";
-import {Users} from "./users.service";
-
 
 @Component({
   selector: 'authority-edit-popup',
@@ -35,8 +33,6 @@ export class AuthorityEditComponent {
   authority: Authority = {} as any;
   editMode: 'create' | 'update';
   popupVisible = false;
-  authorityList : string[] = [];
-  user: Users;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onSaved = new EventEmitter<Authority>();

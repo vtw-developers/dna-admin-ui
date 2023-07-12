@@ -184,6 +184,10 @@ export const navigation = [
         text: 'Role Group',
         path: '/role-group',
       },
+      {
+        text: 'Authority',
+        path: '/authority',
+      },
     ]
   }
 
