@@ -31,6 +31,7 @@ import {
   ScheduleNewFormComponent,
   ScheduleNewFormModule
 } from "../../../components/library/dna/schedule-new-form/schedule-new-form.component";
+import {Apollo, gql} from "apollo-angular";
 
 type FilterContactStatus = ContactStatus | 'All';
 
@@ -48,37 +49,33 @@ export class FlowSchedulerComponent {
   flowName;
   schedule;
   selectedSchedule;
-
   schedules = [
     {
-      id: 1,
-      flow: 'Flow1',
+      id: '1',
+      flowName: 'Flow1',
       status: 'Running',
-      cron: '0 0/5 * * * ?',
-      startTime: '2023-05-23 14:13:25',
-      lastExecution: '2023-05-23 14:13:25',
-      nextExecution: '2023-05-23 14:13:25',
-      executionCount: 2342034
+      cronExpression: '0 0/5 * * * ?',
+      nextFireTime: '2023-05-23 14:13:25',
+      prevFireTime: '2023-05-23 14:13:25',
+      startTime: '2023-05-23 14:13:25'
     },
     {
-      id: 2,
-      flow: 'Flow2',
+      id: '2',
+      flowName: 'Flow2',
       status: 'Error',
-      cron: '0 0 12 * * *',
-      startTime: '2023-05-23 14:13:25',
-      lastExecution: '2023-05-23 14:13:25',
-      nextExecution: '2023-05-23 14:13:25',
-      executionCount: 1243
+      cronExpression: '0 0 12 * * *',
+      nextFireTime: '2023-05-23 14:13:25',
+      prevFireTime: '2023-05-23 14:13:25',
+      startTime: '2023-05-23 14:13:25'
     },
     {
-      id: 3,
-      flow: 'Flow3',
+      id: '3',
+      flowName: 'Flow3',
       status: 'Stopped',
-      cron: '0 0 12 * * *',
-      startTime: '2023-05-23 14:13:25',
-      lastExecution: '2023-05-23 14:13:25',
-      nextExecution: '2023-05-23 14:13:25',
-      executionCount: 1243
+      cronExpression: '0 0 12 * * *',
+      nextFireTime: '2023-05-23 14:13:25',
+      prevFireTime: '2023-05-23 14:13:25',
+      startTime: '2023-05-23 14:13:25'
     }
   ]
 
@@ -101,7 +98,7 @@ export class FlowSchedulerComponent {
     // }),
   });
 
-  constructor(private service: DataService) {
+  constructor(private service: DataService, private apollo: Apollo) {
   }
 
   openAddSchedule() {
@@ -112,8 +109,32 @@ export class FlowSchedulerComponent {
     this.editSchedulePopup.openPopup(this.selectedSchedule);
   };
 
-  addSchedule(schedule: any) {
-    this.schedules.push(schedule);
+  addSchedule(flowSchedule: any) {
+    // this.schedules.push(schedule);
+    console.log(flowSchedule)
+
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation createSchedule($flowSchedule: FlowScheduleInput) {
+          createSchedule(flowSchedule: $flowSchedule) {
+            id
+            flowName
+            status
+            cronExpression
+            nextFireTime
+            prevFireTime
+            startTime
+          }
+        }
+      `,
+      variables: {
+        flowSchedule
+      }
+    }).subscribe(result => {
+      console.log(result)
+
+    });
+
   }
 
   updateSchedule(schedule: any) {
@@ -137,8 +158,25 @@ export class FlowSchedulerComponent {
   }
 
   deleteSchedule() {
-    const oldOneIndex = this.schedules.findIndex(item => item.id === this.selectedSchedule.id);
-    this.schedules.splice(oldOneIndex, 1);
+    const checkedRows = this.dataGrid.instance.getSelectedRowKeys();
+    if(checkedRows.length > 0) {
+      const selectedSchedules = [];
+
+      for(let i=0; i<checkedRows.length; i++) {
+        console.log(checkedRows[i])
+        this.schedules.splice(checkedRows[i], 1);
+        console.log(this.schedules)
+
+        // ===============================================
+        let item = this.schedules[checkedRows[i] - 1];
+        selectedSchedules[i] = item;
+        // selectedSchedules => backend 연결 시 사용
+      }
+      console.log(selectedSchedules)
+    } else {
+      const oldOneIndex = this.schedules.findIndex(item => item.id === this.selectedSchedule.id);
+      this.schedules.splice(oldOneIndex, 1);
+    }
     this.refresh();
   }
 

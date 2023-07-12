@@ -100,7 +100,7 @@
     </dxo-toolbar>
 
     <dxi-column
-      dataField="flow"
+      dataField="flowName"
       caption="플로우명"
     ></dxi-column>
     <dxi-column
@@ -110,8 +110,20 @@
       editCellTemplate="editCellStatus"
     ></dxi-column>
     <dxi-column
-      dataField="cron"
+      dataField="cronExpression"
       caption="스케줄"
+    ></dxi-column>
+    <dxi-column
+            dataField="nextFireTime"
+            caption="다음실행일시"
+            dataType="dateTime"
+            format="yyyy-MM-dd hh:mm:ss"
+    ></dxi-column>
+    <dxi-column
+            dataField="prevFireTime"
+            caption="최근실행일시"
+            dataType="dateTime"
+            format="yyyy-MM-dd hh:mm:ss"
     ></dxi-column>
     <dxi-column
       dataField="startTime"
@@ -119,28 +131,10 @@
       dataType="dateTime"
       format="yyyy-MM-dd hh:mm:ss"
     ></dxi-column>
-    <dxi-column
-      dataField="lastExecution"
-      caption="최근실행일시"
-      dataType="dateTime"
-      format="yyyy-MM-dd hh:mm:ss"
-    ></dxi-column>
-    <dxi-column
-      dataField="nextExecution"
-      caption="다음실행일시"
-      dataType="dateTime"
-      format="yyyy-MM-dd hh:mm:ss"
-    ></dxi-column>
-    <dxi-column
-      dataField="executionCount"
-      caption="실행횟수"
-      dataType="number"
-    ></dxi-column>
 
     <div *dxTemplate="let cellInfo of 'cellStatus'">
       <contact-status [value]="cellInfo.data.status"></contact-status>
     </div>
   </dx-data-grid>
-
   <schedule-new-form [flowSchedulerComponent]="this"></schedule-new-form>
 </div>

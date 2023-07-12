@@ -33,12 +33,18 @@ export class ScheduleNewFormComponent {
   getSizeQualifier = getSizeQualifier;
   popupVisible = false;
   createMode: boolean;
+  now: Date = new Date();
 
   constructor() {
   }
 
   save(e) {
     if (this.createMode) {
+      // this.schedule.startTime = new Date(this.schedule.startTime).toLocaleString();
+      const date = this.schedule.startTime.toISOString().split('T')[0];
+      const time = this.schedule.startTime.toTimeString().split(' ')[0];
+      this.schedule.startTime = date + ' ' + time;
+
       this.flowSchedulerComponent.addSchedule(this.schedule);
     } else {
       this.flowSchedulerComponent.updateSchedule(this.schedule);
@@ -57,14 +63,13 @@ export class ScheduleNewFormComponent {
     if (schedule === undefined) {
       this.createMode = true;
       this.schedule = {
-        id: this.flowSchedulerComponent.schedules.length + 1,
-        flow: 'testFlow',
+        id: (this.flowSchedulerComponent.schedules.length + 1).toString(),
+        flowName: 'testFlow',
         status: 'Stopped',
-        cron: '0 15 10 * * *',
-        startTime: '2023-06-26 14:13:25',
-        lastExecution: '2023-05-23 14:13:25',
-        nextExecution: '2023-08-30 14:13:25',
-        executionCount: 1234
+        cronExpression: '0 0/1 * 1/1 * ? *',
+        nextFireTime: '',
+        prevFireTime: '',
+        startTime: this.now,
       }
     } else {
       this.createMode = false;

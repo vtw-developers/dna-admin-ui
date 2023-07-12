@@ -1,0 +1,26 @@
+extend type Mutation {
+    createSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
+    #    updateSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
+    deleteSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
+}
+type FlowSchedule {
+    id: String
+    flowName: String
+    status: String
+    cronExpression: String
+    nextFireTime: String
+    prevFireTime: String
+    startTime: String
+}
+
+input FlowScheduleInput {
+    id: String
+    flowName: String
+    status: String
+    cronExpression: String
+    nextFireTime: String
+    prevFireTime: String
+    startTime: String
+}
+
+
