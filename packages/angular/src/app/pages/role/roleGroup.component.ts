@@ -11,7 +11,7 @@ import {CommonModule} from "@angular/common";
 import CustomStore from "devextreme/data/custom_store";
 import {firstValueFrom} from "rxjs";
 import {PageableService} from "../../services/pageable.service";
-import {RoleEditComponent, RoleEditModule} from "./edit/role-edit.component";
+import {RoleGroupEditComponent, RoleEditModule} from "./edit/roleGroup-edit.component";
 import {Role} from "./edit/role.service";
 import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
@@ -25,7 +25,7 @@ export class RoleGroupComponent {
   roles: DataSource
   filter = '';
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
-  @ViewChild(RoleEditComponent, {static: false}) editPopup: RoleEditComponent;
+  @ViewChild(RoleGroupEditComponent, {static: false}) editPopup: RoleGroupEditComponent;
 
   constructor(private pageableService: PageableService, private apollo: Apollo) {
     this.roles = new DataSource({

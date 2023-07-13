@@ -8,21 +8,13 @@
   <div class="content dx-fieldset"  *ngIf="apiTabs.selectedIndex === 0">
     <dx-data-grid
       #grid
-      [dataSource]= authorities
+      [dataSource]= roleDataList
       [showBorders]="true"
       [remoteOperations]="true"
       [hoverStateEnabled]="true"
       [selectedRowKeys]="[]"
     >
-      <dxi-column dataField="name" dataType="string" caption="권한명"></dxi-column>
-      <dxi-column dataField="detail" dataType="string" caption="내용"></dxi-column>
-      <dxi-column type="buttons" caption="수정">
-        <dxi-button
-          text="수정"
-          icon="../../../assets/icons/common/edit.svg"
-          [onClick]="updateAuth"
-        ></dxi-button>
-      </dxi-column>
+      <dxi-column dataField="authority.name" dataType="string" caption="권한명"></dxi-column>
       <dxi-column type="buttons" caption="삭제">
         <dxi-button
           text="삭제"
@@ -76,13 +68,6 @@
       [selectedRowKeys]="[]"
     >
       <dxi-column dataField="userId" dataType="string" caption="사용자명"></dxi-column>
-      <dxi-column type="buttons" caption="수정">
-        <dxi-button
-          text="수정"
-          icon="../../../assets/icons/common/edit.svg"
-          [onClick]="update"
-        ></dxi-button>
-      </dxi-column>
       <dxi-column type="buttons" caption="삭제">
         <dxi-button
           text="삭제"
@@ -118,4 +103,4 @@
   </div>
 </div>
 
-<authority-edit-popup (onSaved)="onSavedAuth($event)"></authority-edit-popup>
+<roleAuth-edit-popup (onSaved)="onSavedAuth($event)" [selectedCurrentItem] = "currentItem"></roleAuth-edit-popup>

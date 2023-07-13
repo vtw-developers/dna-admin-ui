@@ -23,11 +23,11 @@ import {
 } from "devextreme-angular/ui/nested";
 
 @Component({
-  selector: 'role-edit-popup',
-  templateUrl: './role-edit.component.html',
+  selector: 'roleGroup-edit-popup',
+  templateUrl: './roleGroup-edit.component.html',
 })
 
-export class RoleEditComponent {
+export class RoleGroupEditComponent {
   role: Role = {} as any;
   editMode: 'create' | 'update';
   popupVisible = false;
@@ -163,9 +163,9 @@ export class RoleEditComponent {
   ],
   providers: [],
   exports: [
-    RoleEditComponent
+    RoleGroupEditComponent
   ],
-  declarations: [RoleEditComponent],
+  declarations: [RoleGroupEditComponent],
 })
 export class RoleEditModule {
 }

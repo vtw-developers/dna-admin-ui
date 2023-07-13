@@ -21,6 +21,7 @@ import {TemplateDetailsModule} from "../dna/template-details/template-details.co
 import {DxTreeViewComponent} from "devextreme-angular/ui/tree-view";
 import {v4 as uuid} from 'uuid';
 import {RoleTab, UsersTwoModule} from "./roleTab.component";
+import {Role} from "./edit/role.service";
 
 @Component({
   templateUrl: './role.component.html',
@@ -39,8 +40,7 @@ export class RoleComponent {
   @ViewChild('newRolePopup', {static: false}) newRolePopup: FormPopupComponent;
 
   treeItems: any[];
-  currentItem: any;
-  groupId: any;
+  currentItem: Role;
   selectedTreeItem: any;
   role = "";
   company = "";
@@ -73,23 +73,18 @@ export class RoleComponent {
   }
 
   selectItem(e) {
-    this.currentItem = e.itemData;
-    this.groupId = this.currentItem.id;
+    this.currentItem = {
+      id: e.itemData.id,
+      name: e.itemData.name,
+      detail: e.itemData.detail,
+      type: e.itemData.type,
+      icon: e.itemData.icon,
+      expanded: e.itemData.expanded
+    }
   }
 
   treeViewItemContextMenu(e) {
-    console.log(e);
     this.selectedTreeItem = e.itemData;
-    //
-    // const isProduct = e.itemData.price !== undefined;
-    // const contextMenu = this.contextMenu.instance;
-    // contextMenu.option('items[0].visible', !isProduct);
-    // contextMenu.option('items[1].visible', !isProduct);
-    // contextMenu.option('items[2].visible', isProduct);
-    // contextMenu.option('items[3].visible', isProduct);
-    //
-    // contextMenu.option('items[0].disabled', e.node.expanded);
-    // contextMenu.option('items[1].disabled', !e.node.expanded);
   }
 
   protected readonly parent = parent;

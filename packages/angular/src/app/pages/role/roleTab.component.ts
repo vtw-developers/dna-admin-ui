@@ -1,4 +1,4 @@
-import {Component, Input, NgModule, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, NgModule, ViewChild} from '@angular/core';
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
 import DataSource from "devextreme/data/data_source";
@@ -11,11 +11,12 @@ import {
 import {CommonModule} from "@angular/common";
 import CustomStore from "devextreme/data/custom_store";
 import {firstValueFrom} from "rxjs";
-import {UsersEditComponent, UsersEditModule} from "./edit/users-edit.component";
-import {confirm} from 'devextreme/ui/dialog';
-import notify from "devextreme/ui/notify";
+import {UsersEditComponent, UsersEditModule} from "../user/edit/users-edit.component";
 import {AuthorityEditComponent, AuthorityEditModule} from "../authority/edit/authority-edit.component";
 import {Authority} from "../authority/authority.service";
+import {confirm} from 'devextreme/ui/dialog';
+import notify from "devextreme/ui/notify";
+import {RoleAuthEditComponent, RoleAuthEditModule} from "./edit/roleAuth-edit.component";
 
 @Component({
   selector: 'roleTab',
@@ -23,16 +24,15 @@ import {Authority} from "../authority/authority.service";
   templateUrl: './roleTab.component.html',
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class RoleTab implements OnInit{
+export class RoleTab {
 
-  @Input() set selectedGroupId(groupId) {
-    this.groupId = groupId
+  @Input() set selectedCurrentItem(currentItem) {
+    this.currentItem = currentItem
+    this.searchAuth();
   };
-  authorities: DataSource;
+  roleDataList: DataSource;
   users: DataSource;
-  filter = '';
-  name;
-  groupId;
+  currentItem: any;
 
   tabs = [
     {
@@ -50,13 +50,9 @@ export class RoleTab implements OnInit{
   ];
 
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
-  @ViewChild(AuthorityEditComponent, {static: false}) authEditPopup: AuthorityEditComponent;
+  @ViewChild(RoleAuthEditComponent, {static: false}) roleAuthEditPopup: RoleAuthEditComponent;
 
   constructor(private pageableService: PageableService, private apollo: Apollo) {
-  }
-
-  ngOnInit() {
-    this.searchAuth();
   }
 
   selectTab(e) {
@@ -69,29 +65,40 @@ export class RoleTab implements OnInit{
   }
 
   searchAuth(){
-    this.authorities = new DataSource({
+    this.roleDataList = new DataSource({
       store: new CustomStore({
         key: 'id',
         load: (loadOptions) => {
           this.grid.instance.clearSelection();
 
           const pageable = this.pageableService.getPageable(loadOptions);
-          pageable.filter = this.filter;
+          pageable.filter = this.currentItem.id;
 
           const page$ = this.apollo.query({
             query: gql`
-              query authorities(
+              query roleDataList(
                 $page: Int = 0,
                 $size: Int = 10,
                 $sortBy: String = "id",
                 $sortDir: String = "asc",
                 $filter: String = "") {
-                authorities(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
+                roleDataList(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
                   totalElements
                   content {
                     id
-                    name
-                    detail
+                    authority{
+                      id
+                      name
+                      detail
+                    }
+                    role{
+                      id
+                      name
+                      detail
+                      type
+                      icon
+                      expanded
+                    }
                   }
                 }
               }
@@ -107,8 +114,7 @@ export class RoleTab implements OnInit{
 
           return firstValueFrom(page$)
             .then((page: any) => {
-              console.log(page.data.authorities);
-              return this.pageableService.transformPage(page.data.authorities);
+              return this.pageableService.transformPage(page.data.roleDataList);
             });
         },
       })
@@ -123,7 +129,7 @@ export class RoleTab implements OnInit{
           this.grid.instance.clearSelection();
 
           const pageable = this.pageableService.getPageable(loadOptions);
-          pageable.filter = this.filter;
+          pageable.filter = this.currentItem.id;
 
           const page$ = this.apollo.query({
             query: gql`
@@ -161,17 +167,11 @@ export class RoleTab implements OnInit{
   }
 
   createAuth(){
-    console.log(this.groupId)
-    this.authEditPopup.open('create');
-  }
-
-  updateAuth= (e) =>{
-    this.authEditPopup.open('update', e.row.data.id);
+    this.roleAuthEditPopup.open();
   }
 
   deleteAuth= (e) => {
     const result = confirm('<i>권한을 삭제하시겠습니까?</i>', '삭제');
-    console.log(e.row.data.id);
     result.then(dialogResult => {
       if (dialogResult) {
         this.apollo.mutate({
@@ -204,7 +204,7 @@ export class RoleTab implements OnInit{
   }
 
   refresh () {
-    this.authorities.reload();
+    this.roleDataList.reload();
     this.users.reload();
   }
 
@@ -221,6 +221,7 @@ export class RoleTab implements OnInit{
 
     UsersEditModule,
     AuthorityEditModule,
+    RoleAuthEditModule,
   ],
   providers: [],
   exports: [

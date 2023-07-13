@@ -1,0 +1,40 @@
+<dx-popup
+  [width]="'27vw'"
+  [height]="240"
+  [showTitle]="true"
+  [title]="'권한 등록'"
+  [dragEnabled]="true"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="true"
+  container=".dx-viewport"
+  [(visible)]="popupVisible"
+  [enableBodyScroll]="false"
+>
+  <div *dxTemplate="let data of 'content'">
+    <dx-validation-group>
+      <form class="flex flex-col" (submit)="save($event)">
+        <div [style.height]="120">
+          <dx-select-box class="select-box" [dataSource]="authorityList" displayExpr="name" [(value)]="authority" placeholder="권한 선택" style="margin-top: 20px">
+          </dx-select-box>
+          <dx-validation-summary class="mt-2"></dx-validation-summary>
+        </div>
+
+        <div class="popup-buttons">
+          <dx-button
+            [text]="'생성'"
+            [width]="100"
+            [useSubmitBehavior]="true"
+          >
+          </dx-button>
+          <dx-button
+            [text]="'취소'"
+            [width]="100"
+            (onClick)="close()"
+          >
+          </dx-button>
+        </div>
+      </form>
+    </dx-validation-group>
+  </div>
+
+</dx-popup>

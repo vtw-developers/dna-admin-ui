@@ -1,5 +1,6 @@
 type Query {
   authorities(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): AuthorityPage
+  authorityList(name: String): [Authority]
   authority(id: ID): Authority
   users(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): UsersPage
   userRoll(company: String, role: String): [Users]
@@ -8,6 +9,9 @@ type Query {
   roles(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): RolesPage
   rolesList(name: String): [Role]
   role(id: ID): Role
+
+  roleDataList(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): RoleDataPage
+  roleData(id: ID): RoleData
 }
 
 type Mutation {
@@ -22,6 +26,9 @@ type Mutation {
   createRole(role: RolesInput): Role
   updateRole(role: RolesInput): Role
   deleteRole(id: ID): Role
+
+  createRoleData(roleData: RoleDataInput): RoleData
+  deleteRoleData(id: ID): RoleData
 }
 
 type Authority {
@@ -82,4 +89,21 @@ input RolesInput {
   type: String
   icon: String
   expanded: Boolean
+}
+
+type RoleData {
+  id: ID
+  authority: Authority
+  role: Role
+}
+
+input RoleDataInput {
+  id: ID
+  authority: AuthorityInput
+  role: RolesInput
+}
+
+type RoleDataPage {
+  totalElements: Int
+  content: [RoleData]
 }
