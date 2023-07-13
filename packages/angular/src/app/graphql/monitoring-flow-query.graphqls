@@ -1,0 +1,8 @@
+extend type Query {
+    monitoringFlows: [MonitoringFlow]
+}
+
+type MonitoringFlow {
+    id: String
+    name: String
+}

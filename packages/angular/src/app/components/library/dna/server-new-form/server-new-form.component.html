@@ -1,0 +1,63 @@
+<dx-popup
+  [width]="'20vw'"
+  [title]="createMode? '서버 생성' : '서버 변경'"
+  height="auto"
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="false"
+  [(visible)]="popupVisible"
+>
+  <dxo-position at="center" my="center"></dxo-position>
+  <div *dxTemplate="let data of 'content'">
+    <dx-validation-group #validationGroup>
+      <form (submit)="save($event)">
+        <dxi-item itemType="group">
+          <dxo-col-count-by-screen [xs]="1" [sm]="1" [md]="1" [lg]="1"></dxo-col-count-by-screen>
+          <dxi-item style="margin-bottom: 10px;">
+            <form-textbox
+              label="서버명"
+              [(value)]="server.name"
+              [isEditing]="true">
+            </form-textbox>
+          </dxi-item>
+          <dxi-item style="margin-bottom: 10px;">
+            <dx-select-box
+              label="OS"
+              [items]="os"
+              [(value)]="server.os">
+            </dx-select-box>
+          </dxi-item>
+          <dxi-item style="margin-bottom: 10px;">
+            <form-textbox
+              label="사설 IP"
+              [(value)]="server.privateIp"
+              [isEditing]="true">
+            </form-textbox>
+          </dxi-item>
+          <dxi-item style="margin-bottom: 10px;">
+            <form-textbox
+              label="공인 IP"
+              [(value)]="server.publicIp"
+              [isEditing]="true">
+            </form-textbox>
+          </dxi-item>
+        </dxi-item>
+        <br>
+        <div class="popup-buttons">
+          <dx-button
+            text="저장"
+            stylingMode="contained"
+            [useSubmitBehavior]="true"
+          ></dx-button>
+          <dx-button
+            text="취소"
+            stylingMode="contained"
+            type="default"
+            (onClick)="cancel()"
+          ></dx-button>
+        </div>
+      </form>
+    </dx-validation-group>
+  </div>
+</dx-popup>

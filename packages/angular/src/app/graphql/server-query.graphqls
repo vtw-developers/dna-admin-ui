@@ -1,0 +1,11 @@
+extend type Query {
+    servers: [Server]
+}
+
+type Server {
+    id: ID
+    name: String
+    os: String
+    privateIp: String
+    publicIp: String
+}

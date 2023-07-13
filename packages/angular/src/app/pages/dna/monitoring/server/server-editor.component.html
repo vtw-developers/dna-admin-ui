@@ -1,0 +1,81 @@
+<div class="view-wrapper">
+  <dx-data-grid
+    class="grid"
+    noDataText=""
+    height="100%"
+    [dataSource]="servers"
+    keyExpr="id"
+    [allowColumnReordering]="true"
+    [focusedRowEnabled]="true"
+    [(focusedRowKey)]="serverName"
+    (onRowClick)="rowClick($event)"
+  >
+    <dxo-load-panel [showPane]="false"></dxo-load-panel>
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="서버 검색"
+    ></dxo-search-panel>
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <div class="grid-header">서버 목록</div>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="서버 생성/변경"
+          icon="plus"
+          type="default"
+          stylingMode="contained"
+          class="createButton"
+          (onClick)="openAddServer()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="padding-left: 10px;">
+      <dx-button
+        text="삭제"
+        icon="clearsquare"
+        type="normal"
+        stylingMode="contained"
+        class="scheduleButton"
+      ></dx-button>
+      </dxi-item>
+
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        showText="inMenu"
+        widget="dxButton"
+        [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+      ></dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <div class="separator"></div>
+      </dxi-item>
+      <dxi-item name="searchPanel" location="after" locateInMenu="auto"></dxi-item>
+    </dxo-toolbar>
+
+    <dxi-column
+      dataField="name"
+      caption="서버명"
+    ></dxi-column>
+    <!--<dxi-column
+      dataField="status"
+      caption="상태"
+    ></dxi-column>-->
+    <dxi-column
+      dataField="os"
+      caption="OS"
+    ></dxi-column>
+    <dxi-column
+      dataField="privateIp"
+      caption="사설IP"
+    ></dxi-column>
+    <dxi-column
+      dataField="publicIp"
+      caption="공인IP"
+    ></dxi-column>
+
+  </dx-data-grid>
+
+  <server-new-form (saved)="refresh()"></server-new-form>
+</div>

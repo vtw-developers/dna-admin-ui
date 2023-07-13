@@ -11,7 +11,7 @@ import {
 import {CommonModule} from "@angular/common";
 import CustomStore from "devextreme/data/custom_store";
 import {firstValueFrom} from "rxjs";
-import {UsersEditComponent, UsersEditModule} from "../user/edit/users-edit.component";
+import {UsersEditComponent, UsersEditModule} from "../role/edit/users-edit.component";
 import {AuthorityEditComponent, AuthorityEditModule} from "../authority/edit/authority-edit.component";
 import {Authority} from "../authority/authority.service";
 import {confirm} from 'devextreme/ui/dialog';
@@ -23,6 +23,7 @@ import {RoleAuthEditComponent, RoleAuthEditModule} from "./edit/roleAuth-edit.co
   providers: [PageableService],
   templateUrl: './roleTab.component.html',
 })
+
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RoleTab {
 

@@ -1,0 +1,11 @@
+extend type Mutation {
+    createServer(server: ServerInput): ID
+}
+
+input ServerInput {
+    id: ID
+    name: String
+    os: String
+    privateIp: String
+    publicIp: String
+}

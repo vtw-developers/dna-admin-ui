@@ -67,7 +67,7 @@ export const navigation = [
     items: [
       {
         text: '서버(인스턴스)',
-        path: '/extract-list22234343',
+        path: '/server-monitoring',
       },
       {
         text: '애플리케이션(에이전트)',
@@ -75,7 +75,7 @@ export const navigation = [
       },
       {
         text: '프로그램(플로우)',
-        path: '/extract-details223ㅇㅈㅂㅇ3',
+        path: '/flow-monitoring',
       },
     ],
   },

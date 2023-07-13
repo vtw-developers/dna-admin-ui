@@ -1,0 +1,17 @@
+<div class="dx-fieldset">
+  <div class="dx-fieldset-header" style="font-size: 22px;">서버 모니터링</div>
+  <div class="dx-field">
+    <div class="dx-field-label" style="width: 50px;">서버</div>
+    <div class="dx-field-value" style="width: 120px;">
+      <dx-select-box
+        [dataSource]="servers"
+        displayExpr="name"
+      >
+      </dx-select-box>
+    </div>
+  </div>
+
+  <div class="dx-field">
+  <iframe width="100%" height="1000px" style="border:none" [src]="monitoringUrl | safe"></iframe>
+  </div>
+</div>

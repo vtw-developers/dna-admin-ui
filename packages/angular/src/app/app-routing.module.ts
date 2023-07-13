@@ -29,9 +29,12 @@ import {SwaggerComponent} from './pages/dna/swagger/swagger.component';
 import {FlowTemplateListComponent} from './pages/dna/flow-template-list/flow-template-list.component';
 import {FlowTreeComponent} from './pages/dna/flow-tree/flow-tree.component';
 import {FlowSchedulerComponent} from "./pages/dna/flow-scheduler/flow-scheduler.component";
+import {ServerMonitoringComponent} from "./pages/dna/monitoring/server/server-monitoring.component";
+import {FlowMonitoringComponent} from "./pages/dna/monitoring/flow/flow-monitoring.component";
 import {RoleComponent} from "./pages/role/role.component";
 import {RoleGroupComponent} from "./pages/role/roleGroup.component";
 import {AuthorityComponent} from "./pages/authority/authority.component";
+import {ServerEditorComponent} from "./pages/dna/monitoring/server/server-editor.component";
 
 const routes: Routes = [
   {
@@ -174,6 +177,21 @@ const routes: Routes = [
       {
         path: 'authority',
         component: AuthorityComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'server-editor',
+        component: ServerEditorComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'server-monitoring',
+        component: ServerMonitoringComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'flow-monitoring',
+        component: FlowMonitoringComponent,
         canActivate: [AuthGuardService],
       },
       {
