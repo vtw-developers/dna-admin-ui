@@ -35,6 +35,7 @@ import {RoleComponent} from "./pages/role/role.component";
 import {RoleGroupComponent} from "./pages/role/roleGroup.component";
 import {AuthorityComponent} from "./pages/authority/authority.component";
 import {ServerEditorComponent} from "./pages/dna/monitoring/server/server-editor.component";
+import {ApplicationMonitoringComponent} from "./pages/dna/monitoring/application/application-monitoring.component";
 
 const routes: Routes = [
   {
@@ -187,6 +188,11 @@ const routes: Routes = [
       {
         path: 'server-monitoring',
         component: ServerMonitoringComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'application-monitoring',
+        component: ApplicationMonitoringComponent,
         canActivate: [AuthGuardService],
       },
       {

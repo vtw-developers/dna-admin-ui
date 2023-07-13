@@ -9,7 +9,7 @@ import {DxSelectBoxModule} from "devextreme-angular";
 })
 export class ServerMonitoringComponent {
 
-  monitoringUrl = "http://192.168.162.128:3000/d/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&kiosk";
+  monitoringUrl = 'http://192.168.162.128:3000/d/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&kiosk';
   servers;
 
   constructor(private apollo: Apollo) {

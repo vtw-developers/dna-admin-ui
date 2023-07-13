@@ -9,7 +9,7 @@ import {SafePipeModule} from "../../../../pipes/SafePipe";
 })
 export class FlowMonitoringComponent {
   flows;
-  monitoringUrl = "http://192.168.162.128:3000/d/YWfN6wL7z/2-service-details?orgId=1&kiosk";
+  monitoringUrl = 'http://192.168.162.128:3000/d/YWfN6wL7z/2-service-details?orgId=1&kiosk';
 
   constructor(private apollo: Apollo) {
 
@@ -35,7 +35,7 @@ export class FlowMonitoringComponent {
 
   changeMonitoringUrl(e) {
     console.log(e);
-    this.monitoringUrl = "http://192.168.162.128:3000/d/YWfN6wL7z/2-service-details?orgId=1&kiosk&var-service="+e.value.name;
+    this.monitoringUrl = 'http://192.168.162.128:3000/d/YWfN6wL7z/2-service-details?orgId=1&kiosk&var-service='+e.value.name;
     console.log(this.monitoringUrl);
   }
 }
