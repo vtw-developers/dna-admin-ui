@@ -1,7 +1,7 @@
 import {Authority} from "../../authority/authority.service";
 import {Role} from "./role.service";
 
-export interface RoleData {
+export interface RoleAuth {
   id: number;
   authority: Authority;
   role: Role;

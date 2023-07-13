@@ -31,7 +31,7 @@ export class RoleTab {
     this.currentItem = currentItem
     this.searchAuth();
   };
-  roleDataList: DataSource;
+  roleAuthList: DataSource;
   users: DataSource;
   currentItem: any;
 
@@ -66,7 +66,7 @@ export class RoleTab {
   }
 
   searchAuth(){
-    this.roleDataList = new DataSource({
+    this.roleAuthList = new DataSource({
       store: new CustomStore({
         key: 'id',
         load: (loadOptions) => {
@@ -77,13 +77,13 @@ export class RoleTab {
 
           const page$ = this.apollo.query({
             query: gql`
-              query roleDataList(
+              query roleAuthList(
                 $page: Int = 0,
                 $size: Int = 10,
                 $sortBy: String = "id",
                 $sortDir: String = "asc",
                 $filter: String = "") {
-                roleDataList(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
+                roleAuthList(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
                   totalElements
                   content {
                     id
@@ -115,7 +115,7 @@ export class RoleTab {
 
           return firstValueFrom(page$)
             .then((page: any) => {
-              return this.pageableService.transformPage(page.data.roleDataList);
+              return this.pageableService.transformPage(page.data.roleAuthList);
             });
         },
       })
@@ -177,8 +177,8 @@ export class RoleTab {
       if (dialogResult) {
         this.apollo.mutate({
           mutation: gql`
-            mutation deleteAuthority($id: ID) {
-              deleteAuthority(id: $id) {
+            mutation deleteRoleAuth($id: ID) {
+              deleteRoleAuth(id: $id) {
                 id
               }
             }
@@ -205,7 +205,7 @@ export class RoleTab {
   }
 
   refresh () {
-    this.roleDataList.reload();
+    this.roleAuthList.reload();
     this.users.reload();
   }
 

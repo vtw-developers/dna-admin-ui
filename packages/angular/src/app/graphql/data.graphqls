@@ -10,8 +10,8 @@ type Query {
   rolesList(name: String): [Role]
   role(id: ID): Role
 
-  roleDataList(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): RoleDataPage
-  roleData(id: ID): RoleData
+  roleAuthList(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): RoleAuthPage
+  roleAuth(id: ID): RoleAuth
 }
 
 type Mutation {
@@ -27,8 +27,8 @@ type Mutation {
   updateRole(role: RolesInput): Role
   deleteRole(id: ID): Role
 
-  createRoleData(roleData: RoleDataInput): RoleData
-  deleteRoleData(id: ID): RoleData
+  createRoleAuth(roleAuth: RoleAuthInput): RoleAuth
+  deleteRoleAuth(id: ID): RoleAuth
 }
 
 type Authority {
@@ -91,19 +91,19 @@ input RolesInput {
   expanded: Boolean
 }
 
-type RoleData {
+type RoleAuth {
   id: ID
   authority: Authority
   role: Role
 }
 
-input RoleDataInput {
+input RoleAuthInput {
   id: ID
   authority: AuthorityInput
   role: RolesInput
 }
 
-type RoleDataPage {
+type RoleAuthPage {
   totalElements: Int
-  content: [RoleData]
+  content: [RoleAuth]
 }

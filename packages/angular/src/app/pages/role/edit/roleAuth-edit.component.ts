@@ -21,8 +21,7 @@ import {
   DxoSelectionModule,
   DxoToolbarModule
 } from "devextreme-angular/ui/nested";
-import DataSource from "devextreme/data/data_source";
-import {RoleData} from "./roleData.service";
+import {RoleAuth} from "./roleAuth.service";
 import {Authority} from "../../authority/authority.service";
 
 @Component({
@@ -40,7 +39,7 @@ export class RoleAuthEditComponent {
   currentItem: Role;
   authorityList: Authority[] =[];
   authority: Authority;
-  roleData: RoleData;
+  roleAuth: RoleAuth;
   id;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
@@ -90,32 +89,28 @@ export class RoleAuthEditComponent {
     e.preventDefault();
     this.close();
 
-    console.log(this.currentItem);
-
-    this.roleData = {
+    this.roleAuth = {
       id: null,
       authority: this.authority,
       role: this.currentItem
     }
 
-    console.log(this.roleData);
-
     this.apollo.mutate({
       mutation: gql`
-        mutation createRoleData($roleData: RoleDataInput) {
-          createRoleData(roleData: $roleData) {
+        mutation createRoleAuth($roleAuth: RoleAuthInput) {
+          createRoleAuth(roleAuth: $roleAuth) {
             id
           }
         }
       `,
       variables: {
-        roleData: this.roleData
+        roleAuth: this.roleAuth
       }
     }).subscribe({
       next: (result: any) => {
         console.log(result);
         notify('권한이 등록되었습니다.', 'success', 3000);
-        this.onSaved.emit(result.data.createRoleData);
+        this.onSaved.emit(result.data.createRoleAuth);
       },
       error: (e) => {
         console.error(e);

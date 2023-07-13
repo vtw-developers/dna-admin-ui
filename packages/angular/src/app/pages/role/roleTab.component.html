@@ -8,7 +8,7 @@
   <div class="content dx-fieldset"  *ngIf="apiTabs.selectedIndex === 0">
     <dx-data-grid
       #grid
-      [dataSource]= roleDataList
+      [dataSource]= roleAuthList
       [showBorders]="true"
       [remoteOperations]="true"
       [hoverStateEnabled]="true"

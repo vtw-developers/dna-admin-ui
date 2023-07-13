@@ -1,6 +1,6 @@
 <dx-popup
   [width]="'27vw'"
-  [height]="240"
+  [height]="200"
   [showTitle]="true"
   [title]="'권한 등록'"
   [dragEnabled]="true"
@@ -13,8 +13,8 @@
   <div *dxTemplate="let data of 'content'">
     <dx-validation-group>
       <form class="flex flex-col" (submit)="save($event)">
-        <div [style.height]="120">
-          <dx-select-box class="select-box" [dataSource]="authorityList" displayExpr="name" [(value)]="authority" placeholder="권한 선택" style="margin-top: 20px">
+        <div style="margin-bottom: 20px">
+          <dx-select-box class="select-box" [dataSource]="authorityList" displayExpr="name" [(value)]="authority" placeholder="권한 선택">
           </dx-select-box>
           <dx-validation-summary class="mt-2"></dx-validation-summary>
         </div>
