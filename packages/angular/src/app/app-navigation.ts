@@ -177,6 +177,10 @@ export const navigation = [
         path: '/user-profile',
       },
       {
+        text: 'User List',
+        path: '/users',
+      },
+      {
         text: 'Role',
         path: '/role',
       },

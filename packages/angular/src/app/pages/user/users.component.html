@@ -1,0 +1,68 @@
+<div class="content-block dx-card responsive-paddings">
+
+  <dx-data-grid
+    #grid
+    [dataSource]="users"
+    [showBorders]="true"
+    [remoteOperations]="true"
+    [hoverStateEnabled]="true"
+    [selectedRowKeys]="[]"
+  >
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="사용자 검색"
+    ></dxo-search-panel>
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <div class="header-text">사용자 관리</div>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="사용자 추가"
+          icon="plus"
+          type="default"
+          stylingMode="contained"
+          (onClick)="create()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        showText="inMenu"
+        widget="dxButton"
+        [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+      ></dxi-item>
+      <dxi-item name="searchPanel" locateInMenu="auto" onEnter></dxi-item>
+    </dxo-toolbar>
+
+    <dxi-column dataField="userId" dataType="string" caption="ID"></dxi-column>
+    <dxi-column dataField="name" dataType="string" caption="이름"></dxi-column>
+    <dxi-column dataField="phone" dataType="string" caption="연락처"></dxi-column>
+    <dxi-column dataField="mail" dataType="string" caption="메일"></dxi-column>
+    <dxi-column type="buttons" caption="수정">
+      <dxi-button
+        text="수정"
+        icon="../../../assets/icons/common/edit.svg"
+        [onClick]="update"
+      ></dxi-button>
+    </dxi-column>
+    <dxi-column type="buttons" caption="삭제">
+      <dxi-button
+        text="삭제"
+        icon="../../../assets/icons/common/DeleteTest_riderLight.svg"
+        [onClick]="delete"
+      ></dxi-button>
+    </dxi-column>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-paging [pageSize]="5"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[5, 10, 20]"
+      [showInfo]="true"
+      [visible]="true"
+    ></dxo-pager>
+  </dx-data-grid>
+</div>
+
+<users-edit-popup (onSaved)="onSaved($event)"></users-edit-popup>

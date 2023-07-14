@@ -2,8 +2,9 @@
 export interface Users {
   id: number;
   userId: string;
-  company: string;
-  role: string;
-  authority: string;
+  password: string;
+  name: string;
+  phone: string;
+  mail: string;
 }
 

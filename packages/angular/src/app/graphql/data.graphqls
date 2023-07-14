@@ -2,8 +2,8 @@ type Query {
   authorities(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): AuthorityPage
   authorityList(name: String): [Authority]
   authority(id: ID): Authority
+
   users(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): UsersPage
-  userRoll(company: String, role: String): [Users]
   user(id: ID): Users
 
   roles(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): RolesPage
@@ -51,15 +51,19 @@ type AuthorityPage {
 type Users {
   id: ID
   userId: String
-  dept: String
-  role: String
+  password: String
+  name: String
+  phone: String
+  mail: String
 }
 
 input UsersInput {
   id: ID
   userId: String
-  dept: String
-  role: String
+  password: String
+  name: String
+  phone: String
+  mail: String
 }
 
 type UsersPage {
