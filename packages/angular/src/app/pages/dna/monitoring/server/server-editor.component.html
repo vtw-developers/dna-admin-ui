@@ -1,5 +1,6 @@
 <div class="view-wrapper">
   <dx-data-grid
+    #grid
     class="grid"
     noDataText=""
     height="100%"
@@ -7,10 +8,9 @@
     keyExpr="id"
     [allowColumnReordering]="true"
     [focusedRowEnabled]="true"
-    [(focusedRowKey)]="serverName"
+    [(focusedRowKey)]="serverId"
     (onRowClick)="rowClick($event)"
   >
-    <dxo-load-panel [showPane]="false"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-search-panel
       [visible]="true"
@@ -38,6 +38,7 @@
         type="normal"
         stylingMode="contained"
         class="scheduleButton"
+        (onClick)="delete()"
       ></dx-button>
       </dxi-item>
 

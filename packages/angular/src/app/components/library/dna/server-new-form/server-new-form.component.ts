@@ -34,6 +34,7 @@ export class ServerNewFormComponent {
 
   openPopup(server: any) {
     console.log(server);
+    this.server = {};
     if (server === undefined) {
       this.createMode = true;
     } else {
@@ -45,7 +46,6 @@ export class ServerNewFormComponent {
 
   save(e) {
     if (this.createMode) {
-
       this.apollo.mutate<any>({
         mutation: gql`
           mutation createServer($server: ServerInput) {
@@ -64,9 +64,24 @@ export class ServerNewFormComponent {
         this.saved.emit();
       });
     } else {
-
+      this.apollo.mutate<any>({
+        mutation: gql`
+          mutation updateServer($server: ServerInput) {
+            updateServer(server: $server)
+          }
+        `,
+        variables: {
+          server: this.server
+        }
+      }).subscribe((result: any) => {
+        if (result.errors) {
+          console.error(result.errors);
+          return
+        }
+        this.popupVisible = false;
+        this.saved.emit();
+      });
     }
-    this.popupVisible = false;
   }
 
   cancel = () => {

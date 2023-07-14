@@ -20,6 +20,11 @@ import {
 import {FormPhotoUploaderModule, FormTextboxModule} from "../../../../components";
 import {CommonModule} from "@angular/common";
 import {DxiColumnModule} from "devextreme-angular/ui/nested";
+import {confirm} from "devextreme/ui/dialog";
+import DataSource from "devextreme/data/data_source";
+import CustomStore from "devextreme/data/custom_store";
+import {Contact} from "../../../../types/contact";
+import {lastValueFrom, of} from "rxjs";
 
 @Component({
   templateUrl: './server-editor.component.html',
@@ -27,12 +32,12 @@ import {DxiColumnModule} from "devextreme-angular/ui/nested";
   providers: []
 })
 export class ServerEditorComponent {
-  @ViewChild(DxDataGridComponent, {static: true}) dataGrid: DxDataGridComponent;
+  @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(ServerNewFormComponent, {static: false}) editServerPopup: ServerNewFormComponent;
 
-  serverName;
+  serverId;
   selectedServer;
-  servers;
+  servers: DataSource;
 
   /*servers = [
     {
@@ -64,6 +69,31 @@ export class ServerEditorComponent {
 
   constructor(private apollo: Apollo) {
 
+    console.log(this.servers);
+    this.reloadServers();
+
+
+  }
+   /*dataSource = new DataSource<Contact[], string>({
+     key: 'id',
+     load: () => new Promise((resolve, reject) => {
+       of(result.data.servers).subscribe({
+         next: (data: any[]) => resolve(data),
+         error: ({message}) => reject(message)
+       })
+     }),
+     // load: () => new Promise((resolve, reject) => {
+     //     this.service.getContacts().subscribe({
+     //         next: (data: Contact[]) => {
+     //             console.log(data);
+     //             resolve(data)
+     //         },
+     //         error: ({message}) => reject(message)
+     //     })
+     // }),
+   });*/
+
+  reloadServers() {
     this.apollo.query({
       query: gql`
         query servers {
@@ -81,49 +111,61 @@ export class ServerEditorComponent {
       if (result.errors) {
         console.error(result.errors);
       }
-      console.log(result);
+      console.log(result.data.servers);
       this.servers = result.data.servers;
     });
-
   }
 
- /* dataSource = new DataSource<Contact[], string>({
-    key: 'id',
-    load: () => new Promise((resolve, reject) => {
-      of(this.servers).subscribe({
-        next: (data: any[]) => resolve(data),
-        error: ({message}) => reject(message)
-      })
-    }),
-    // load: () => new Promise((resolve, reject) => {
-    //     this.service.getContacts().subscribe({
-    //         next: (data: Contact[]) => {
-    //             console.log(data);
-    //             resolve(data)
-    //         },
-    //         error: ({message}) => reject(message)
-    //     })
-    // }),
-  });*/
-
-
   refresh = () => {
-    this.dataGrid.instance.getDataSource().reload();
+    console.log('Refresh');
+    this.serverId = null;
+    this.selectedServer = undefined;
+    this.reloadServers();
+    /*this.grid.instance.getDataSource().reload();
+    this.grid.instance.refresh();*/
+    // this.servers.reload();
   };
 
   rowClick(e: RowClickEvent) {
     const {data} = e;
     this.selectedServer = data;
-    this.serverName = data.name;
+    this.serverId = data.id;
   }
 
   openAddServer() {
-    const checkedRow = this.dataGrid.instance.getSelectedRowKeys()
+    /*const checkedRow = this.dataGrid.instance.getSelectedRowKeys();
+    console.log(this.dataGrid.selectedRowKeys);
     if(this.selectedServer === undefined && checkedRow.length > 0) {
       this.selectedServer = this.servers.find(item => item.id === checkedRow[checkedRow.length - 1]);
       console.log(this.selectedServer);
-    }
+    }*/
+    console.log(this.selectedServer)
     this.editServerPopup.openPopup(this.selectedServer);
+  }
+
+  delete() {
+    const result = confirm('<i>정말로 서버를 삭제하시겠습니까?</i>', '서버 삭제');
+    result.then(dialogResult => {
+      if (dialogResult) {
+        this.apollo.mutate({
+          mutation: gql`
+            mutation deleteServer($id: ID) {
+              deleteServer(id: $id)
+            }
+          `,
+          variables: {
+            id: this.serverId
+          }
+        }).subscribe((result: any) => {
+          if (result.errors) {
+            console.error(result.errors);
+          }
+          console.log(result);
+
+          this.refresh();
+        });
+      }
+    });
   }
 }
 
@@ -150,4 +192,5 @@ export class ServerEditorComponent {
   exports: [ServerEditorComponent],
   declarations: [ServerEditorComponent],
 })
-export class ServerEditorModule { }
+export class ServerEditorModule {
+}

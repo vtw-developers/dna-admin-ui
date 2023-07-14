@@ -1,11 +1,13 @@
 extend type Mutation {
-    createServer(server: ServerInput): ID
+  createServer(server: ServerInput): ID
+  updateServer(server: ServerInput): ID
+  deleteServer(id: ID): ID
 }
 
 input ServerInput {
-    id: ID
-    name: String
-    os: String
-    privateIp: String
-    publicIp: String
+  id: ID
+  name: String
+  os: String
+  privateIp: String
+  publicIp: String
 }
