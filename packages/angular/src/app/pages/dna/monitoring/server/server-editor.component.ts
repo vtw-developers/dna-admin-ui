@@ -22,9 +22,6 @@ import {CommonModule} from "@angular/common";
 import {DxiColumnModule} from "devextreme-angular/ui/nested";
 import {confirm} from "devextreme/ui/dialog";
 import DataSource from "devextreme/data/data_source";
-import CustomStore from "devextreme/data/custom_store";
-import {Contact} from "../../../../types/contact";
-import {lastValueFrom, of} from "rxjs";
 
 @Component({
   templateUrl: './server-editor.component.html',
@@ -38,6 +35,7 @@ export class ServerEditorComponent {
   serverId;
   selectedServer;
   servers: DataSource;
+  isSelected: boolean;
 
   /*servers = [
     {
@@ -68,11 +66,8 @@ export class ServerEditorComponent {
 
 
   constructor(private apollo: Apollo) {
-
     console.log(this.servers);
     this.reloadServers();
-
-
   }
    /*dataSource = new DataSource<Contact[], string>({
      key: 'id',
@@ -120,6 +115,7 @@ export class ServerEditorComponent {
     console.log('Refresh');
     this.serverId = null;
     this.selectedServer = undefined;
+    this.isSelected = false;
     this.reloadServers();
     /*this.grid.instance.getDataSource().reload();
     this.grid.instance.refresh();*/
@@ -130,6 +126,7 @@ export class ServerEditorComponent {
     const {data} = e;
     this.selectedServer = data;
     this.serverId = data.id;
+    this.isSelected = true;
   }
 
   openAddServer() {
@@ -161,7 +158,6 @@ export class ServerEditorComponent {
             console.error(result.errors);
           }
           console.log(result);
-
           this.refresh();
         });
       }

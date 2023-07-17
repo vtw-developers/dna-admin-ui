@@ -38,6 +38,7 @@
         type="normal"
         stylingMode="contained"
         class="scheduleButton"
+        [disabled]="!isSelected"
         (onClick)="delete()"
       ></dx-button>
       </dxi-item>

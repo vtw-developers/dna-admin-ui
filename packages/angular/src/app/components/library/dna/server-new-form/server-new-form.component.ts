@@ -45,6 +45,7 @@ export class ServerNewFormComponent {
   }
 
   save(e) {
+    e.preventDefault();
     if (this.createMode) {
       this.apollo.mutate<any>({
         mutation: gql`
