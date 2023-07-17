@@ -10,23 +10,18 @@ import {
   DxTextBoxModule,
 } from 'devextreme-angular';
 import {RowClickEvent} from 'devextreme/ui/data_grid';
-import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter';
-import {exportDataGrid as exportDataGridToXLSX} from 'devextreme/excel_exporter';
 import {
   CardActivitiesModule,
   ContactStatusModule,
 } from 'src/app/components';
-import {Contact, ContactStatus,} from 'src/app/types/contact';
+import {ContactStatus,} from 'src/app/types/contact';
 import {SelectionChangedEvent} from 'devextreme/ui/drop_down_button';
 import DataSource from 'devextreme/data/data_source';
 import {CommonModule} from '@angular/common';
 import {DataService} from 'src/app/services';
-import {Workbook} from 'exceljs';
-import {saveAs} from 'file-saver-es';
-import {jsPDF} from 'jspdf';
 import {FormPopupModule} from 'src/app/components';
 import {ContactPanelModule} from 'src/app/components/library/contact-panel/contact-panel.component';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {
   ScheduleNewFormComponent,
   ScheduleNewFormModule
@@ -49,83 +44,62 @@ export class FlowSchedulerComponent {
   flowName;
   schedule;
   selectedSchedule;
-  schedules = [
-    {
-      id: '1',
-      flowName: 'Flow1',
-      status: 'Running',
-      cronExpression: '0 0/5 * * * ?',
-      nextFireTime: '2023-05-23 14:13:25',
-      prevFireTime: '2023-05-23 14:13:25',
-      startTime: '2023-05-23 14:13:25'
-    },
-    {
-      id: '2',
-      flowName: 'Flow2',
-      status: 'Error',
-      cronExpression: '0 0/1 * 1/1 * ? *',
-      nextFireTime: '2023-05-23 14:13:25',
-      prevFireTime: '2023-05-23 14:13:25',
-      startTime: '2023-05-23 14:13:25'
-    },
-    {
-      id: '3',
-      flowName: 'Flow3',
-      status: 'Stopped',
-      cronExpression: '0 0/1 * 1/1 * ? *',
-      nextFireTime: '2023-05-23 14:13:25',
-      prevFireTime: '2023-05-23 14:13:25',
-      startTime: '2023-05-23 14:13:25'
-    },
-    {
-      id: '4',
-      flowName: 'Flow4',
-      status: 'Not Started',
-      cronExpression: '0/10 * * * * ?',
-      nextFireTime: '2023-05-23 14:13:25',
-      prevFireTime: '2023-05-23 14:13:25',
-      startTime: '2023-05-23 14:13:25'
-    }
-  ]
-
-  dataSource = new DataSource<Contact[], string>({
-    key: 'id',
-    load: () => new Promise((resolve, reject) => {
-      of(this.schedules).subscribe({
-        next: (data: any[]) => resolve(data),
-        error: ({message}) => reject(message)
-      })
-    }),
-    // load: () => new Promise((resolve, reject) => {
-    //     this.service.getContacts().subscribe({
-    //         next: (data: Contact[]) => {
-    //             console.log(data);
-    //             resolve(data)
-    //         },
-    //         error: ({message}) => reject(message)
-    //     })
-    // }),
-  });
+  schedules;
+  dataSource;
 
   constructor(private service: DataService, private apollo: Apollo) {
+    this.reloadFlowSchedules();
+  }
+
+  reloadFlowSchedules() {
+    this.apollo.query<any>({
+      query: gql`
+        query flowSchedules {
+          flowSchedules {
+              id
+              flowName
+              status
+              cronExpression
+              nextFireTime
+              prevFireTime
+              startTime
+          }
+        }
+      `
+    }).subscribe(result => {
+      this.schedules = result.data.flowSchedules;
+      this.reloadFlowSchedulesDataSource(this.schedules);
+    });
+  }
+
+  reloadFlowSchedulesDataSource(schedules) {
+    this.dataSource = new DataSource({
+      key: 'id',
+      store: this.schedules,
+      load: () => new Promise((resolve, reject) => {
+        of(this.schedules).subscribe({
+          next: (data: any[]) => resolve(data),
+          error: ({message}) => reject(message)
+        })
+      })
+    })
   }
 
   openAddSchedule() {
     const checkedRow = this.dataGrid.instance.getSelectedRowKeys()
+    // 다중 체크처리 적용 예정
     if(this.selectedSchedule === undefined && checkedRow.length > 0) {
-      this.selectedSchedule = this.schedules.find(item => item.id === checkedRow[checkedRow.length - 1]);
+      this.selectedSchedule = this.schedules.find(item => item.id === checkedRow[0]);
     }
-    this.editSchedulePopup.openPopup(this.selectedSchedule);
+    const newId = this.dataGrid.instance.getDataSource().items().length + 1;
+    this.editSchedulePopup.openPopup(this.selectedSchedule, newId);
   };
 
   addSchedule(flowSchedule: any) {
-    // this.schedules.push(schedule);
-    console.log(flowSchedule)
-
     this.apollo.mutate<any>({
       mutation: gql`
-        mutation createSchedule($flowSchedule: FlowScheduleInput) {
-          createSchedule(flowSchedule: $flowSchedule) {
+        mutation createFlowSchedule($flowSchedule: FlowScheduleInput) {
+          createFlowSchedule(flowSchedule: $flowSchedule) {
             id
             flowName
             status
@@ -140,53 +114,110 @@ export class FlowSchedulerComponent {
         flowSchedule
       }
     }).subscribe(result => {
-      console.log(result)
-
+      this.reloadFlowSchedules();
     });
-
   }
 
-  updateSchedule(schedule: any) {
-    const oldOneIndex = this.schedules.findIndex(item => item.id === schedule.id);
-    this.schedules.splice(oldOneIndex, 1);
-    this.schedules.push(schedule);
+  updateSchedule(flowSchedule: any) {
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation updateFlowSchedule($flowSchedule: FlowScheduleInput) {
+          updateFlowSchedule(flowSchedule: $flowSchedule) {
+              id
+              flowName
+              status
+              cronExpression
+              nextFireTime
+              prevFireTime
+              startTime
+          }
+        }
+      `,
+      variables: {
+        flowSchedule
+      }
+    }).subscribe(result => {
+      this.reloadFlowSchedules();
+    });
   }
 
   startSchedule() {
-    const oldOneIndex = this.schedules.findIndex(item => item.id === this.selectedSchedule.id);
-    this.schedules.splice(oldOneIndex, 1);
-    this.selectedSchedule.status = 'Running';
-    this.schedules.push(this.selectedSchedule);
+    const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
+    this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
+    console.log(this.selectedSchedule);
+
+    this.apollo.mutate<any>({
+        mutation: gql`
+            mutation startFlowSchedule($flowSchedule: FlowScheduleInput) {
+                startFlowSchedule(flowSchedule: $flowSchedule) {
+                    id
+                    flowName
+                    status
+                    cronExpression
+                    nextFireTime
+                    prevFireTime
+                    startTime
+                }
+            }
+        `,
+      variables: {
+        flowSchedule : this.selectedSchedule
+      }
+    }).subscribe(result => {
+      this.reloadFlowSchedules();
+    });
   }
 
   stopSchedule() {
-    const oldOneIndex = this.schedules.findIndex(item => item.id === this.selectedSchedule.id);
-    this.schedules.splice(oldOneIndex, 1);
-    this.selectedSchedule.status = 'Stopped';
-    this.schedules.push(this.selectedSchedule);
+    const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
+    this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
+    // 다중체크 list 넘겨서 back에서 반복 처리하도록 변경 예정
+    this.apollo.mutate<any>({
+        mutation: gql`
+            mutation stopFlowSchedule($flowSchedule: FlowScheduleInput) {
+                stopFlowSchedule(flowSchedule: $flowSchedule) {
+                    id
+                    flowName
+                    status
+                    cronExpression
+                    nextFireTime
+                    prevFireTime
+                    startTime
+                }
+            }
+        `,
+      variables: {
+        flowSchedule : this.selectedSchedule
+      }
+    }).subscribe(result => {
+      this.reloadFlowSchedules();
+    });
   }
 
   deleteSchedule() {
-    const checkedRows = this.dataGrid.instance.getSelectedRowKeys();
-    if(checkedRows.length > 0) {
-      const selectedSchedules = [];
+    const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
+    this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
 
-      for(let i=0; i<checkedRows.length; i++) {
-        console.log(checkedRows[i])
-        this.schedules.splice(checkedRows[i], 1);
-        console.log(this.schedules)
-
-        // ===============================================
-        let item = this.schedules[checkedRows[i] - 1];
-        selectedSchedules[i] = item;
-        // selectedSchedules => backend 연결 시 사용
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation deleteFlowSchedule($flowSchedule: FlowScheduleInput) {
+            deleteFlowSchedule(flowSchedule: $flowSchedule) {
+              id
+              flowName
+              status
+              cronExpression
+              nextFireTime
+              prevFireTime
+              startTime
+          }
+        }
+      `,
+      variables: {
+        flowSchedule : this.selectedSchedule
       }
-      console.log(selectedSchedules)
-    } else {
-      const oldOneIndex = this.schedules.findIndex(item => item.id === this.selectedSchedule.id);
-      this.schedules.splice(oldOneIndex, 1);
-    }
-    this.refresh();
+    }).subscribe(result => {
+      this.reloadFlowSchedules();
+    });
   }
 
   refresh = () => {
@@ -208,32 +239,6 @@ export class FlowSchedulerComponent {
       this.dataGrid.instance.filter(['status', '=', status]);
     }
   };
-
-  onExporting(e) {
-    if (e.format === 'pdf') {
-      const doc = new jsPDF();
-      exportDataGridToPdf({
-        jsPDFDocument: doc,
-        component: e.component,
-      }).then(() => {
-        doc.save('Contacts.pdf');
-      });
-    } else {
-      const workbook = new Workbook();
-      const worksheet = workbook.addWorksheet('Contacts');
-
-      exportDataGridToXLSX({
-        component: e.component,
-        worksheet,
-        autoFilterEnabled: true,
-      }).then(() => {
-        workbook.xlsx.writeBuffer().then((buffer) => {
-          saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'Contacts.xlsx');
-        });
-      });
-      e.cancel = true;
-    }
-  }
 }
 
 @NgModule({

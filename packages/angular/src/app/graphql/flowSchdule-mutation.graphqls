@@ -1,7 +1,9 @@
 extend type Mutation {
-    createSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
-    #    updateSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
-    deleteSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
+    createFlowSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
+    updateFlowSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
+    deleteFlowSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
+    startFlowSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
+    stopFlowSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
 }
 type FlowSchedule {
     id: String
