@@ -15,9 +15,9 @@
       [selectedRowKeys]="[]"
     >
       <dxi-column dataField="authority.name" dataType="string" caption="권한명"></dxi-column>
-      <dxi-column type="buttons" caption="삭제">
+      <dxi-column type="buttons" caption="해제">
         <dxi-button
-          text="삭제"
+          text="해제"
           icon="../../../assets/icons/common/DeleteTest_riderLight.svg"
           [onClick]="deleteAuth"
         ></dxi-button>
@@ -39,7 +39,7 @@
       <dxo-toolbar>
         <dxi-item location="after" locateInMenu="auto">
           <dx-button
-            text="새 권한"
+            text="권한 추가"
             icon="plus"
             type="default"
             stylingMode="contained"
@@ -61,18 +61,19 @@
   <div class="content dx-fieldset"  *ngIf="apiTabs.selectedIndex === 1">
     <dx-data-grid
       #grid
-      [dataSource]= users
+      [dataSource]= roleUserList
       [showBorders]="true"
       [remoteOperations]="true"
       [hoverStateEnabled]="true"
       [selectedRowKeys]="[]"
     >
-      <dxi-column dataField="userId" dataType="string" caption="사용자명"></dxi-column>
-      <dxi-column type="buttons" caption="삭제">
+      <dxi-column dataField="users.userId" dataType="string" caption="ID"></dxi-column>
+      <dxi-column dataField="users.name" dataType="string" caption="이름"></dxi-column>
+      <dxi-column type="buttons" caption="해제">
         <dxi-button
-          text="삭제"
+          text="해제"
           icon="../../../assets/icons/common/DeleteTest_riderLight.svg"
-          [onClick]="delete"
+          [onClick]="deleteUser"
         ></dxi-button>
       </dxi-column>
       <dxo-selection mode="single"></dxo-selection>
@@ -90,6 +91,15 @@
       ></dxo-search-panel>
 
       <dxo-toolbar>
+        <dxi-item location="after" locateInMenu="auto">
+          <dx-button
+            text="사용자 추가"
+            icon="plus"
+            type="default"
+            stylingMode="contained"
+            (onClick)="createUser()"
+          ></dx-button>
+        </dxi-item>
         <dxi-item
           location="after"
           locateInMenu="auto"
@@ -103,4 +113,5 @@
   </div>
 </div>
 
-<roleAuth-edit-popup (onSaved)="onSavedAuth($event)" [selectedCurrentItem] = "currentItem"></roleAuth-edit-popup>
+<roleAuth-edit-popup (onSaved)="onSavedAuth()" [selectedCurrentItem] = "currentItem"></roleAuth-edit-popup>
+<roleUser-edit-popup (onSaved)="onSavedUser()" [selectedCurrentItem] = "currentItem"></roleUser-edit-popup>

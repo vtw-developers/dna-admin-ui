@@ -17,6 +17,7 @@ import {Authority} from "../authority/authority.service";
 import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
 import {RoleAuthEditComponent, RoleAuthEditModule} from "./edit/roleAuth-edit.component";
+import {RoleUserEditComponent, RoleUserEditModule} from "./edit/roleUser-edit.component";
 
 @Component({
   selector: 'roleTab',
@@ -30,9 +31,10 @@ export class RoleTab {
   @Input() set selectedCurrentItem(currentItem) {
     this.currentItem = currentItem
     this.searchAuth();
+    this.searchUser();
   };
   roleAuthList: DataSource;
-  users: DataSource;
+  roleUserList: DataSource;
   currentItem: any;
 
   tabs = [
@@ -52,6 +54,7 @@ export class RoleTab {
 
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(RoleAuthEditComponent, {static: false}) roleAuthEditPopup: RoleAuthEditComponent;
+  @ViewChild(RoleUserEditComponent, {static: false}) roleUserEditPopup: RoleUserEditComponent;
 
   constructor(private pageableService: PageableService, private apollo: Apollo) {
   }
@@ -123,7 +126,7 @@ export class RoleTab {
   }
 
   searchUser(){
-    this.users = new DataSource({
+    this.roleUserList = new DataSource({
       store: new CustomStore({
         key: 'id',
         load: (loadOptions) => {
@@ -134,17 +137,29 @@ export class RoleTab {
 
           const page$ = this.apollo.query({
             query: gql`
-              query users(
+              query roleUserList(
                 $page: Int = 0,
                 $size: Int = 10,
                 $sortBy: String = "id",
                 $sortDir: String = "asc",
                 $filter: String = "") {
-                users(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
+                roleUserList(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
                   totalElements
                   content {
                     id
-                    userId
+                    users{
+                      id
+                      userId
+                      name
+                    }
+                    role{
+                      id
+                      name
+                      detail
+                      type
+                      icon
+                      expanded
+                    }
                   }
                 }
               }
@@ -160,7 +175,7 @@ export class RoleTab {
 
           return firstValueFrom(page$)
             .then((page: any) => {
-              return this.pageableService.transformPage(page.data.users);
+              return this.pageableService.transformPage(page.data.roleUserList);
             });
         },
       })
@@ -171,8 +186,12 @@ export class RoleTab {
     this.roleAuthEditPopup.open();
   }
 
+  createUser(){
+    this.roleUserEditPopup.open();
+  }
+
   deleteAuth= (e) => {
-    const result = confirm('<i>권한을 삭제하시겠습니까?</i>', '삭제');
+    const result = confirm('<i>등록 해제하시겠습니까?</i>', '삭제');
     result.then(dialogResult => {
       if (dialogResult) {
         this.apollo.mutate({
@@ -188,28 +207,62 @@ export class RoleTab {
           }
         }).subscribe({
           next: (v) => {
-            notify('그룹 삭제가 완료되었습니다.', 'success', 3000);
+            notify('등록이 해제되었습니다.', 'success', 3000);
             this.refresh();
           },
           error: (e) => {
             console.error(e);
-            notify('그룹 삭제에 실패하였습니다.', 'error', 3000);
+            notify('등록 해제에 실패하였습니다.', 'error', 3000);
           }
         });
       }
     });
   }
 
-  onSavedAuth(authority:Authority){
+  deleteUser= (e) => {
+    const result = confirm('<i>등록 해제하시겠습니까?</i>', '삭제');
+    result.then(dialogResult => {
+      if (dialogResult) {
+        this.apollo.mutate({
+          mutation: gql`
+            mutation deleteRoleUser($id: ID) {
+              deleteRoleUser(id: $id) {
+                id
+              }
+            }
+          `,
+          variables: {
+            id: e.row.data.id
+          }
+        }).subscribe({
+          next: (v) => {
+            notify('등록이 해제되었습니다.', 'success', 3000);
+            this.refresh();
+          },
+          error: (e) => {
+            console.error(e);
+            notify('등록 해제에 실패하였습니다.', 'error', 3000);
+          }
+        });
+      }
+    });
+  }
+
+  onSavedAuth(){
+    this.refresh();
+  }
+
+  onSavedUser(){
     this.refresh();
   }
 
   refresh () {
     this.roleAuthList.reload();
-    this.users.reload();
+    this.roleUserList.reload();
   }
 
 
+  protected readonly UsersTwoModule = UsersTwoModule;
 }
 @NgModule({
   imports: [
@@ -223,6 +276,7 @@ export class RoleTab {
     UsersEditModule,
     AuthorityEditModule,
     RoleAuthEditModule,
+    RoleUserEditModule,
   ],
   providers: [],
   exports: [
