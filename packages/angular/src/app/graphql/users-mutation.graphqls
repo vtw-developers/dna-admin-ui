@@ -1,0 +1,14 @@
+extend type Mutation {
+  createUsers(users: UsersInput): Users
+  updateUsers(users: UsersInput): Users
+  deleteUsers(id: ID): Users
+}
+
+input UsersInput {
+  id: ID
+  userId: String
+  password: String
+  name: String
+  phone: String
+  mail: String
+}

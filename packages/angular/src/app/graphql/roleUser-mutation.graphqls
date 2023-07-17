@@ -1,0 +1,10 @@
+type Mutation {
+  createRoleUser(roleUser: RoleUserInput): RoleUser
+  deleteRoleUser(id: ID): RoleUser
+}
+
+input RoleUserInput {
+  id: ID
+  users: UsersInput
+  role: RolesInput
+}

@@ -1,0 +1,16 @@
+extend type Query {
+  roleAuthList(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): RoleAuthPage
+  usersList(name: String): [Users]
+  roleAuth(id: ID): RoleAuth
+}
+
+type RoleAuth {
+  id: ID
+  authority: Authority
+  role: Role
+}
+
+type RoleAuthPage {
+  totalElements: Int
+  content: [RoleAuth]
+}
