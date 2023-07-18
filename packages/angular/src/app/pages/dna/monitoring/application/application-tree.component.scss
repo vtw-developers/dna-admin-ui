@@ -1,0 +1,56 @@
+@use "../../../../../variables.scss" as *;
+@use "sass:math";
+
+:host {
+  --left-panel-width: 200px;
+  --right-panel-width: 360px;
+
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.dx-toolbar ::ng-deep {
+  margin-bottom: calc(var(--toolbar-margin-bottom) / 2);
+
+  .dx-toolbar-label > div {
+    @include header();
+  }
+}
+
+
+.tree-view-wrapper {
+  padding: var(--content-padding) var(--content-padding) 0 var(--content-padding);
+
+  .panels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0px;
+
+    .left {
+      flex: 1 var(--left-panel-width);
+      margin-top: 8px;
+    }
+
+    #treeview{
+      width: 250px;
+    }
+
+    .right {
+      flex: auto;
+      margin-top: 8px;
+      margin-left: 10px;
+      width: calc(100% - 265px)
+    }
+  }
+}
+
+
+//.flow-tree-view {
+//  .tool-bar {
+//    display: flex;
+//    gap: var(--popup-toolbar-item-spacing);
+//  }
+//}

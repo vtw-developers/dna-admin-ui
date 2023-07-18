@@ -31,13 +31,22 @@
           (onClick)="openAddApplication()"
         ></dx-button>
       </dxi-item>
-      <dxi-item location="after" locateInMenu="auto" style="padding-left: 10px;">
+      <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
+        <dx-button
+          text="배포"
+          type="normal"
+          stylingMode="contained"
+          class="deployButton"
+          (onClick)="openAddApplication()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
         <dx-button
           text="삭제"
           icon="clearsquare"
           type="normal"
           stylingMode="contained"
-          class="scheduleButton"
+          class="deleteButton"
           [disabled]="!isSelected"
           (onClick)="delete()"
         ></dx-button>
@@ -67,10 +76,12 @@
     <dxi-column
       dataField="restPort"
       caption="Rest Port"
+      alignment='left'
     ></dxi-column>
     <dxi-column
-      dataField="monitoringPort"
-      caption="Monitoring Port"
+      dataField="monitorPort"
+      caption="Monitor Port"
+      alignment='left'
     ></dxi-column>
 
   </dx-data-grid>

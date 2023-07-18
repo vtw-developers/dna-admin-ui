@@ -1,0 +1,11 @@
+extend type Query {
+  applications(server: ServerInput): [Application]
+}
+
+type Application {
+    id: ID
+    name: String
+    restPort: Int
+    monitorPort: Int
+    server: Server
+}

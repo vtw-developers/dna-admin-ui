@@ -52,7 +52,7 @@ export const navigation = [
       },
       {
         text: '애플리케이션(에이전트)',
-        path: '/application-editor',
+        path: '/application-tree',
       },
       {
         text: '프로그램(플로우)',
