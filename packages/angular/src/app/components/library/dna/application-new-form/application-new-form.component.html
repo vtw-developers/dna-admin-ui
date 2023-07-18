@@ -1,0 +1,64 @@
+<dx-popup
+  [width]="'20vw'"
+  [title]="createMode? '애플리케이션 생성' : '애플리케이션 변경'"
+  height="auto"
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="false"
+  [(visible)]="popupVisible"
+>
+  <dxo-position at="center" my="center"></dxo-position>
+  <div *dxTemplate="let data of 'content'">
+    <dx-validation-group #validationGroup>
+      <form (submit)="save($event)">
+        <dxi-item itemType="group">
+          <dxo-col-count-by-screen [xs]="1" [sm]="1" [md]="1" [lg]="1"></dxo-col-count-by-screen>
+          <dxi-item style="margin-bottom: 10px;">
+            <dx-select-box
+              label="서버 선택"
+              [dataSource]="servers"
+              displayExpr="name"
+              [(value)]="application.server">
+            </dx-select-box>
+          </dxi-item>
+          <dxi-item style="margin-bottom: 10px;">
+            <form-textbox
+              label="애플리케이션명"
+              [(value)]="application.name"
+              [isEditing]="true">
+            </form-textbox>
+          </dxi-item>
+          <dxi-item style="margin-bottom: 10px;">
+            <form-textbox
+              label="Rest Port"
+              [(value)]="application.restPort"
+              [isEditing]="true">
+            </form-textbox>
+          </dxi-item>
+          <dxi-item style="margin-bottom: 10px;">
+            <form-textbox
+              label="Monitoring Port"
+              [(value)]="application.monitoringPort"
+              [isEditing]="true">
+            </form-textbox>
+          </dxi-item>
+        </dxi-item>
+        <br>
+        <div class="popup-buttons">
+          <dx-button
+            text="저장"
+            stylingMode="contained"
+            [useSubmitBehavior]="true"
+          ></dx-button>
+          <dx-button
+            text="취소"
+            stylingMode="contained"
+            type="default"
+            (onClick)="cancel()"
+          ></dx-button>
+        </div>
+      </form>
+    </dx-validation-group>
+  </div>
+</dx-popup>
