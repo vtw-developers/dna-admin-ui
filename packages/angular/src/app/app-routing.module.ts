@@ -37,6 +37,7 @@ import {AuthorityComponent} from "./pages/authority/authority.component";
 import {ServerEditorComponent} from "./pages/dna/monitoring/server/server-editor.component";
 import {ApplicationMonitoringComponent} from "./pages/dna/monitoring/application/application-monitoring.component";
 import {UsersComponent} from "./pages/user/users.component";
+import {ApplicationEditorComponent} from "./pages/dna/monitoring/application/application-editor.component";
 
 const routes: Routes = [
   {
@@ -189,6 +190,11 @@ const routes: Routes = [
       {
         path: 'server-editor',
         component: ServerEditorComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'application-editor',
+        component: ApplicationEditorComponent,
         canActivate: [AuthGuardService],
       },
       {

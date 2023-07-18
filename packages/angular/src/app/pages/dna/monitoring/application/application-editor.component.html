@@ -1,0 +1,79 @@
+<div class="view-wrapper">
+  <dx-data-grid
+    #grid
+    class="grid"
+    noDataText=""
+    height="100%"
+    [dataSource]="applications"
+    keyExpr="id"
+    [allowColumnReordering]="true"
+    [focusedRowEnabled]="true"
+    [(focusedRowKey)]="applicationId"
+    (onRowClick)="rowClick($event)"
+  >
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="애플리케이션 검색"
+    ></dxo-search-panel>
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <div class="grid-header">애플리케이션 목록</div>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="애플리케이션 생성/변경"
+          icon="plus"
+          type="default"
+          stylingMode="contained"
+          class="createButton"
+          (onClick)="openAddApplication()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="padding-left: 10px;">
+        <dx-button
+          text="삭제"
+          icon="clearsquare"
+          type="normal"
+          stylingMode="contained"
+          class="scheduleButton"
+          [disabled]="!isSelected"
+          (onClick)="delete()"
+        ></dx-button>
+      </dxi-item>
+
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        showText="inMenu"
+        widget="dxButton"
+        [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+      ></dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <div class="separator"></div>
+      </dxi-item>
+      <dxi-item name="searchPanel" location="after" locateInMenu="auto"></dxi-item>
+    </dxo-toolbar>
+
+    <dxi-column
+      dataField="name"
+      caption="애플리케이션명"
+    ></dxi-column>
+    <!--<dxi-column
+      dataField="status"
+      caption="상태"
+    ></dxi-column>-->
+    <dxi-column
+      dataField="restPort"
+      caption="Rest Port"
+    ></dxi-column>
+    <dxi-column
+      dataField="monitoringPort"
+      caption="Monitoring Port"
+    ></dxi-column>
+
+  </dx-data-grid>
+
+  <application-new-form (saved)="refresh()"></application-new-form>
+</div>

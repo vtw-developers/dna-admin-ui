@@ -48,11 +48,11 @@ export const navigation = [
     items: [
       {
         text: '서버(인스턴스)',
-        path: '/extract-list2223434',
+        path: '/server-editor',
       },
       {
         text: '애플리케이션(에이전트)',
-        path: '/extract-details223',
+        path: '/application-editor',
       },
       {
         text: '프로그램(플로우)',
