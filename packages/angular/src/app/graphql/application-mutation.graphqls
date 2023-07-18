@@ -1,0 +1,13 @@
+extend type Mutation {
+  createApplication(application: ApplicationInput): ID
+  updateApplication(application: ApplicationInput): ID
+  deleteApplication(id: ID): ID
+}
+
+input ApplicationInput {
+  id: ID
+  name: String
+  restPort: String
+  monitorPort: String
+  server: ServerInput
+}

@@ -66,7 +66,6 @@ export class ServerEditorComponent {
 
 
   constructor(private apollo: Apollo) {
-    console.log(this.servers);
     this.reloadServers();
   }
    /*dataSource = new DataSource<Contact[], string>({
@@ -112,7 +111,6 @@ export class ServerEditorComponent {
   }
 
   refresh = () => {
-    console.log('Refresh');
     this.serverId = null;
     this.selectedServer = undefined;
     this.isSelected = false;
@@ -136,7 +134,6 @@ export class ServerEditorComponent {
       this.selectedServer = this.servers.find(item => item.id === checkedRow[checkedRow.length - 1]);
       console.log(this.selectedServer);
     }*/
-    console.log(this.selectedServer)
     this.editServerPopup.openPopup(this.selectedServer);
   }
 
