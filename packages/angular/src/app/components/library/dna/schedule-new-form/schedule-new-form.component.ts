@@ -33,6 +33,7 @@ export class ScheduleNewFormComponent {
   getSizeQualifier = getSizeQualifier;
   popupVisible = false;
   createMode: boolean;
+  flowNames = [];
 
   constructor() {
   }
@@ -57,12 +58,22 @@ export class ScheduleNewFormComponent {
   }
 
   openPopup(schedule: any, newId: number) {
+    this.flowNames = ['testFlow', 'testFlow2', 'testFlow3'];
+
+    const existSchedule = [];
+    this.flowSchedulerComponent.schedules.forEach(s => existSchedule.push(s.flowName));
+
+    for (let i=0; i<existSchedule.length; i++) {
+      const findIndex = this.flowNames.findIndex(s => s === existSchedule[i]);
+      this.flowNames.splice(findIndex, 1);
+    }
+
     this.schedule = schedule;
     if (schedule === undefined) {
       this.createMode = true;
       this.schedule = {
         id: newId.toString(),
-        flowName: 'testFlow',
+        flowName: this.flowNames[0],
         status: 'Not Started',
         cronExpression: '0/10 * * * * ?',
         nextFireTime: '',
