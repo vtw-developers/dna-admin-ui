@@ -90,9 +90,9 @@ export class FlowSchedulerComponent {
   }
 
   openAddSchedule() {
-    const checkedRow = this.dataGrid.instance.getSelectedRowKeys()
-    if(this.selectedSchedule === undefined && checkedRow.length > 0) {
-      this.selectedSchedule = this.schedules.find(item => item.id === checkedRow[0]);
+    const checkedRow = this.dataGrid.instance.getSelectedRowKeys()[0];
+    if(checkedRow.length > 0) {
+      this.selectedSchedule = this.schedules.find(item => item.id === checkedRow);
     }
     const newId = this.dataGrid.instance.getDataSource().items().length + 1;
     this.editSchedulePopup.openPopup(this.selectedSchedule, newId);
@@ -265,7 +265,7 @@ export class FlowSchedulerComponent {
 
   openOnetimeExecution() {
     const checkedRow = this.dataGrid.instance.getSelectedRowKeys();
-    if(this.selectedSchedule === undefined && checkedRow.length > 0) {
+    if(checkedRow.length > 0) {
       this.selectedSchedule = this.schedules.find(item => item.id === checkedRow[0]);
     }
     const newId = this.dataGrid.instance.getDataSource().items().length + 1;
@@ -305,9 +305,14 @@ export class FlowSchedulerComponent {
     this.flowName = data.flow;
   }
 
+  clearSelection(e) {
+    if (e.target.classList.value === '') {
+      this.dataGrid.instance.clearSelection();
+    }
+  }
+
   filterByStatus = (e: SelectionChangedEvent) => {
     const {item: status}: { item: FilterContactStatus } = e;
-
     if (status === 'All') {
       this.dataGrid.instance.clearFilter();
     } else {

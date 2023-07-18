@@ -6,13 +6,12 @@
     [dataSource]="dataSource"
     [allowColumnReordering]="true"
     [(focusedRowKey)]="flowName"
+    (click)="clearSelection($event)"
   >
     <dxo-load-panel [showPane]="false" [showIndicator]="false"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-selection
-      selectAllMode="allPages"
-      showCheckBoxesMode="always"
-      mode="multiple"
+      mode="single"
     ></dxo-selection>
     <dxo-sorting mode="multiple"></dxo-sorting>
     <dxo-header-filter [visible]="true"></dxo-header-filter>
