@@ -7,7 +7,7 @@
     [allowColumnReordering]="true"
     [(focusedRowKey)]="flowName"
   >
-    <dxo-load-panel [showPane]="false"></dxo-load-panel>
+    <dxo-load-panel [showPane]="false" [showIndicator]="false"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-selection
       selectAllMode="allPages"
@@ -45,6 +45,14 @@
         </div>
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="수동 실행"
+          icon="plus"
+          type="default"
+          stylingMode="contained"
+          class="scheduleButton"
+          (onClick)="openOnetimeExecution()"
+        ></dx-button>
         <dx-button
           text="스케줄 생성/변경"
           icon="plus"

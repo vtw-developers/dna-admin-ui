@@ -1,6 +1,6 @@
 extend type Query {
     flowSchedules: [FlowSchedule]
-    flowSchedule(flowScheduleInput: FlowScheduleInput): FlowSchedule
+    flowSchedule(flowSchedule: FlowScheduleInput): FlowSchedule
 }
 
 

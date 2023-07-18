@@ -27,6 +27,7 @@ import {
   ScheduleNewFormModule
 } from "../../../components/library/dna/schedule-new-form/schedule-new-form.component";
 import {Apollo, gql} from "apollo-angular";
+import {confirm} from 'devextreme/ui/dialog';
 
 type FilterContactStatus = ContactStatus | 'All';
 
@@ -49,6 +50,9 @@ export class FlowSchedulerComponent {
 
   constructor(private service: DataService, private apollo: Apollo) {
     this.reloadFlowSchedules();
+    setInterval(() => {
+      this.reloadFlowSchedules();
+    }, 3000);
   }
 
   reloadFlowSchedules() {
@@ -87,7 +91,6 @@ export class FlowSchedulerComponent {
 
   openAddSchedule() {
     const checkedRow = this.dataGrid.instance.getSelectedRowKeys()
-    // 다중 체크처리 적용 예정
     if(this.selectedSchedule === undefined && checkedRow.length > 0) {
       this.selectedSchedule = this.schedules.find(item => item.id === checkedRow[0]);
     }
@@ -119,23 +122,60 @@ export class FlowSchedulerComponent {
   }
 
   updateSchedule(flowSchedule: any) {
-    this.apollo.mutate<any>({
-      mutation: gql`
-        mutation updateFlowSchedule($flowSchedule: FlowScheduleInput) {
-          updateFlowSchedule(flowSchedule: $flowSchedule) {
-              id
-              flowName
-              status
-              cronExpression
-              nextFireTime
-              prevFireTime
-              startTime
+    this.apollo.query<any>({
+      query: gql`
+        query flowSchedule($flowSchedule: FlowScheduleInput) {
+          flowSchedule(flowSchedule: $flowSchedule) {
+            id
+            flowName
+            status
+            cronExpression
+            nextFireTime
+            prevFireTime
+            startTime
           }
         }
       `,
       variables: {
-        flowSchedule
+        flowSchedule: flowSchedule
       }
+    }).subscribe(result => {
+      const oldOne = result.data.flowSchedule;
+      if (oldOne.cronExpression === flowSchedule.cronExpression) {
+        confirm('<i>변경된 사항이 없습니다.</i>', '변경사항 없음');
+      } else {
+        if (oldOne.status === 'Stopped') {
+          this.updateExecute(flowSchedule);
+        } else {
+          const result = confirm('<i>실행중인 스케줄입니다. 실행을 중지하고 변경하시겠습니까?</i>', '실행중인 스케줄');
+          result.then(dialogResult => {
+            if(dialogResult) {
+              this.updateExecute(flowSchedule);
+            }
+          })
+        }
+      }
+    });
+  }
+
+  updateExecute(flowSchedule: any) {
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation updateFlowSchedule($flowSchedule: FlowScheduleInput) {
+          updateFlowSchedule(flowSchedule: $flowSchedule) {
+            id
+            flowName
+            status
+            cronExpression
+            nextFireTime
+            prevFireTime
+            startTime
+          }
+        }
+      `,
+    variables: {
+      flowSchedule
+    }
     }).subscribe(result => {
       this.reloadFlowSchedules();
     });
@@ -144,8 +184,6 @@ export class FlowSchedulerComponent {
   startSchedule() {
     const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
     this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
-    console.log(this.selectedSchedule);
-
     this.apollo.mutate<any>({
         mutation: gql`
             mutation startFlowSchedule($flowSchedule: FlowScheduleInput) {
@@ -171,7 +209,6 @@ export class FlowSchedulerComponent {
   stopSchedule() {
     const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
     this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
-    // 다중체크 list 넘겨서 back에서 반복 처리하도록 변경 예정
     this.apollo.mutate<any>({
         mutation: gql`
             mutation stopFlowSchedule($flowSchedule: FlowScheduleInput) {
@@ -198,10 +235,48 @@ export class FlowSchedulerComponent {
     const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
     this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
 
+    const result = confirm('<i>스케줄을 삭제하시겠습니까?</i>', '스케줄 삭제');
+    result.then(dialogResult => {
+      if(dialogResult) {
+        this.apollo.mutate<any>({
+          mutation: gql`
+            mutation deleteFlowSchedule($flowSchedule: FlowScheduleInput) {
+                deleteFlowSchedule(flowSchedule: $flowSchedule) {
+                  id
+                  flowName
+                  status
+                  cronExpression
+                  nextFireTime
+                  prevFireTime
+                  startTime
+              }
+            }
+          `,
+          variables: {
+            flowSchedule : this.selectedSchedule
+          }
+        }).subscribe(result => {
+          this.reloadFlowSchedules();
+        });
+      }
+    })
+  }
+
+
+  openOnetimeExecution() {
+    const checkedRow = this.dataGrid.instance.getSelectedRowKeys();
+    if(this.selectedSchedule === undefined && checkedRow.length > 0) {
+      this.selectedSchedule = this.schedules.find(item => item.id === checkedRow[0]);
+    }
+    const newId = this.dataGrid.instance.getDataSource().items().length + 1;
+    this.editSchedulePopup.openOnetimePopup(this.selectedSchedule, newId);
+  }
+
+  onetimeExecution(schedule: any) {
     this.apollo.mutate<any>({
       mutation: gql`
-        mutation deleteFlowSchedule($flowSchedule: FlowScheduleInput) {
-            deleteFlowSchedule(flowSchedule: $flowSchedule) {
+        mutation onetimeStartFlow($flowSchedule: FlowScheduleInput) {
+          onetimeStartFlow(flowSchedule: $flowSchedule) {
               id
               flowName
               status
@@ -213,7 +288,7 @@ export class FlowSchedulerComponent {
         }
       `,
       variables: {
-        flowSchedule : this.selectedSchedule
+        flowSchedule : schedule
       }
     }).subscribe(result => {
       this.reloadFlowSchedules();
