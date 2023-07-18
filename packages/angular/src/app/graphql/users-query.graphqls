@@ -1,0 +1,18 @@
+extend type Query {
+  users(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): UsersPage
+  user(id: ID): Users
+}
+
+type Users {
+  id: ID
+  userId: String
+  password: String
+  name: String
+  phone: String
+  mail: String
+}
+
+type UsersPage {
+  totalElements: Int
+  content: [Users]
+}

@@ -1,0 +1,20 @@
+extend type Query {
+  roles(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): RolesPage
+  rolesList(name: String): [Role]
+  role(id: ID): Role
+}
+
+type Role {
+  id: ID
+  name: String
+  detail:String
+  type: String
+  icon: String
+  expanded: Boolean
+  authorities: [Authority]
+}
+
+type RolesPage {
+  totalElements: Int
+  content: [Role]
+}

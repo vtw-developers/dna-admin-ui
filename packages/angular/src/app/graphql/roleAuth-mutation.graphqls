@@ -1,0 +1,10 @@
+extend type Mutation {
+  createRoleAuth(roleAuth: RoleAuthInput): RoleAuth
+  deleteRoleAuth(id: ID): RoleAuth
+}
+
+input RoleAuthInput {
+  id: ID
+  authority: AuthorityInput
+  role: RolesInput
+}

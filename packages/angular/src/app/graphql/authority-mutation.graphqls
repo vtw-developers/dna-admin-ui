@@ -1,0 +1,11 @@
+extend type Mutation {
+  createAuthority(authority: AuthorityInput): Authority
+  updateAuthority(authority: AuthorityInput): Authority
+  deleteAuthority(id: ID): Authority
+}
+
+input AuthorityInput {
+  id: ID
+  name: String
+  detail: String
+}

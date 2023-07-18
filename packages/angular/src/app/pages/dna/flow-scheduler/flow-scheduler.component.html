@@ -5,10 +5,7 @@
     height="100%"
     [dataSource]="dataSource"
     [allowColumnReordering]="true"
-    [focusedRowEnabled]="true"
     [(focusedRowKey)]="flowName"
-    (onRowClick)="rowClick($event)"
-    (onExporting)="onExporting($event)"
   >
     <dxo-load-panel [showPane]="false"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
@@ -114,16 +111,17 @@
       caption="스케줄"
     ></dxi-column>
     <dxi-column
-            dataField="nextFireTime"
-            caption="다음실행일시"
-            dataType="dateTime"
-            format="yyyy-MM-dd hh:mm:ss"
+      dataField="nextFireTime"
+      caption="다음실행일시"
+      dataType="dateTime"
+      format="yyyy-MM-dd hh:mm:ss"
     ></dxi-column>
     <dxi-column
-            dataField="prevFireTime"
-            caption="최근실행일시"
-            dataType="dateTime"
-            format="yyyy-MM-dd hh:mm:ss"
+      dataField="prevFireTime"
+      caption="최근실행일시"
+      dataType="dateTime"
+      format="yyyy-MM-dd hh:mm:ss"
+      sortOrder="asc"
     ></dxi-column>
     <dxi-column
       dataField="startTime"
