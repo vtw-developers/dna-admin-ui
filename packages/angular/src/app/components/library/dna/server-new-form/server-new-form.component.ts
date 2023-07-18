@@ -33,7 +33,6 @@ export class ServerNewFormComponent {
   }
 
   openPopup(server: any) {
-    console.log(server);
     this.server = {};
     if (server === undefined) {
       this.createMode = true;

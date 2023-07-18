@@ -1,18 +1,18 @@
 @use "../../../../../variables.scss" as *;
 @use "sass:math";
 
-:host {
-  width: 100%;
-  display: contents;
-}
+//:host {
+//  width: 100%;
+//  display: contents;
+//}
 
 .view-wrapper {
-  position: absolute;
+ /* position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  flex-direction: row;
+  flex-direction: row;*/
 
   .grid {
     .name-template {
@@ -57,7 +57,7 @@
   }
 }
 
-.edit-cell {
+/*.edit-cell {
   position: relative;
 
   contact-status {
@@ -65,4 +65,4 @@
     margin-top: 10px;
     margin-left: 11px;
   }
-}
+}*/

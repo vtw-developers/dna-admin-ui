@@ -48,25 +48,59 @@ export class ApplicationNewFormComponent {
     });
   }
 
-  openPopup(application: any) {
-    console.log(application);
-    this.application = {};
+  openPopup(application: any, serverId: any) {
+    this.application = {}
+    const server = this.servers.find(e => e.id === serverId);
     if (application === undefined) {
       this.createMode = true;
+      this.application.server = server;
     } else {
       this.createMode = false;
+      application.server = server;
       this.application = application;
     }
     this.popupVisible = true;
+
   }
 
   save(e) {
-    console.log(this.application);
     e.preventDefault();
     if (this.createMode) {
-
+      this.apollo.mutate<any>({
+        mutation: gql`
+          mutation createApplication($application: ApplicationInput) {
+            createApplication(application: $application)
+          }
+        `,
+        variables: {
+          application: this.application
+        }
+      }).subscribe((result: any) => {
+        if (result.errors) {
+          console.error(result.errors);
+          return
+        }
+        this.popupVisible = false;
+        this.saved.emit();
+      });
     } else {
-
+      this.apollo.mutate<any>({
+        mutation: gql`
+          mutation updateApplication($application: ApplicationInput) {
+            updateApplication(application: $application)
+          }
+        `,
+        variables: {
+          application: this.application
+        }
+      }).subscribe((result: any) => {
+        if (result.errors) {
+          console.error(result.errors);
+          return
+        }
+        this.popupVisible = false;
+        this.saved.emit();
+      });
     }
   }
 

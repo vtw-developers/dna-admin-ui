@@ -32,14 +32,16 @@
           <dxi-item style="margin-bottom: 10px;">
             <form-textbox
               label="Rest Port"
+              [validators]="[{ type: 'numeric' }]"
               [(value)]="application.restPort"
               [isEditing]="true">
             </form-textbox>
           </dxi-item>
           <dxi-item style="margin-bottom: 10px;">
             <form-textbox
-              label="Monitoring Port"
-              [(value)]="application.monitoringPort"
+              label="Monitor Port"
+              [validators]="[{ type: 'numeric' }]"
+              [(value)]="application.monitorPort"
               [isEditing]="true">
             </form-textbox>
           </dxi-item>

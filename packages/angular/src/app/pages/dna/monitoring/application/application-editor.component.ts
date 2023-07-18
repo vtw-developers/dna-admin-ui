@@ -7,10 +7,12 @@ import {
   ApplicationNewFormModule
 } from "../../../../components/library/dna/application-new-form/application-new-form.component";
 import DataSource from "devextreme/data/data_source";
+import {confirm} from "devextreme/ui/dialog";
 
 @Component({
   selector: 'application-editor',
   templateUrl: './application-editor.component.html',
+  styleUrls: ['./application-editor.component.scss'],
   providers: []
 })
 export class ApplicationEditorComponent {
@@ -18,7 +20,6 @@ export class ApplicationEditorComponent {
   @ViewChild(ApplicationNewFormComponent, {static: false}) editApplicationPopup: ApplicationNewFormComponent;
 
   @Input() set selectedServer(currentItem) {
-    console.log(currentItem);
     this.server = {
       id: currentItem.id,
       name: currentItem.name,
@@ -26,7 +27,6 @@ export class ApplicationEditorComponent {
       privateIp: currentItem.privateIp,
       publicIp: currentItem.publicIp
     }
-    console.log(this.server)
     this.reloadApplications();
   }
 
@@ -63,7 +63,6 @@ export class ApplicationEditorComponent {
   }
 
   reloadApplications() {
-    console.log(this.server)
     this.apollo.query({
       query: gql`
         query applications($server: ServerInput) {
@@ -72,6 +71,13 @@ export class ApplicationEditorComponent {
             name
             restPort
             monitorPort
+            server {
+              id
+              name
+              os
+              privateIp
+              publicIp
+            }
           }
         }
       `,
@@ -89,10 +95,10 @@ export class ApplicationEditorComponent {
   }
 
   refresh = () => {
-    console.log('Refresh');
     this.applicationId = null;
     this.selectedApplication = undefined;
     this.isSelected = false;
+    this.reloadApplications();
   };
 
   rowClick(e: RowClickEvent) {
@@ -103,11 +109,31 @@ export class ApplicationEditorComponent {
   }
 
   openAddApplication() {
-    this.editApplicationPopup.openPopup(this.selectedApplication);
+    this.editApplicationPopup.openPopup(this.selectedApplication, this.server.id);
   }
 
   delete() {
-
+    const result = confirm('<i>정말로 애플리케이션을 삭제하시겠습니까?</i>', '애플리케이션 삭제');
+    result.then(dialogResult => {
+      if (dialogResult) {
+        this.apollo.mutate({
+          mutation: gql`
+            mutation deleteApplication($id: ID) {
+              deleteApplication(id: $id)
+            }
+          `,
+          variables: {
+            id: this.applicationId
+          }
+        }).subscribe((result: any) => {
+          if (result.errors) {
+            console.error(result.errors);
+          }
+          console.log(result);
+          this.refresh();
+        });
+      }
+    });
   }
 }
 @NgModule({
