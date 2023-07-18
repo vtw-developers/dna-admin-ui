@@ -37,7 +37,8 @@
           type="normal"
           stylingMode="contained"
           class="deployButton"
-          (onClick)="openAddApplication()"
+          [disabled]="true"
+          (onClick)="deploy()"
         ></dx-button>
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">

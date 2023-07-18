@@ -20,6 +20,7 @@ export class ApplicationEditorComponent {
   @ViewChild(ApplicationNewFormComponent, {static: false}) editApplicationPopup: ApplicationNewFormComponent;
 
   @Input() set selectedServer(currentItem) {
+    console.log(currentItem);
     this.server = {
       id: currentItem.id,
       name: currentItem.name,
@@ -27,7 +28,7 @@ export class ApplicationEditorComponent {
       privateIp: currentItem.privateIp,
       publicIp: currentItem.publicIp
     }
-    this.reloadApplications();
+    this.refresh();
   }
 
   applicationId;
@@ -134,6 +135,10 @@ export class ApplicationEditorComponent {
         });
       }
     });
+  }
+
+  deploy() {
+
   }
 }
 @NgModule({
