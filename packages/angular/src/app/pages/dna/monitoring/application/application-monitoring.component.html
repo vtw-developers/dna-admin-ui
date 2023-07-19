@@ -1,12 +1,22 @@
+<dx-scroll-view>
 <div class="dx-fieldset">
   <div class="dx-fieldset-header" style="font-size: 22px;">애플리케이션 모니터링</div>
   <div class="dx-field">
     <div class="dx-field-label" style="width: 100px;">애플리케이션</div>
-    <div class="dx-field-value" style="width: 120px;">
+    <div class="dx-field-value" style="width: 150px;">
       <dx-select-box
         [dataSource]="applications"
+        [grouped]="true"
         displayExpr="name"
+        (onValueChanged)="changeMonitoringUrl($event)"
+        groupTemplate="group"
       >
+        <div *dxTemplate="let data of 'group'">
+          <div class="custom-icon">
+            <span class="dx-icon-contentlayout icon"></span>
+            {{ data.key }}
+          </div>
+        </div>
       </dx-select-box>
     </div>
   </div>
@@ -15,4 +25,4 @@
     <iframe width="100%" height="1000px" style="border:none" [src]="monitoringUrl | safe"></iframe>
   </div>
 </div>
-
+</dx-scroll-view>
