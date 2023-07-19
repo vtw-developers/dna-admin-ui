@@ -192,6 +192,10 @@ export const navigation = [
         text: 'Authority',
         path: '/authority',
       },
+      {
+        text: 'Menu Edit',
+        path: '/menu',
+      },
     ]
   }
 

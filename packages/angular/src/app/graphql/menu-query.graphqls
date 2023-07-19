@@ -1,0 +1,21 @@
+extend type Query {
+  menus(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): MenuPage
+  menuList(name: String): [Menu]
+  menu(id: ID): Menu
+}
+
+type Menu {
+  id: ID
+  name: String
+  detail: String
+  parentId: String
+  path: String
+  type: String
+  icon: String
+  expanded: Boolean
+}
+
+type MenuPage {
+  totalElements: Int
+  content: [Menu]
+}

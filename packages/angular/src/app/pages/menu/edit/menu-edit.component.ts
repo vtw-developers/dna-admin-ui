@@ -2,7 +2,7 @@ import {Component, EventEmitter, Output, NgModule, ViewChild} from '@angular/cor
 import notify from "devextreme/ui/notify";
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
-import {Authority} from "../authority.service";
+import {Menu} from "../menu.service";
 import {
   DxButtonModule, DxCheckBoxModule, DxDataGridComponent, DxDataGridModule, DxDateBoxModule,
   DxFormComponent,
@@ -21,20 +21,19 @@ import {
   DxoSelectionModule,
   DxoToolbarModule
 } from "devextreme-angular/ui/nested";
-import DataSource from "devextreme/data/data_source";
 
 @Component({
-  selector: 'authority-edit-popup',
-  templateUrl: './authority-edit.component.html',
+  selector: 'menu-edit-popup',
+  templateUrl: './menu-edit.component.html',
 })
 
-export class AuthorityEditComponent {
-  authority: Authority = {} as any;
+export class MenuEditComponent {
+  menu: Menu = {} as any;
   editMode: 'create' | 'update';
   popupVisible = false;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
-  @Output() onSaved = new EventEmitter<Authority>();
+  @Output() onSaved = new EventEmitter<Menu>();
 
   @ViewChild(DxFormComponent, {static: false}) form: DxFormComponent;
   @ViewChild(DxValidationGroupComponent, {static: false}) validationGroup: DxValidationGroupComponent;
@@ -50,11 +49,16 @@ export class AuthorityEditComponent {
     if(this.isUpdateMode()){
       this.apollo.query({
         query: gql`
-          query authority($id: ID) {
-            authority(id: $id) {
+          query menu($id: ID) {
+            menu(id: $id) {
               id
               name
               detail
+              parentId
+              path
+              type
+              icon
+              expanded
             }
           }
         `,
@@ -63,7 +67,7 @@ export class AuthorityEditComponent {
         }
       }).subscribe({
         next: (result: any) => {
-          this.authority = result.data.authority;
+          this.menu = result.data.menu;
           this.popupVisible = true;
         },
         error: (e) => {
@@ -73,7 +77,7 @@ export class AuthorityEditComponent {
       });
     } else {
       this.popupVisible = true;
-      this.authority = {id: null, name: null, detail: null};
+      this.menu = {id: null, name: null, detail: null, parentId: null, path: null, type: null, icon: null, expanded: null};
     }
   }
 
@@ -94,47 +98,48 @@ export class AuthorityEditComponent {
     e.preventDefault();
     this.close();
     if (this.isCreateMode()) {
+      this.menu.expanded = true;
       this.apollo.mutate({
         mutation: gql`
-          mutation createAuthority($authority: AuthorityInput) {
-            createAuthority(authority: $authority) {
+          mutation createMenu($menu: MenuInput) {
+            createMenu(menu: $menu) {
               id
             }
           }
         `,
         variables: {
-          authority: this.authority
+          menu: this.menu
         }
       }).subscribe({
         next: (result: any) => {
-          notify('권한이 생성되었습니다.', 'success', 3000);
-          this.onSaved.emit(result.data.createAuthority);
+          notify('메뉴가 생성되었습니다.', 'success', 3000);
+          this.onSaved.emit(result.data.createMenu);
         },
         error: (e) => {
           console.error(e);
-          notify('권한 생성에 실패하였습니다.', 'error', 3000);
+          notify('메뉴 생성에 실패하였습니다.', 'error', 3000);
         }
       });
     } else {
       this.apollo.mutate({
         mutation: gql`
-          mutation updateAuthority($authority: AuthorityInput) {
-            updateAuthority(authority: $authority) {
+          mutation updateMenu($menu: MenuInput) {
+            updateMenu(menu: $menu) {
               id
             }
           }
         `,
         variables: {
-          authority: this.authority
+          menu: this.menu
         }
       }).subscribe({
         next: (result: any) => {
-          notify('권한이 변경되었습니다.', 'success', 3000);
-          this.onSaved.emit(result.data.updateAuthority);
+          notify('메뉴가 변경되었습니다.', 'success', 3000);
+          this.onSaved.emit(result.data.updateMenu);
         },
         error: (e) => {
           console.error(e);
-          notify('권한 변경에 실패하였습니다.', 'error', 3000);
+          notify('메뉴 변경에 실패하였습니다.', 'error', 3000);
         }
       });
     }
@@ -161,9 +166,9 @@ export class AuthorityEditComponent {
   ],
   providers: [],
   exports: [
-    AuthorityEditComponent
+    MenuEditComponent
   ],
-  declarations: [AuthorityEditComponent],
+  declarations: [MenuEditComponent],
 })
-export class AuthorityEditModule {
+export class MenuEditModule {
 }

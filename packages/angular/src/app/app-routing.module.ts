@@ -39,6 +39,7 @@ import {ApplicationMonitoringComponent} from "./pages/dna/monitoring/application
 import {UsersComponent} from "./pages/user/users.component";
 import {ApplicationEditorComponent} from "./pages/dna/monitoring/application/application-editor.component";
 import {ApplicationTreeComponent} from "./pages/dna/monitoring/application/application-tree.component";
+import {MenuComponent} from "./pages/menu/menu.component";
 
 const routes: Routes = [
   {
@@ -216,6 +217,11 @@ const routes: Routes = [
       {
         path: 'flow-monitoring',
         component: FlowMonitoringComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'menu',
+        component: MenuComponent,
         canActivate: [AuthGuardService],
       },
       {
