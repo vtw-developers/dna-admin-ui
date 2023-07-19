@@ -1,0 +1,86 @@
+<dx-popup
+  [width]="'27vw'"
+  [height]="isCreateMode() ? 420 : 420"
+  [showTitle]="true"
+  [title]="isCreateMode() ? '권한 생성' : '권한 정보 변경'"
+  [dragEnabled]="true"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="true"
+  container=".dx-viewport"
+  [(visible)]="popupVisible"
+  [enableBodyScroll]="false"
+>
+  <div *dxTemplate="let data of 'content'">
+    <dx-validation-group>
+      <form class="flex flex-col" (submit)="save($event)">
+        <div [style.height]="isCreateMode() ? '290px' : '290px'">
+          <div class="dx-field">
+            <div class="dx-field-label">메뉴명</div>
+            <dx-text-box class="dx-field-value" [(value)]="menu.name">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="메뉴명을 입력하세요."></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">상위 메뉴 ID</div>
+            <dx-text-box class="dx-field-value" [(value)]="menu.parentId">
+              <dx-validator>
+                <dxi-validation-rule message="ID를 입력하세요.(탭으로 변경)"></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">경로</div>
+            <dx-text-box class="dx-field-value" [(value)]="menu.path">
+              <dx-validator>
+                <dxi-validation-rule message="경로를 입력하세요.(형식지정)"></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">설명</div>
+            <dx-text-box class="dx-field-value" [(value)]="menu.detail">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="설명을 입력하세요."></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">종류</div>
+            <dx-text-box class="dx-field-value" [(value)]="menu.type">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="종류를 입력하세요.(버튼으로 변경)"></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">아이콘</div>
+            <dx-text-box class="dx-field-value" [(value)]="menu.icon">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="아이콘을 입력하세요.(버튼으로 변경)"></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <dx-validation-summary class="mt-2"></dx-validation-summary>
+        </div>
+
+        <div class="popup-buttons" style="margin-top: 20px">
+          <dx-button
+            [text]="isCreateMode() ? '생성' : '변경'"
+            [width]="100"
+            [useSubmitBehavior]="true"
+          >
+          </dx-button>
+          <dx-button
+            [text]="'취소'"
+            [width]="100"
+            (onClick)="close()"
+          >
+          </dx-button>
+        </div>
+      </form>
+    </dx-validation-group>
+  </div>
+
+</dx-popup>

@@ -1,6 +1,6 @@
 import {Component, NgModule} from "@angular/core";
 import {Apollo, gql} from "apollo-angular";
-import {DxSelectBoxModule} from "devextreme-angular";
+import {DxScrollViewModule, DxSelectBoxModule} from "devextreme-angular";
 import {SafePipeModule} from "../../../../pipes/SafePipe";
 
 @Component({
@@ -44,6 +44,7 @@ export class FlowMonitoringComponent {
   imports: [
     DxSelectBoxModule,
     SafePipeModule,
+    DxScrollViewModule,
   ],
   providers: [],
   exports: [FlowMonitoringComponent],

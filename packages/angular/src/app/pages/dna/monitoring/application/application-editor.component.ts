@@ -8,6 +8,7 @@ import {
 } from "../../../../components/library/dna/application-new-form/application-new-form.component";
 import DataSource from "devextreme/data/data_source";
 import {confirm} from "devextreme/ui/dialog";
+import notify from "devextreme/ui/notify";
 
 @Component({
   selector: 'application-editor',
@@ -131,6 +132,7 @@ export class ApplicationEditorComponent {
             console.error(result.errors);
           }
           console.log(result);
+          notify('애플리케이션 삭제가 완료되었습니다.', 'success', 3000);
           this.refresh();
         });
       }

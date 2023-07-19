@@ -13,6 +13,7 @@ import {FormTextboxModule} from "../../../utils/form-textbox/form-textbox.compon
 import {FormPhotoUploaderModule} from "../../../utils/form-photo-uploader/form-photo-uploader.component";
 import {CommonModule} from "@angular/common";
 import {Apollo, gql} from "apollo-angular";
+import notify from "devextreme/ui/notify";
 
 @Component({
   selector: 'server-new-form',
@@ -60,6 +61,7 @@ export class ServerNewFormComponent {
           console.error(result.errors);
           return
         }
+        notify('서버가 성공적으로 저장되었습니다.', 'success', 3000);
         this.popupVisible = false;
         this.saved.emit();
       });
@@ -78,6 +80,7 @@ export class ServerNewFormComponent {
           console.error(result.errors);
           return
         }
+        notify('서버가 성공적으로 수정되었습니다.', 'success', 3000);
         this.popupVisible = false;
         this.saved.emit();
       });

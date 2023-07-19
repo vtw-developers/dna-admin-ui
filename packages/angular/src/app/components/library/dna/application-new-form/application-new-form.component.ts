@@ -9,6 +9,7 @@ import {
   DxValidationGroupModule
 } from "devextreme-angular";
 import {FormTextboxModule} from "../../../utils/form-textbox/form-textbox.component";
+import notify from "devextreme/ui/notify";
 
 @Component({
   selector: 'application-new-form',
@@ -80,6 +81,7 @@ export class ApplicationNewFormComponent {
           console.error(result.errors);
           return
         }
+        notify('애플리케이션이 성공적으로 저장되었습니다.', 'success', 3000);
         this.popupVisible = false;
         this.saved.emit();
       });
@@ -98,6 +100,7 @@ export class ApplicationNewFormComponent {
           console.error(result.errors);
           return
         }
+        notify('애플리케이션이 성공적으로 수정되었습니다.', 'success', 3000);
         this.popupVisible = false;
         this.saved.emit();
       });

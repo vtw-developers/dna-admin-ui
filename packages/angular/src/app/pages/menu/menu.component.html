@@ -1,0 +1,69 @@
+<div class="content-block dx-card responsive-paddings">
+
+  <dx-data-grid
+    #grid
+    [dataSource]="menus"
+    [showBorders]="true"
+    [remoteOperations]="true"
+    [hoverStateEnabled]="true"
+    [selectedRowKeys]="[]"
+  >
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="메뉴 검색"
+    ></dxo-search-panel>
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <div class="header-text">메뉴 관리</div>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="새 메뉴"
+          icon="plus"
+          type="default"
+          stylingMode="contained"
+          (onClick)="create()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        showText="inMenu"
+        widget="dxButton"
+        [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+      ></dxi-item>
+      <dxi-item name="searchPanel" locateInMenu="auto" onEnter></dxi-item>
+    </dxo-toolbar>
+
+    <dxi-column dataField="id" dataType="string" caption="ID"></dxi-column>
+    <dxi-column dataField="name" dataType="string" caption="메뉴명"></dxi-column>
+    <dxi-column dataField="detail" dataType="string" caption="설명"></dxi-column>
+    <dxi-column dataField="parentId" dataType="string" caption="상위메뉴 ID"></dxi-column>
+    <dxi-column dataField="path" dataType="string" caption="경로"></dxi-column>
+    <dxi-column type="buttons" caption="수정">
+      <dxi-button
+        text="수정"
+        icon="../../../assets/icons/common/edit.svg"
+        [onClick]="update"
+      ></dxi-button>
+    </dxi-column>
+    <dxi-column type="buttons" caption="삭제">
+      <dxi-button
+        text="삭제"
+        icon="../../../assets/icons/common/DeleteTest_riderLight.svg"
+        [onClick]="delete"
+      ></dxi-button>
+    </dxi-column>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-paging [pageSize]="5"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[5, 10, 20]"
+      [showInfo]="true"
+      [visible]="true"
+    ></dxo-pager>
+  </dx-data-grid>
+</div>
+
+<menu-edit-popup (onSaved)="onSaved($event)"></menu-edit-popup>

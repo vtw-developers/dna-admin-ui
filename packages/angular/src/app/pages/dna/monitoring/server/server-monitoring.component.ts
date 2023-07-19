@@ -1,7 +1,7 @@
 import {Component, NgModule} from "@angular/core";
 import {SafePipeModule} from "../../../../pipes/SafePipe";
 import {Apollo, gql} from "apollo-angular";
-import {DxSelectBoxModule} from "devextreme-angular";
+import {DxScrollViewModule, DxSelectBoxModule} from "devextreme-angular";
 
 @Component({
   templateUrl: './server-monitoring.component.html',
@@ -41,7 +41,8 @@ export class ServerMonitoringComponent {
 @NgModule({
   imports: [
     SafePipeModule,
-    DxSelectBoxModule
+    DxSelectBoxModule,
+    DxScrollViewModule
   ],
   providers: [],
   exports: [ServerMonitoringComponent],
