@@ -9,7 +9,6 @@ import {
   DxSelectBoxModule,
   DxTextBoxModule,
 } from 'devextreme-angular';
-import {RowClickEvent} from 'devextreme/ui/data_grid';
 import {
   CardActivitiesModule,
   ContactStatusModule,
@@ -90,9 +89,8 @@ export class FlowSchedulerComponent {
   }
 
   openAddSchedule() {
-    const checkedRow = this.dataGrid.instance.getSelectedRowKeys()[0];
-    if(checkedRow.length > 0) {
-      this.selectedSchedule = this.schedules.find(item => item.id === checkedRow);
+    if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
+      this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
     }
     const newId = this.dataGrid.instance.getDataSource().items().length + 1;
     this.editSchedulePopup.openPopup(this.selectedSchedule, newId);
@@ -182,8 +180,9 @@ export class FlowSchedulerComponent {
   }
 
   startSchedule() {
-    const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
-    this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
+    if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
+      this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
+    }
     this.apollo.mutate<any>({
         mutation: gql`
             mutation startFlowSchedule($flowSchedule: FlowScheduleInput) {
@@ -207,12 +206,41 @@ export class FlowSchedulerComponent {
   }
 
   stopSchedule() {
-    const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
-    this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
-    this.apollo.mutate<any>({
+    if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
+      this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
+      this.apollo.mutate<any>({
         mutation: gql`
-            mutation stopFlowSchedule($flowSchedule: FlowScheduleInput) {
-                stopFlowSchedule(flowSchedule: $flowSchedule) {
+          mutation stopFlowSchedule($flowSchedule: FlowScheduleInput) {
+            stopFlowSchedule(flowSchedule: $flowSchedule) {
+              id
+              flowName
+              status
+              cronExpression
+              nextFireTime
+              prevFireTime
+              startTime
+            }
+            }
+        `,
+        variables: {
+          flowSchedule : this.selectedSchedule
+        }
+      }).subscribe(result => {
+        this.reloadFlowSchedules();
+      });
+    }
+  }
+
+  deleteSchedule() {
+    if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
+      this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
+      const result = confirm('<i>스케줄을 삭제하시겠습니까?</i>', '스케줄 삭제');
+      result.then(dialogResult => {
+        if(dialogResult) {
+          this.apollo.mutate<any>({
+            mutation: gql`
+              mutation deleteFlowSchedule($flowSchedule: FlowScheduleInput) {
+                  deleteFlowSchedule(flowSchedule: $flowSchedule) {
                     id
                     flowName
                     status
@@ -221,52 +249,23 @@ export class FlowSchedulerComponent {
                     prevFireTime
                     startTime
                 }
-            }
-        `,
-      variables: {
-        flowSchedule : this.selectedSchedule
-      }
-    }).subscribe(result => {
-      this.reloadFlowSchedules();
-    });
-  }
-
-  deleteSchedule() {
-    const selectedScheduleKeys = this.dataGrid.instance.getSelectedRowKeys();
-    this.selectedSchedule = this.schedules.find(s => s.id === selectedScheduleKeys[0]);
-
-    const result = confirm('<i>스케줄을 삭제하시겠습니까?</i>', '스케줄 삭제');
-    result.then(dialogResult => {
-      if(dialogResult) {
-        this.apollo.mutate<any>({
-          mutation: gql`
-            mutation deleteFlowSchedule($flowSchedule: FlowScheduleInput) {
-                deleteFlowSchedule(flowSchedule: $flowSchedule) {
-                  id
-                  flowName
-                  status
-                  cronExpression
-                  nextFireTime
-                  prevFireTime
-                  startTime
               }
+            `,
+            variables: {
+              flowSchedule : this.selectedSchedule
             }
-          `,
-          variables: {
-            flowSchedule : this.selectedSchedule
-          }
-        }).subscribe(result => {
-          this.reloadFlowSchedules();
-        });
-      }
-    })
+          }).subscribe(result => {
+            this.reloadFlowSchedules();
+          });
+        }
+      })
+    }
   }
 
 
   openOnetimeExecution() {
-    const checkedRow = this.dataGrid.instance.getSelectedRowKeys();
-    if(checkedRow.length > 0) {
-      this.selectedSchedule = this.schedules.find(item => item.id === checkedRow[0]);
+    if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
+      this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
     }
     const newId = this.dataGrid.instance.getDataSource().items().length + 1;
     this.editSchedulePopup.openOnetimePopup(this.selectedSchedule, newId);
@@ -277,13 +276,13 @@ export class FlowSchedulerComponent {
       mutation: gql`
         mutation onetimeStartFlow($flowSchedule: FlowScheduleInput) {
           onetimeStartFlow(flowSchedule: $flowSchedule) {
-              id
-              flowName
-              status
-              cronExpression
-              nextFireTime
-              prevFireTime
-              startTime
+            id
+            flowName
+            status
+            cronExpression
+            nextFireTime
+            prevFireTime
+            startTime
           }
         }
       `,
@@ -299,15 +298,10 @@ export class FlowSchedulerComponent {
     this.dataGrid.instance.refresh();
   };
 
-  rowClick(e: RowClickEvent) {
-    const {data} = e;
-    this.selectedSchedule = data;
-    this.flowName = data.flow;
-  }
-
   clearSelection(e) {
     if (e.target.classList.value === '') {
       this.dataGrid.instance.clearSelection();
+      this.selectedSchedule = undefined;
     }
   }
 
