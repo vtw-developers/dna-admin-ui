@@ -22,6 +22,7 @@ import {CommonModule} from "@angular/common";
 import {DxiColumnModule} from "devextreme-angular/ui/nested";
 import {confirm} from "devextreme/ui/dialog";
 import DataSource from "devextreme/data/data_source";
+import notify from "devextreme/ui/notify";
 
 @Component({
   templateUrl: './server-editor.component.html',
@@ -155,6 +156,7 @@ export class ServerEditorComponent {
             console.error(result.errors);
           }
           console.log(result);
+          notify('서버 삭제가 완료되었습니다.', 'success', 3000);
           this.refresh();
         });
       }
