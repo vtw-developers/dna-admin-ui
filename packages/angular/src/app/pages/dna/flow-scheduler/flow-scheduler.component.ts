@@ -1,5 +1,5 @@
 import {
-  Component, ViewChild, NgModule,
+  Component, ViewChild, NgModule, OnDestroy,
 } from '@angular/core';
 import {
   DxButtonModule,
@@ -35,7 +35,7 @@ type FilterContactStatus = ContactStatus | 'All';
   styleUrls: ['./flow-scheduler.component.scss'],
   providers: [DataService],
 })
-export class FlowSchedulerComponent {
+export class FlowSchedulerComponent implements OnDestroy {
   @ViewChild(DxDataGridComponent, {static: true}) dataGrid: DxDataGridComponent;
   @ViewChild(ScheduleNewFormComponent, {static: true}) editSchedulePopup: ScheduleNewFormComponent;
 
@@ -46,12 +46,17 @@ export class FlowSchedulerComponent {
   selectedSchedule;
   schedules;
   dataSource;
+  interval;
 
   constructor(private service: DataService, private apollo: Apollo) {
     this.reloadFlowSchedules();
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.reloadFlowSchedules();
     }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
   }
 
   reloadFlowSchedules() {
@@ -89,6 +94,7 @@ export class FlowSchedulerComponent {
   }
 
   openAddSchedule() {
+    this.selectedSchedule = undefined;
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
     }
@@ -266,6 +272,10 @@ export class FlowSchedulerComponent {
   openOnetimeExecution() {
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
+      if (this.selectedSchedule.status === 'Running') {
+        this.dataGrid.instance.clearSelection();
+        this.selectedSchedule = undefined;
+      }
     }
     const newId = this.dataGrid.instance.getDataSource().items().length + 1;
     this.editSchedulePopup.openOnetimePopup(this.selectedSchedule, newId);
