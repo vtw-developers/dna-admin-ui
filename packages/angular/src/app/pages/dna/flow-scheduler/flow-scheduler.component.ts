@@ -150,7 +150,7 @@ export class FlowSchedulerComponent implements OnDestroy {
       } else {
         if (oldOne.status === 'Stopped') {
           this.updateExecute(flowSchedule);
-        } else {
+        } else if (oldOne.status === 'Running') {
           const result = confirm('<i>실행중인 스케줄입니다. 실행을 중지하고 변경하시겠습니까?</i>', '실행중인 스케줄');
           result.then(dialogResult => {
             if(dialogResult) {
@@ -158,6 +158,7 @@ export class FlowSchedulerComponent implements OnDestroy {
             }
           })
         }
+        this.updateExecute(flowSchedule);
       }
     });
   }
@@ -268,8 +269,8 @@ export class FlowSchedulerComponent implements OnDestroy {
     }
   }
 
-
   openOnetimeExecution() {
+    this.selectedSchedule = undefined;
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
       if (this.selectedSchedule.status === 'Running') {
@@ -282,6 +283,10 @@ export class FlowSchedulerComponent implements OnDestroy {
   }
 
   onetimeExecution(schedule: any) {
+    const selected = this.schedules.find(s => s.flowName === schedule.flowName);
+    if (selected !== undefined) {
+      schedule = selected;
+    }
     this.apollo.mutate<any>({
       mutation: gql`
         mutation onetimeStartFlow($flowSchedule: FlowScheduleInput) {

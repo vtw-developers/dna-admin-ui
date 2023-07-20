@@ -45,11 +45,13 @@ export class ScheduleNewFormComponent {
       this.flowSchedulerComponent.onetimeExecution(this.schedule);
     } else {
       if (this.createMode) {
-        const date = this.schedule.startTime.toISOString().split('T')[0];
-        const time = this.schedule.startTime.toTimeString().split(' ')[0];
-        this.schedule.startTime = date + ' ' + time;
+        this.schedule.startTime = this.formatDate(this.schedule.startTime);
         this.flowSchedulerComponent.addSchedule(this.schedule);
       } else {
+        const before = this.flowSchedulerComponent.schedules.find(s => s.flowName === this.schedule.flowName);
+        if (before.cronExpression === null) {
+          this.schedule.startTime = this.formatDate(this.schedule.startTime);
+        }
         this.flowSchedulerComponent.updateSchedule(this.schedule);
       }
     }
@@ -110,6 +112,12 @@ export class ScheduleNewFormComponent {
       }
     }
     this.popupVisible = true;
+  }
+
+  formatDate(startTime) {
+    const date = startTime.toISOString().split('T')[0];
+    const time = startTime.toTimeString().split(' ')[0];
+    return date + ' ' + time;
   }
 }
 
