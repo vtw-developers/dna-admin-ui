@@ -40,7 +40,6 @@ export class RoleAuthEditComponent {
   authorityList: Authority[] =[];
   authority: Authority;
   roleAuth: RoleAuth;
-  id;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onSaved = new EventEmitter<Role>();
@@ -51,10 +50,16 @@ export class RoleAuthEditComponent {
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
 
   constructor(private apollo: Apollo) {
+  }
+
+  open() {
+    this.validationGroup?.instance.reset();
+    this.popupVisible = true;
+
     this.apollo.query({
       query: gql`
-        query authorityList($name: String) {
-          authorityList(name: $name) {
+        query authorityList($roleId: ID) {
+          authorityList(roleId: $roleId) {
             id
             name
             detail
@@ -62,7 +67,7 @@ export class RoleAuthEditComponent {
         }
       `,
       variables: {
-        name: ''
+        roleId: this.currentItem.id
       }
     }).subscribe({
       next: (result: any) => {
@@ -73,11 +78,6 @@ export class RoleAuthEditComponent {
         notify('오류가 발생하였습니다.', 'error', 3000);
       }
     });
-  }
-
-  open() {
-    this.validationGroup?.instance.reset();
-    this.popupVisible = true;
   }
 
   close() {
