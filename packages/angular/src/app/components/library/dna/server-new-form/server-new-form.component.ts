@@ -1,7 +1,6 @@
 import {Component, EventEmitter, NgModule, Output} from "@angular/core";
 import {
   DxButtonModule,
-  DxDateBoxModule,
   DxFormModule,
   DxPopupModule,
   DxSelectBoxModule,
@@ -10,7 +9,6 @@ import {
   DxValidatorModule
 } from "devextreme-angular";
 import {FormTextboxModule} from "../../../utils/form-textbox/form-textbox.component";
-import {FormPhotoUploaderModule} from "../../../utils/form-photo-uploader/form-photo-uploader.component";
 import {CommonModule} from "@angular/common";
 import {Apollo, gql} from "apollo-angular";
 import notify from "devextreme/ui/notify";
@@ -99,11 +97,9 @@ export class ServerNewFormComponent {
     DxValidatorModule,
 
     FormTextboxModule,
-    FormPhotoUploaderModule,
 
     CommonModule,
     DxSelectBoxModule,
-    DxDateBoxModule,
     DxButtonModule,
     DxValidationGroupModule,
     DxPopupModule,

@@ -19,7 +19,14 @@
               label="서버 선택"
               [dataSource]="servers"
               displayExpr="name"
-              [(value)]="application.server">
+              [disabled]="!createMode"
+              [(value)]="application.server"
+            >
+              <dx-validator>
+                <dxi-validation-rule
+                  type="required"
+                ></dxi-validation-rule>
+              </dx-validator>
             </dx-select-box>
           </dxi-item>
           <dxi-item style="margin-bottom: 10px;">
@@ -32,7 +39,7 @@
           <dxi-item style="margin-bottom: 10px;">
             <form-textbox
               label="Rest Port"
-              [validators]="[{ type: 'numeric' }]"
+              [validators]="[{ type: 'numeric'}, { type: 'required' }]"
               [(value)]="application.restPort"
               [isEditing]="true">
             </form-textbox>
@@ -40,7 +47,7 @@
           <dxi-item style="margin-bottom: 10px;">
             <form-textbox
               label="Monitor Port"
-              [validators]="[{ type: 'numeric' }]"
+              [validators]="[{ type: 'numeric'}, { type: 'required' }]"
               [(value)]="application.monitorPort"
               [isEditing]="true">
             </form-textbox>

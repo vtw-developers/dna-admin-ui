@@ -6,7 +6,8 @@ import {
   DxPopupModule,
   DxSelectBoxModule,
   DxTextBoxModule,
-  DxValidationGroupModule
+  DxValidationGroupModule,
+  DxValidatorModule
 } from "devextreme-angular";
 import {FormTextboxModule} from "../../../utils/form-textbox/form-textbox.component";
 import notify from "devextreme/ui/notify";
@@ -118,6 +119,7 @@ export class ApplicationNewFormComponent {
   imports: [
     DxTextBoxModule,
     DxFormModule,
+    DxValidatorModule,
 
     FormTextboxModule,
 
