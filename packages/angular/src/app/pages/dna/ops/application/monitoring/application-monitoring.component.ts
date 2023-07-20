@@ -1,11 +1,12 @@
 import {Component, NgModule} from "@angular/core";
-import {SafePipeModule} from "../../../../pipes/SafePipe";
+import {SafePipeModule} from "../../../../../pipes/SafePipe";
 import {DxScrollViewModule, DxSelectBoxModule} from "devextreme-angular";
 import {Apollo, gql} from "apollo-angular";
 import DataSource from "devextreme/data/data_source";
 import ArrayStore from "devextreme/data/array_store";
 
 @Component({
+  selector: 'application-monitoring',
   templateUrl: './application-monitoring.component.html',
   providers: []
 })

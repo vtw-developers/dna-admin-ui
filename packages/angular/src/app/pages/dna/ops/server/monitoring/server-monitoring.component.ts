@@ -1,9 +1,10 @@
-import {Component, NgModule, ViewChild} from "@angular/core";
-import {SafePipeModule} from "../../../../pipes/SafePipe";
+import {Component, Input, NgModule, ViewChild} from "@angular/core";
+import {SafePipeModule} from "../../../../../pipes/SafePipe";
 import {Apollo, gql} from "apollo-angular";
 import {DxScrollViewModule, DxSelectBoxModule} from "devextreme-angular";
 
 @Component({
+  selector: 'server-monitoring',
   templateUrl: './server-monitoring.component.html',
   providers: []
 })
@@ -11,6 +12,11 @@ export class ServerMonitoringComponent {
 
   monitoringUrl = 'http://192.168.162.128:3000/d/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&kiosk';
   servers;
+  navItem;
+  @Input() set selectedItem(currentItem) {
+    console.log(currentItem)
+    this.navItem = currentItem;
+  }
 
   constructor(private apollo: Apollo) {
 

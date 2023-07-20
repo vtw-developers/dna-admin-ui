@@ -16,8 +16,8 @@ import {Apollo, gql} from "apollo-angular";
 import {
   ServerNewFormComponent,
   ServerNewFormModule
-} from "../../../../components/library/dna/server-new-form/server-new-form.component";
-import {ContactStatusModule, FormPhotoUploaderModule, FormTextboxModule} from "../../../../components";
+} from "../../../../../components/library/dna/server-new-form/server-new-form.component";
+import {ContactStatusModule, FormPhotoUploaderModule, FormTextboxModule} from "../../../../../components";
 import {CommonModule} from "@angular/common";
 import {DxiColumnModule} from "devextreme-angular/ui/nested";
 import {confirm} from "devextreme/ui/dialog";

@@ -1,14 +1,22 @@
 import {Component, Input, NgModule, ViewChild} from "@angular/core";
-import {DxButtonModule, DxDataGridComponent, DxDataGridModule} from "devextreme-angular";
+import {
+  DxButtonModule,
+  DxDataGridComponent,
+  DxDataGridModule,
+  DxFormModule,
+  DxValidationGroupModule
+} from "devextreme-angular";
 import {Apollo, gql} from "apollo-angular";
 import {RowClickEvent} from "devextreme/ui/data_grid";
 import {
   ApplicationNewFormComponent,
   ApplicationNewFormModule
-} from "../../../../components/library/dna/application-new-form/application-new-form.component";
+} from "../../../../../components/library/dna/application-new-form/application-new-form.component";
 import DataSource from "devextreme/data/data_source";
 import {confirm} from "devextreme/ui/dialog";
 import notify from "devextreme/ui/notify";
+import {FormTextboxModule, ToolbarFormModule} from "../../../../../components";
+import {ClickEvent} from "devextreme/ui/button";
 
 @Component({
   selector: 'application-editor',
@@ -142,12 +150,24 @@ export class ApplicationEditorComponent {
   deploy() {
 
   }
+
+  startApplication() {
+
+  }
+
+  stopApplication() {
+
+  }
 }
 @NgModule({
   imports: [
+    DxFormModule,
     DxDataGridModule,
     DxButtonModule,
     ApplicationNewFormModule,
+    FormTextboxModule,
+    ToolbarFormModule,
+    DxValidationGroupModule,
   ],
   providers: [],
   exports: [ApplicationEditorComponent],

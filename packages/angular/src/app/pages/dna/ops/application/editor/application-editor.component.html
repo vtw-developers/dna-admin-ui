@@ -34,12 +34,32 @@
       <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
         <dx-button
           text="배포"
+          icon="sortup"
           type="normal"
           stylingMode="contained"
           class="deployButton"
-          [disabled]="true"
           (onClick)="deploy()"
         ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
+      <dx-button
+        text="실행"
+        icon="video"
+        type="success"
+        stylingMode="contained"
+        class="scheduleButton"
+        (onClick)="startApplication()"
+      ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
+      <dx-button
+        text="정지"
+        icon="square"
+        type="danger"
+        stylingMode="contained"
+        class="scheduleButton"
+        (onClick)="stopApplication()"
+      ></dx-button>
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
         <dx-button

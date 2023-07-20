@@ -21,7 +21,8 @@
       </div>
 
       <div class="right">
-        <application-properties *ngIf="currentItem" [selectedItem] = "currentItem"></application-properties>
+        <!--<application-properties *ngIf="currentItem" [selectedItem] = "currentItem"></application-properties>-->
+        <server-properties *ngIf="currentItem?.type === 'server'" [selectedItem] = "currentItem"></server-properties>
       </div>
     </div>
   </div>

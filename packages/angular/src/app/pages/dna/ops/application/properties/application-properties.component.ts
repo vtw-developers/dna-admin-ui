@@ -1,6 +1,6 @@
 import {Component, Input, NgModule} from "@angular/core";
 import {DxScrollViewModule, DxTabsModule} from "devextreme-angular";
-import {ApplicationEditorModule} from "./application-editor.component";
+import {ApplicationEditorModule} from "../editor/application-editor.component";
 import {NgIf} from "@angular/common";
 
 @Component({

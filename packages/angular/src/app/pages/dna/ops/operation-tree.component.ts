@@ -2,9 +2,10 @@ import {Component, NgModule, ViewChild} from "@angular/core";
 import {DxTreeViewComponent} from "devextreme-angular/ui/tree-view";
 import {Apollo, gql} from "apollo-angular";
 import {DxScrollViewModule, DxTreeViewModule} from "devextreme-angular";
-import {ApplicationEditorComponent, ApplicationEditorModule} from "./application/application-editor.component";
+import {ApplicationEditorComponent, ApplicationEditorModule} from "./application/editor/application-editor.component";
 import {NgIf} from "@angular/common";
-import {ApplicationPropertiesModule} from "./application/application-properties.component";
+import {ApplicationPropertiesModule} from "./application/properties/application-properties.component";
+import {ServerPropertiesModule} from "./server/properties/server-properties.component";
 
 @Component({
   templateUrl: './operation-tree.component.html',
@@ -42,6 +43,7 @@ export class OperationTreeComponent {
       }
       console.log(result.data.servers);
       result.data.servers.forEach(e => {
+        e.type = 'server'
         e.expanded = true
         e.icon = '/assets/icons/common/server.svg';
       })
@@ -69,6 +71,7 @@ export class OperationTreeComponent {
         }
         console.log(result);
         result.data.findAllApplications.forEach(e => {
+          e.type = 'application'
           e.parentId = e.server.id;
           e.icon = '/assets/icons/common/application.svg';
           this.treeItems.push(e);
@@ -104,6 +107,7 @@ export class OperationTreeComponent {
     ApplicationEditorModule,
     NgIf,
     ApplicationPropertiesModule,
+    ServerPropertiesModule,
   ],
   providers: [],
   exports: [],
