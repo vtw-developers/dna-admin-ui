@@ -1,4 +1,4 @@
-import {Component, NgModule} from "@angular/core";
+import {Component, NgModule, ViewChild} from "@angular/core";
 import {SafePipeModule} from "../../../../pipes/SafePipe";
 import {Apollo, gql} from "apollo-angular";
 import {DxScrollViewModule, DxSelectBoxModule} from "devextreme-angular";
@@ -34,8 +34,8 @@ export class ServerMonitoringComponent {
       console.log(result);
       this.servers = result.data.servers;
     });
-
   }
+
 }
 
 @NgModule({

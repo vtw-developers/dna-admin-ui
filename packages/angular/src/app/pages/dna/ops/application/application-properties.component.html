@@ -1,0 +1,8 @@
+<dx-tabs #tab [dataSource]="tabs" [selectedIndex]="0"></dx-tabs>
+<dx-scroll-view>
+  <application-editor
+    *ngIf="tab.selectedIndex === 0"
+    [selectedItem]="navItem"
+  >
+  </application-editor>
+</dx-scroll-view>

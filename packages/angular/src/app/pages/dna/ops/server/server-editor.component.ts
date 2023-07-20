@@ -17,7 +17,7 @@ import {
   ServerNewFormComponent,
   ServerNewFormModule
 } from "../../../../components/library/dna/server-new-form/server-new-form.component";
-import {FormPhotoUploaderModule, FormTextboxModule} from "../../../../components";
+import {ContactStatusModule, FormPhotoUploaderModule, FormTextboxModule} from "../../../../components";
 import {CommonModule} from "@angular/common";
 import {DxiColumnModule} from "devextreme-angular/ui/nested";
 import {confirm} from "devextreme/ui/dialog";
@@ -33,6 +33,7 @@ export class ServerEditorComponent {
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(ServerNewFormComponent, {static: false}) editServerPopup: ServerNewFormComponent;
 
+  // statusList = ['Running', 'Stopped']
   serverId;
   selectedServer;
   servers: DataSource;
@@ -107,7 +108,11 @@ export class ServerEditorComponent {
         console.error(result.errors);
       }
       console.log(result.data.servers);
+      /*result.data.servers.forEach(server => {
+        server.status = 'Stopped';
+      })*/
       this.servers = result.data.servers;
+      console.log(this.servers)
     });
   }
 
@@ -182,6 +187,7 @@ export class ServerEditorComponent {
     ServerNewFormModule,
     DxiColumnModule,
     DxDataGridModule,
+    ContactStatusModule,
   ],
   providers: [],
   exports: [ServerEditorComponent],

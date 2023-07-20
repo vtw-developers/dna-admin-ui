@@ -50,13 +50,24 @@ export const navigation = [
         text: '서버(인스턴스)',
         path: '/server-editor',
       },
-      {
+      /*{
         text: '애플리케이션(에이전트)',
-        path: '/application-tree',
+        path: '/operation-tree',
       },
       {
         text: '프로그램(플로우)',
         path: '/extract-details223ㅇㅈㅂㅇ',
+      },*/
+    ],
+  },
+  {
+    text: '운영/관리',
+    icon: 'globe',
+    path: '',
+    items: [
+      {
+        text: '운영 및 관리 (TreeView)',
+        path: '/operation-tree',
       },
     ],
   },

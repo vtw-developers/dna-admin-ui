@@ -37,7 +37,7 @@
           <dxi-item style="margin-bottom: 10px;">
             <form-textbox
               label="사설 IP"
-              [validators]="[{ type: 'numeric'}, { type: 'required' }]"
+              [validators]="[{ type: 'required' }]"
               [(value)]="server.privateIp"
               [isEditing]="true">
             </form-textbox>
@@ -45,7 +45,7 @@
           <dxi-item style="margin-bottom: 10px;">
             <form-textbox
               label="공인 IP"
-              [validators]="[{ type: 'numeric'}, { type: 'required' }]"
+              [validators]="[{ type: 'required' }]"
               [(value)]="server.publicIp"
               [isEditing]="true">
             </form-textbox>

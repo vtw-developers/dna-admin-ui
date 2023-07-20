@@ -63,6 +63,10 @@
     <!--<dxi-column
       dataField="status"
       caption="상태"
+      cellTemplate="cellStatus"
+      editCellTemplate="editCellStatus"
+      [hidingPriority]="3"
+      [minWidth]="100"
     ></dxi-column>-->
     <dxi-column
       dataField="os"
@@ -76,6 +80,29 @@
       dataField="publicIp"
       caption="공인IP"
     ></dxi-column>
+
+    <!--<div *dxTemplate="let cellInfo of 'cellStatus'">
+      <contact-status [value]="cellInfo.data.status"></contact-status>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'editCellStatus'">
+      <dx-select-box
+        class="edit-cell"
+        [(value)]="cellInfo.value"
+        [items]="statusList"
+        (onValueChanged)="cellInfo.setValue($event.value)"
+        (onSelectionChanged)="cellInfo.component.updateDimensions()"
+        fieldTemplate="field"
+      >
+        <div *dxTemplate="let data of 'field'">
+          <contact-status [value]="cellInfo.value"></contact-status>
+          <dx-text-box [readOnly]="true"></dx-text-box>
+        </div>
+        <div *dxTemplate="let data of 'item'">
+          <contact-status [value]="data"></contact-status>
+        </div>
+      </dx-select-box>
+    </div>-->
 
   </dx-data-grid>
 

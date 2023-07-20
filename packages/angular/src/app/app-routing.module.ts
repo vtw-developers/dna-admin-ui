@@ -29,16 +29,16 @@ import {SwaggerComponent} from './pages/dna/swagger/swagger.component';
 import {FlowTemplateListComponent} from './pages/dna/flow-template-list/flow-template-list.component';
 import {FlowTreeComponent} from './pages/dna/flow-tree/flow-tree.component';
 import {FlowSchedulerComponent} from "./pages/dna/flow-scheduler/flow-scheduler.component";
-import {ServerMonitoringComponent} from "./pages/dna/monitoring/server/server-monitoring.component";
-import {FlowMonitoringComponent} from "./pages/dna/monitoring/flow/flow-monitoring.component";
+import {ServerMonitoringComponent} from "./pages/dna/ops/server/server-monitoring.component";
+import {FlowMonitoringComponent} from "./pages/dna/ops/flow/flow-monitoring.component";
 import {RoleComponent} from "./pages/role/role.component";
 import {RoleGroupComponent} from "./pages/role/roleGroup.component";
 import {AuthorityComponent} from "./pages/authority/authority.component";
-import {ServerEditorComponent} from "./pages/dna/monitoring/server/server-editor.component";
-import {ApplicationMonitoringComponent} from "./pages/dna/monitoring/application/application-monitoring.component";
+import {ServerEditorComponent} from "./pages/dna/ops/server/server-editor.component";
+import {ApplicationMonitoringComponent} from "./pages/dna/ops/application/application-monitoring.component";
 import {UsersComponent} from "./pages/user/users.component";
-import {ApplicationEditorComponent} from "./pages/dna/monitoring/application/application-editor.component";
-import {ApplicationTreeComponent} from "./pages/dna/monitoring/application/application-tree.component";
+import {ApplicationEditorComponent} from "./pages/dna/ops/application/application-editor.component";
+import {OperationTreeComponent} from "./pages/dna/ops/operation-tree.component";
 import {MenuComponent} from "./pages/menu/menu.component";
 
 const routes: Routes = [
@@ -200,8 +200,8 @@ const routes: Routes = [
         canActivate: [AuthGuardService],
       },
       {
-        path: 'application-tree',
-        component: ApplicationTreeComponent,
+        path: 'operation-tree',
+        component: OperationTreeComponent,
         canActivate: [AuthGuardService],
       },
       {

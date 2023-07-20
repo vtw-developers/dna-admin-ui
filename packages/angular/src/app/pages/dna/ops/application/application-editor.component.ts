@@ -20,7 +20,7 @@ export class ApplicationEditorComponent {
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(ApplicationNewFormComponent, {static: false}) editApplicationPopup: ApplicationNewFormComponent;
 
-  @Input() set selectedServer(currentItem) {
+  @Input() set selectedItem(currentItem) {
     console.log(currentItem);
     this.server = {
       id: currentItem.id,
