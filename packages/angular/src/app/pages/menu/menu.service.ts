@@ -1,10 +1,24 @@
+import { Injectable } from '@angular/core';
+
 export interface Menu {
-  id: String
-  name: String
-  detail: String
-  parentId: String
-  path: String
-  type: String
-  icon: String
-  expanded: Boolean
+  id: number;
+  name: string;
+  detail: string;
+  parentId: string;
+  path: string;
+  type: string;
+  icon: string;
+  expanded: Boolean;
+}
+
+const types: string[] = [
+  'Template',
+  'Group'
+];
+
+@Injectable()
+export class Service {
+  getTypes(): string[] {
+    return types;
+  }
 }

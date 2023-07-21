@@ -1,6 +1,6 @@
 <dx-popup
   [width]="'27vw'"
-  [height]="isCreateMode() ? 420 : 420"
+  [height]="isCreateMode() ? 380 : 380"
   [showTitle]="true"
   [title]="isCreateMode() ? '권한 생성' : '권한 정보 변경'"
   [dragEnabled]="true"
@@ -13,28 +13,12 @@
   <div *dxTemplate="let data of 'content'">
     <dx-validation-group>
       <form class="flex flex-col" (submit)="save($event)">
-        <div [style.height]="isCreateMode() ? '290px' : '290px'">
+        <div [style.height]="isCreateMode() ? '250px' : '250px'">
           <div class="dx-field">
             <div class="dx-field-label">메뉴명</div>
             <dx-text-box class="dx-field-value" [(value)]="menu.name">
               <dx-validator>
                 <dxi-validation-rule type="required" message="메뉴명을 입력하세요."></dxi-validation-rule>
-              </dx-validator>
-            </dx-text-box>
-          </div>
-          <div class="dx-field">
-            <div class="dx-field-label">상위 메뉴 ID</div>
-            <dx-text-box class="dx-field-value" [(value)]="menu.parentId">
-              <dx-validator>
-                <dxi-validation-rule message="ID를 입력하세요.(탭으로 변경)"></dxi-validation-rule>
-              </dx-validator>
-            </dx-text-box>
-          </div>
-          <div class="dx-field">
-            <div class="dx-field-label">경로</div>
-            <dx-text-box class="dx-field-value" [(value)]="menu.path">
-              <dx-validator>
-                <dxi-validation-rule message="경로를 입력하세요.(형식지정)"></dxi-validation-rule>
               </dx-validator>
             </dx-text-box>
           </div>
@@ -46,19 +30,29 @@
               </dx-validator>
             </dx-text-box>
           </div>
-          <div class="dx-field">
-            <div class="dx-field-label">종류</div>
-            <dx-text-box class="dx-field-value" [(value)]="menu.type">
+          <div style="margin-bottom: 20px">
+            <dx-select-box class="select-box" [items]="types" [(value)]="menu.type" [readOnly]="isUpdateMode()" placeholder="종류">
+            </dx-select-box>
+            <dx-validation-summary class="mt-2"></dx-validation-summary>
+          </div>
+          <div style="margin-bottom: 20px" *ngIf="isTemplate()">
+            <dx-select-box class="select-box" [dataSource]="parentId" displayExpr="name" valueExpr="id" [(value)]="menu.parentId" placeholder="상위 그룹">
+            </dx-select-box>
+            <dx-validation-summary class="mt-2"></dx-validation-summary>
+          </div>
+          <div class="dx-field" *ngIf="isTemplate()">
+            <div class="dx-field-label">경로</div>
+            <dx-text-box class="dx-field-value" [(value)]="menu.path">
               <dx-validator>
-                <dxi-validation-rule type="required" message="종류를 입력하세요.(버튼으로 변경)"></dxi-validation-rule>
+                <dxi-validation-rule message="경로를 입력하세요."></dxi-validation-rule>
               </dx-validator>
             </dx-text-box>
           </div>
-          <div class="dx-field">
+          <div class="dx-field" *ngIf="isGroup()">
             <div class="dx-field-label">아이콘</div>
             <dx-text-box class="dx-field-value" [(value)]="menu.icon">
               <dx-validator>
-                <dxi-validation-rule type="required" message="아이콘을 입력하세요.(버튼으로 변경)"></dxi-validation-rule>
+                <dxi-validation-rule message="아이콘을 입력하세요."></dxi-validation-rule>
               </dx-validator>
             </dx-text-box>
           </div>

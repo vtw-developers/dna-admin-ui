@@ -2,12 +2,12 @@ import {Component, EventEmitter, Output, NgModule, ViewChild} from '@angular/cor
 import notify from "devextreme/ui/notify";
 import 'devextreme/data/odata/store';
 import {Apollo, gql} from "apollo-angular";
-import {Menu} from "../menu.service";
+import {Service, Menu} from "../menu.service";
 import {
   DxButtonModule, DxCheckBoxModule, DxDataGridComponent, DxDataGridModule, DxDateBoxModule,
   DxFormComponent,
   DxPopupComponent,
-  DxPopupModule,
+  DxPopupModule, DxSelectBoxModule,
   DxTextBoxModule,
   DxValidationGroupComponent,
   DxValidationGroupModule, DxValidationSummaryModule, DxValidatorModule,
@@ -21,14 +21,19 @@ import {
   DxoSelectionModule,
   DxoToolbarModule
 } from "devextreme-angular/ui/nested";
+import DataSource from "devextreme/data/data_source";
 
 @Component({
   selector: 'menu-edit-popup',
   templateUrl: './menu-edit.component.html',
+  providers: [Service],
 })
 
 export class MenuEditComponent {
   menu: Menu = {} as any;
+  parentId: DataSource
+  types: string[];
+  type;
   editMode: 'create' | 'update';
   popupVisible = false;
 
@@ -40,7 +45,29 @@ export class MenuEditComponent {
   @ViewChild(DxPopupComponent, {static: false}) popup: DxPopupComponent;
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
 
-  constructor(private apollo: Apollo) {
+  constructor(private apollo: Apollo, service: Service) {
+    this.types = service.getTypes();
+    this.apollo.query({
+      query: gql`
+        query menuType($type: String) {
+          menuType(type: $type) {
+            id
+            name
+          }
+        }
+      `,
+      variables: {
+        type: "Group"
+      }
+    }).subscribe({
+      next: (result: any) => {
+        this.parentId = result.data.menuType;
+      },
+      error: (e) => {
+        console.error(e);
+        notify('권한 정보를 불러오는데 실패하였습니다.', 'error', 3000);
+      }
+    });
   }
 
   open(editMode: 'create' | 'update', id?: any) {
@@ -91,6 +118,21 @@ export class MenuEditComponent {
 
   isUpdateMode() {
     return this.editMode === 'update';
+  }
+
+  isGroup(){
+    if(this.menu.type === 'Group'){
+      this.menu.parentId = null;
+      this.menu.path = null;
+    }
+    return this.menu.type === 'Group';
+  }
+
+  isTemplate(){
+    if(this.menu.type === 'Template'){
+      this.menu.icon = null;
+    }
+    return this.menu.type === 'Template';
   }
 
   /** Popup Button Events */
@@ -163,6 +205,7 @@ export class MenuEditComponent {
     DxoSelectionModule,
     DxoToolbarModule,
     DxCheckBoxModule,
+    DxSelectBoxModule,
   ],
   providers: [],
   exports: [

@@ -11,7 +11,8 @@ import {
 } from '@angular/core';
 import { DxTreeViewModule, DxTreeViewComponent, DxTreeViewTypes } from 'devextreme-angular/ui/tree-view';
 import * as events from 'devextreme/events';
-import { navigation } from '../../../app-navigation';
+import {Apollo, gql} from "apollo-angular";
+import notify from "devextreme/ui/notify";
 
 @Component({
   selector: 'side-navigation-menu',
@@ -27,6 +28,40 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
 
   @Output()
   openMenu = new EventEmitter<any>();
+
+  navigation: any[];
+
+  private _selectedItem!: String;
+  private _compactMode = false;
+
+  constructor(private elementRef: ElementRef, private apollo: Apollo) {
+    this.apollo.query({
+      query: gql`
+        query menuList($name: String) {
+          menuList(name: $name) {
+            id
+            name
+            parentId
+            path
+            type
+            icon
+            expanded
+          }
+        }
+      `,
+      variables: {
+        name: ''
+      }
+    }).subscribe({
+      next: (result: any) => {
+        this.navigation = result.data.menuList;
+      },
+      error: (e) => {
+        console.error(e);
+        notify('오류가 발생하였습니다.', 'error', 3000);
+      }
+    });
+  }
 
   @Input()
   get compactMode() {
@@ -56,27 +91,6 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
       this.menu.instance.expandItem(this._selectedItem);
     }
   }
-
-  private _selectedItem!: String;
-
-  private _items!: Record <string, unknown>[];
-
-  get items() {
-    if (!this._items) {
-      this._items = navigation.map((item) => {
-        if (item.path && !(/^\//.test(item.path))) {
-          item.path = `/${item.path}`;
-        }
-        return { ...item, expanded: !this._compactMode };
-      });
-    }
-
-    return this._items;
-  }
-
-  private _compactMode = false;
-
-  constructor(private elementRef: ElementRef) { }
 
   setSelectedItem() {
     if (!this.menu.instance) {

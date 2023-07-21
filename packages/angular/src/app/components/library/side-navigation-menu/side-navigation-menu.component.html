@@ -2,8 +2,11 @@
 
 <div class="menu-container">
   <dx-tree-view
-    [items]="items"
-    keyExpr="path"
+    [items]="navigation"
+    dataStructure="plain"
+    keyExpr="id"
+    parentIdExpr="parentId"
+    displayExpr="name"
     selectionMode="single"
     [focusStateEnabled]="false"
     expandEvent="click"
