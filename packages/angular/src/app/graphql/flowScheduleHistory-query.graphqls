@@ -1,0 +1,12 @@
+extend type Query {
+    flowScheduleHistories: [FlowScheduleHistory]
+}
+
+type FlowScheduleHistory {
+    id: String
+    flowName: String
+    isSuccess: String
+    fireTime: String
+    errorMessage: String
+}
+

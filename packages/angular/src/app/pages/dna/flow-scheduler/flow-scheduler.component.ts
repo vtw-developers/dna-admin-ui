@@ -191,27 +191,27 @@ export class FlowSchedulerComponent implements OnDestroy {
   startSchedule() {
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
+      this.apollo.mutate<any>({
+          mutation: gql`
+              mutation startFlowSchedule($flowSchedule: FlowScheduleInput) {
+                  startFlowSchedule(flowSchedule: $flowSchedule) {
+                      id
+                      flowName
+                      status
+                      cronExpression
+                      nextFireTime
+                      prevFireTime
+                      startTime
+                  }
+              }
+          `,
+        variables: {
+          flowSchedule : this.selectedSchedule
+        }
+      }).subscribe(result => {
+        this.reloadFlowSchedules();
+      });
     }
-    this.apollo.mutate<any>({
-        mutation: gql`
-            mutation startFlowSchedule($flowSchedule: FlowScheduleInput) {
-                startFlowSchedule(flowSchedule: $flowSchedule) {
-                    id
-                    flowName
-                    status
-                    cronExpression
-                    nextFireTime
-                    prevFireTime
-                    startTime
-                }
-            }
-        `,
-      variables: {
-        flowSchedule : this.selectedSchedule
-      }
-    }).subscribe(result => {
-      this.reloadFlowSchedules();
-    });
   }
 
   stopSchedule() {

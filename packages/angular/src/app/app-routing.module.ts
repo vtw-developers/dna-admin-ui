@@ -41,6 +41,7 @@ import {ApplicationEditorComponent} from "./pages/dna/ops/application/editor/app
 import {OperationTreeComponent} from "./pages/dna/ops/operation-tree.component";
 import {MenuComponent} from "./pages/menu/menu.component";
 import {RoleMenuComponent} from "./pages/role-menu/role-menu.component";
+import {FlowHistoryComponent} from "./pages/dna/flow-history/flow-history.component";
 
 const routes: Routes = [
   {
@@ -86,6 +87,11 @@ const routes: Routes = [
       {
         path: 'flow-scheduler',
         component: FlowSchedulerComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'flow-history',
+        component: FlowHistoryComponent,
         canActivate: [AuthGuardService],
       },
       {

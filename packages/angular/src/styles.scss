@@ -272,7 +272,7 @@ body, .dx-widget {
   text-transform: none !important;
 }
 
-.status-running, .status-completed {
+.status-running, .status-success {
   @include status(#14c000);
 }
 

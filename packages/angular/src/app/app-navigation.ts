@@ -13,6 +13,10 @@ export const navigation = [
         path: '/flow-scheduler',
       },
       {
+        text: '플로우 히스토리',
+        path: '/flow-history',
+      },
+      {
         text: '플로우 템플릿',
         path: '/flow-template-list',
       },
