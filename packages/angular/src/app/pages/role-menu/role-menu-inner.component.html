@@ -1,0 +1,46 @@
+<div class="content-block dx-card responsive-paddings">
+
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="menuType"
+    keyExpr="id"
+    [showBorders]="true"
+    (onSelectionChanged)="onSelectionChanged($event)"
+  >
+
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="메뉴 검색"
+    ></dxo-search-panel>
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <div class="header-text">메뉴 설정</div>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="설정"
+          icon="plus"
+          type="default"
+          stylingMode="contained"
+          (onClick)="create()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        showText="inMenu"
+        widget="dxButton"
+        [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+      ></dxi-item>
+      <dxi-item name="searchPanel" locateInMenu="auto" onEnter></dxi-item>
+    </dxo-toolbar>
+
+    <dxo-paging [enabled]="false"></dxo-paging>
+    <dxo-selection mode="multiple"></dxo-selection>
+
+    <dxi-column dataField="parentName" caption="상위메뉴명"></dxi-column>
+    <dxi-column dataField="name" caption="메뉴명"></dxi-column>
+    <dxi-column dataField="detail" caption="설명"></dxi-column>
+  </dx-data-grid>
+</div>

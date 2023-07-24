@@ -1,0 +1,3 @@
+extend type Mutation {
+  createRoleMenu(role: RolesInput, menuList: [MenuInput]): RoleMenu
+}

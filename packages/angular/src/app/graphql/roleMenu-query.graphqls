@@ -1,0 +1,9 @@
+extend type Query {
+  roleMenuList(roleId: Int): [RoleMenu]
+}
+
+type RoleMenu {
+  id: ID
+  menu: Menu
+  role: Role
+}
