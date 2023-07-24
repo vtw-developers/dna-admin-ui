@@ -39,7 +39,7 @@ export class FlowSchedulerComponent implements OnDestroy {
   @ViewChild(DxDataGridComponent, {static: true}) dataGrid: DxDataGridComponent;
   @ViewChild(ScheduleNewFormComponent, {static: true}) editSchedulePopup: ScheduleNewFormComponent;
 
-  filterStatusList = ['All', 'Running', 'Stopped', 'Error', 'Not Started'];
+  filterStatusList = ['All', 'Running', 'Stopped', 'Error', 'Not Started', 'Waiting', 'Completed'];
   isPanelOpened = false;
   flowName;
   schedule;
@@ -52,7 +52,7 @@ export class FlowSchedulerComponent implements OnDestroy {
     this.reloadFlowSchedules();
     this.interval = setInterval(() => {
       this.reloadFlowSchedules();
-    }, 3000);
+    }, 5000);
   }
 
   ngOnDestroy(): void {
@@ -97,6 +97,9 @@ export class FlowSchedulerComponent implements OnDestroy {
     this.selectedSchedule = undefined;
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
+      if (this.selectedSchedule.cronExpression === null) {
+        return;
+      }
     }
     const newId = this.dataGrid.instance.getDataSource().items().length + 1;
     this.editSchedulePopup.openPopup(this.selectedSchedule, newId);
@@ -148,7 +151,7 @@ export class FlowSchedulerComponent implements OnDestroy {
       if (oldOne.cronExpression === flowSchedule.cronExpression) {
         confirm('<i>변경된 사항이 없습니다.</i>', '변경사항 없음');
       } else {
-        if (oldOne.status === 'Stopped') {
+        if (oldOne.status !== 'Running') {
           this.updateExecute(flowSchedule);
         } else if (oldOne.status === 'Running') {
           const result = confirm('<i>실행중인 스케줄입니다. 실행을 중지하고 변경하시겠습니까?</i>', '실행중인 스케줄');
@@ -158,7 +161,6 @@ export class FlowSchedulerComponent implements OnDestroy {
             }
           })
         }
-        this.updateExecute(flowSchedule);
       }
     });
   }
@@ -215,26 +217,28 @@ export class FlowSchedulerComponent implements OnDestroy {
   stopSchedule() {
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
-      this.apollo.mutate<any>({
-        mutation: gql`
-          mutation stopFlowSchedule($flowSchedule: FlowScheduleInput) {
-            stopFlowSchedule(flowSchedule: $flowSchedule) {
-              id
-              flowName
-              status
-              cronExpression
-              nextFireTime
-              prevFireTime
-              startTime
-            }
-            }
-        `,
-        variables: {
-          flowSchedule : this.selectedSchedule
-        }
-      }).subscribe(result => {
-        this.reloadFlowSchedules();
-      });
+      if (this.selectedSchedule.status === 'Running') {
+        this.apollo.mutate<any>({
+          mutation: gql`
+            mutation stopFlowSchedule($flowSchedule: FlowScheduleInput) {
+              stopFlowSchedule(flowSchedule: $flowSchedule) {
+                id
+                flowName
+                status
+                cronExpression
+                nextFireTime
+                prevFireTime
+                startTime
+              }
+              }
+          `,
+          variables: {
+            flowSchedule : this.selectedSchedule
+          }
+        }).subscribe(result => {
+          this.reloadFlowSchedules();
+        });
+      }
     }
   }
 
@@ -273,7 +277,7 @@ export class FlowSchedulerComponent implements OnDestroy {
     this.selectedSchedule = undefined;
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
-      if (this.selectedSchedule.status === 'Running') {
+      if (this.selectedSchedule.cronExpression !== null) {
         this.dataGrid.instance.clearSelection();
         this.selectedSchedule = undefined;
       }
@@ -283,9 +287,10 @@ export class FlowSchedulerComponent implements OnDestroy {
   }
 
   onetimeExecution(schedule: any) {
-    const selected = this.schedules.find(s => s.flowName === schedule.flowName);
-    if (selected !== undefined) {
-      schedule = selected;
+    const list = this.schedules.filter(s => s.cronExpression === null);
+    const before = list?.find(s => s.flowName === schedule.flowName);
+    if (before !== undefined) {
+      schedule = before;
     }
     this.apollo.mutate<any>({
       mutation: gql`

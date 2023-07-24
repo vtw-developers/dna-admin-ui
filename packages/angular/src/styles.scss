@@ -272,16 +272,16 @@ body, .dx-widget {
   text-transform: none !important;
 }
 
-.status-running {
+.status-running, .status-completed {
   @include status(#14c000);
 }
 
-.status-stopped {
+.status-stopped, .status-notstarted {
   @include status(lightgray);
 }
 
-.status-notstarted {
-  @include status(lightgray);
+.status-waiting {
+  @include status(#005ac0);
 }
 
 .status-error {

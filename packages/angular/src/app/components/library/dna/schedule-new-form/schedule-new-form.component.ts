@@ -35,7 +35,6 @@ export class ScheduleNewFormComponent {
   createMode: boolean;
   onetimeMode: boolean;
   flowNames = [];
-  existSchedule =[];
 
   constructor() {
   }
@@ -48,10 +47,7 @@ export class ScheduleNewFormComponent {
         this.schedule.startTime = this.formatDate(this.schedule.startTime);
         this.flowSchedulerComponent.addSchedule(this.schedule);
       } else {
-        const before = this.flowSchedulerComponent.schedules.find(s => s.flowName === this.schedule.flowName);
-        if (before.cronExpression === null) {
-          this.schedule.startTime = this.formatDate(this.schedule.startTime);
-        }
+        this.schedule.startTime = this.formatDate(this.schedule.startTime);
         this.flowSchedulerComponent.updateSchedule(this.schedule);
       }
     }
@@ -64,42 +60,31 @@ export class ScheduleNewFormComponent {
   }
 
   openPopup(schedule: any, newId: number) {
-    this.flowNames = ['testFlow', 'testFlow2', 'testFlow3'];
-    this.existSchedule = [];
-    this.flowSchedulerComponent.schedules.forEach(s => this.existSchedule.push(s.flowName));
-
+    this.flowNames = ['testFlow1', 'testFlow2', 'testFlow3'];
+    const exist = this.flowSchedulerComponent.schedules.filter(s => s.cronExpression !== null);
+    for (let i=0; i<exist.length; i++) {
+      const findIndex = this.flowNames.findIndex(s => s === exist[i]?.flowName);
+      this.flowNames.splice(findIndex, 1);
+    }
     this.onetimeMode = false;
-    this.schedule = schedule;
     if (schedule === undefined) {
-      for (let i=0; i<this.existSchedule.length; i++) {
-        const findIndex = this.flowNames.findIndex(s => s === this.existSchedule[i]);
-        this.flowNames.splice(findIndex, 1);
-      }
       this.createMode = true;
-      this.schedule = {
-        id: newId.toString(),
-        flowName: this.flowNames[0],
-        status: 'Not Started',
-        cronExpression: '0/10 * * * * ?',
-        nextFireTime: '',
-        prevFireTime: '',
-        startTime: new Date(),
-      }
     } else {
       this.createMode = false;
+      this.flowNames = [schedule.flowName];
+    }
+    this.schedule = {
+      id: this.createMode? newId.toString() : schedule.id,
+      flowName: this.flowNames[0],
+      cronExpression: this.createMode? '0/10 * * * * ?' : schedule.cronExpression,
+      startTime: new Date()
     }
     this.popupVisible = true;
   }
 
   openOnetimePopup(schedule: any, newId: number) {
-    this.flowNames = ['testFlow', 'testFlow2', 'testFlow3'];
+    this.flowNames = ['testFlow1', 'testFlow2', 'testFlow3'];
     this.onetimeMode = true;
-    this.flowSchedulerComponent.schedules.forEach(s => {
-      if (s.status === 'Running') {
-        const index = this.flowNames.findIndex(f => f === s.flowName);
-        this.flowNames.splice(index, 1);
-      }
-    });
     if (schedule === undefined) {
       this.schedule = {
         id: newId.toString(),
