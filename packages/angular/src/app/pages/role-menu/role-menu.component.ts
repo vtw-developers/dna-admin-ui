@@ -19,14 +19,15 @@ import {
 } from "../../components/library/dna/group-new-form/group-new-form.component";
 import {TemplateDetailsModule} from "../dna/template-details/template-details.component";
 import {DxTreeViewComponent} from "devextreme-angular/ui/tree-view";
-import {RoleTab, RoleTabModule} from "./role-tab.component";
-import {Role} from "./edit/role.service";
+import {RoleTab, RoleTabModule} from "../role/role-tab.component";
+import {Role} from "../role/edit/role.service";
+import {RoleMenuInnerModule} from "./role-menu-inner.component";
 
 @Component({
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss'],
+  templateUrl: './role-menu.component.html',
+  styleUrls: ['./role-menu.component.scss'],
 })
-export class RoleComponent {
+export class RoleMenuComponent {
 
   @ViewChild(GroupNewFormComponent) newGroupForm: GroupNewFormComponent;
   @ViewChild(TemplateNewFormComponent) newTemplateForm: TemplateNewFormComponent;
@@ -102,10 +103,11 @@ export class RoleComponent {
     GroupNewFormModule,
     TemplateDetailsModule,
     RoleTabModule,
+    RoleMenuInnerModule,
   ],
   providers: [],
   exports: [],
-  declarations: [RoleComponent],
+  declarations: [RoleMenuComponent],
 })
-export class RoleModule {
+export class RoleMenuModule {
 }

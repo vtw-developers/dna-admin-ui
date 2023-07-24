@@ -24,7 +24,7 @@ import {
 
 @Component({
   selector: 'roleGroup-edit-popup',
-  templateUrl: './roleGroup-edit.component.html',
+  templateUrl: './role-group-edit.component.html',
 })
 
 export class RoleGroupEditComponent {

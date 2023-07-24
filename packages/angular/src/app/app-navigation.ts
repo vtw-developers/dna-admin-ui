@@ -13,6 +13,10 @@ export const navigation = [
         path: '/flow-scheduler',
       },
       {
+        text: '플로우 히스토리',
+        path: '/flow-history',
+      },
+      {
         text: '플로우 템플릿',
         path: '/flow-template-list',
       },
@@ -188,24 +192,28 @@ export const navigation = [
         path: '/user-profile',
       },
       {
-        text: 'User List',
+        text: '사용자 관리',
         path: '/users',
       },
       {
-        text: 'Role',
+        text: '권한 설정',
         path: '/role',
       },
       {
-        text: 'Role Group',
+        text: '권한그룹 관리',
         path: '/role-group',
       },
       {
-        text: 'Authority',
+        text: '권한 관리',
         path: '/authority',
       },
       {
-        text: 'Menu Edit',
+        text: '메뉴 관리',
         path: '/menu',
+      },
+      {
+        text: '메뉴 설정',
+        path: '/role-menu',
       },
     ]
   }

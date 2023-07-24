@@ -51,6 +51,7 @@ export class MenuComponent {
                     name
                     detail
                     parentId
+                    parentName
                     path
                   }
                 }

@@ -11,14 +11,14 @@ import {CommonModule} from "@angular/common";
 import CustomStore from "devextreme/data/custom_store";
 import {firstValueFrom} from "rxjs";
 import {PageableService} from "../../services/pageable.service";
-import {RoleGroupEditComponent, RoleEditModule} from "./edit/roleGroup-edit.component";
+import {RoleGroupEditComponent, RoleEditModule} from "./edit/role-group-edit.component";
 import {Role} from "./edit/role.service";
 import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
 
 
 @Component({
-  templateUrl: './roleGroup.component.html',
+  templateUrl: './role-group.component.html',
   providers: [PageableService],
 })
 export class RoleGroupComponent {

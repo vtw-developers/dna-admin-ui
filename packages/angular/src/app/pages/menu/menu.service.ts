@@ -5,6 +5,7 @@ export interface Menu {
   name: string;
   detail: string;
   parentId: string;
+  parentName: string;
   path: string;
   type: string;
   icon: string;

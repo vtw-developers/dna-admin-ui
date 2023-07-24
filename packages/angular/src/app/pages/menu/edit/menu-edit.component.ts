@@ -31,7 +31,8 @@ import DataSource from "devextreme/data/data_source";
 
 export class MenuEditComponent {
   menu: Menu = {} as any;
-  parentId: DataSource
+  parentId: DataSource;
+  selectedParent;
   types: string[];
   type;
   editMode: 'create' | 'update';
@@ -82,6 +83,7 @@ export class MenuEditComponent {
               name
               detail
               parentId
+              parentName
               path
               type
               icon
@@ -104,7 +106,8 @@ export class MenuEditComponent {
       });
     } else {
       this.popupVisible = true;
-      this.menu = {id: null, name: null, detail: null, parentId: null, path: null, type: null, icon: null, expanded: null};
+      this.selectedParent = null;
+      this.menu = {id: null, name: null, detail: null, parentName:null, parentId: null, path: null, type: null, icon: null, expanded: null};
     }
   }
 
@@ -141,6 +144,8 @@ export class MenuEditComponent {
     this.close();
     if (this.isCreateMode()) {
       this.menu.expanded = true;
+      this.menu.parentId = this.selectedParent.id;
+      this.menu.parentName = this.selectedParent.name;
       this.apollo.mutate({
         mutation: gql`
           mutation createMenu($menu: MenuInput) {

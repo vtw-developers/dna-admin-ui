@@ -36,7 +36,7 @@
             <dx-validation-summary class="mt-2"></dx-validation-summary>
           </div>
           <div style="margin-bottom: 20px" *ngIf="isTemplate()">
-            <dx-select-box class="select-box" [dataSource]="parentId" displayExpr="name" valueExpr="id" [(value)]="menu.parentId" placeholder="상위 그룹">
+            <dx-select-box class="select-box" [dataSource]="parentId" displayExpr="name" [(value)]="selectedParent" placeholder="상위 그룹">
             </dx-select-box>
             <dx-validation-summary class="mt-2"></dx-validation-summary>
           </div>
