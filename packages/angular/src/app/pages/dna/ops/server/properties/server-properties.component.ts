@@ -1,8 +1,8 @@
-import {Component, Input, NgModule} from "@angular/core";
+import {Component, EventEmitter, Input, NgModule, Output} from "@angular/core";
 import {DxScrollViewModule, DxTabsModule} from "devextreme-angular";
-import {ApplicationEditorModule} from "../../application/editor/application-editor.component";
 import {NgIf} from "@angular/common";
 import {ServerMonitoringModule} from "../monitoring/server-monitoring.component";
+import {ApplicationEditorModule} from "../../application/editor/application-editor.component";
 
 @Component({
   selector: 'server-properties',
@@ -10,6 +10,9 @@ import {ServerMonitoringModule} from "../monitoring/server-monitoring.component"
   providers: []
 })
 export class ServerPropertiesComponent {
+
+  @Output() saved = new EventEmitter();
+
   navItem;
   @Input() set selectedItem(currentItem) {
     console.log(currentItem)
@@ -28,15 +31,19 @@ export class ServerPropertiesComponent {
       icon: '/assets/icons/common/monitoring.svg',
     }
   ];
+
+  refresh() {
+    this.saved.emit();
+  }
 }
 
 @NgModule({
   imports: [
     DxTabsModule,
-    ApplicationEditorModule,
     DxScrollViewModule,
     NgIf,
-    ServerMonitoringModule
+    ServerMonitoringModule,
+    ApplicationEditorModule,
   ],
   providers: [],
   exports: [ServerPropertiesComponent],

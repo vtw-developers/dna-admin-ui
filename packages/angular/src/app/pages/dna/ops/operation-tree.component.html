@@ -2,6 +2,14 @@
   <div class="tree-view-wrapper">
     <div class="panels">
       <div class="left" style="border-right: solid 2px lightgrey">
+        <div>
+          <dx-button
+            icon="plus"
+            text="서버"
+            (onClick)="openAddServer()"
+          ></dx-button>
+        </div>
+
         <dx-tree-view
           id="treeview"
           [items]="treeItems"
@@ -18,12 +26,20 @@
           [focusStateEnabled]="false"
         >
         </dx-tree-view>
+
+        <dx-context-menu
+          [dataSource]="contextItems"
+          (onItemClick)="onTreeMenuClick($event)"
+        >
+        </dx-context-menu>
+
       </div>
 
       <div class="right">
         <!--<application-properties *ngIf="currentItem" [selectedItem] = "currentItem"></application-properties>-->
-        <server-properties *ngIf="currentItem?.type === 'server'" [selectedItem] = "currentItem"></server-properties>
+        <server-properties (saved)="refresh()" *ngIf="currentItem?.type === 'server'" [selectedItem] = "currentItem"></server-properties>
       </div>
     </div>
   </div>
+  <server-new-form (saved)="refresh()"></server-new-form>
 </dx-scroll-view>

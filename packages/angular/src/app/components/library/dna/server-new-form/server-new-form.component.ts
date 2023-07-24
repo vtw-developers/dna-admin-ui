@@ -26,12 +26,13 @@ export class ServerNewFormComponent {
   popupVisible = false;
   server = {} as any;
   createMode: boolean;
-  os = ['Rocky', 'CentOS', 'Ubuntu Server']
+  os = ['Rocky', 'CentOS', 'Ubuntu Server'];
 
   constructor(private apollo: Apollo) {
   }
 
   openPopup(server: any) {
+    console.log(server)
     this.server = {};
     if (server === undefined) {
       this.createMode = true;

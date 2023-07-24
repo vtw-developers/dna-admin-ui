@@ -1,4 +1,4 @@
-import {Component, EventEmitter, NgModule, Output} from "@angular/core";
+import {Component, EventEmitter, NgModule, OnInit, Output} from "@angular/core";
 import {Apollo, gql} from "apollo-angular";
 import {
   DxButtonModule,
@@ -26,8 +26,10 @@ export class ApplicationNewFormComponent {
   createMode: boolean;
   servers;
 
-
   constructor(private apollo: Apollo) {
+  }
+
+  openPopup(application: any, serverId: any) {
     this.apollo.query({
       query: gql`
         query servers {
@@ -47,26 +49,24 @@ export class ApplicationNewFormComponent {
       }
       console.log(result.data.servers);
       this.servers = result.data.servers;
+
+      this.application = {}
+      const server = this.servers.find(e => e.id === serverId);
+      if (application === undefined) {
+        this.createMode = true;
+        this.application.server = server;
+      } else {
+        this.createMode = false;
+        application.server = server;
+        this.application = application;
+      }
+      this.popupVisible = true;
     });
-  }
-
-  openPopup(application: any, serverId: any) {
-    this.application = {}
-    const server = this.servers.find(e => e.id === serverId);
-    if (application === undefined) {
-      this.createMode = true;
-      this.application.server = server;
-    } else {
-      this.createMode = false;
-      application.server = server;
-      this.application = application;
-    }
-    this.popupVisible = true;
-
   }
 
   save(e) {
     e.preventDefault();
+    console.log(this.application)
     if (this.createMode) {
       this.apollo.mutate<any>({
         mutation: gql`

@@ -1,9 +1,11 @@
-import {Component, Input, NgModule, ViewChild} from "@angular/core";
+import {Component, EventEmitter, Input, NgModule, Output, ViewChild} from "@angular/core";
 import {
   DxButtonModule,
   DxDataGridComponent,
   DxDataGridModule,
   DxFormModule,
+  DxSelectBoxModule,
+  DxTextBoxModule,
   DxValidationGroupModule
 } from "devextreme-angular";
 import {Apollo, gql} from "apollo-angular";
@@ -16,7 +18,7 @@ import DataSource from "devextreme/data/data_source";
 import {confirm} from "devextreme/ui/dialog";
 import notify from "devextreme/ui/notify";
 import {FormTextboxModule, ToolbarFormModule} from "../../../../../components";
-import {ClickEvent} from "devextreme/ui/button";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'application-editor',
@@ -27,6 +29,8 @@ import {ClickEvent} from "devextreme/ui/button";
 export class ApplicationEditorComponent {
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(ApplicationNewFormComponent, {static: false}) editApplicationPopup: ApplicationNewFormComponent;
+
+  @Output() saved = new EventEmitter();
 
   @Input() set selectedItem(currentItem) {
     console.log(currentItem);
@@ -40,36 +44,17 @@ export class ApplicationEditorComponent {
     this.refresh();
   }
 
+  serverStatus = 'On';
   applicationId;
   selectedApplication;
   applications: DataSource;
   isSelected: boolean;
   server;
-
-  /*applications = [
-    {
-      id: 1,
-      name: 'Application1',
-      restPort: '7901',
-      monitoringPort: '7801'
-    },
-    {
-      id: 2,
-      name: 'Application2',
-      restPort: '7902',
-      monitoringPort: '7802'
-    },
-    {
-      id: 3,
-      name: 'Application3',
-      restPort: '7903',
-      monitoringPort: '7803'
-    },
-  ]*/
-
+  os = [{code: 1, text: 'CentOS', value: 'CentOS'},
+    {code: 2, text: 'Rocky', value: 'Rocky'},
+    {code: 3, text: 'Ubuntu Server', value: 'Ubuntu Server'}];
 
   constructor(private apollo: Apollo) {
-
   }
 
   reloadApplications() {
@@ -104,12 +89,20 @@ export class ApplicationEditorComponent {
     });
   }
 
-  refresh = () => {
+   refresh = () => {
     this.applicationId = null;
     this.selectedApplication = undefined;
     this.isSelected = false;
     this.reloadApplications();
   };
+
+  reloadTree() {
+    this.applicationId = null;
+    this.selectedApplication = undefined;
+    this.isSelected = false;
+    this.reloadApplications();
+    this.saved.emit();
+  }
 
   rowClick(e: RowClickEvent) {
     const {data} = e;
@@ -141,7 +134,7 @@ export class ApplicationEditorComponent {
           }
           console.log(result);
           notify('애플리케이션 삭제가 완료되었습니다.', 'success', 3000);
-          this.refresh();
+          this.reloadTree();
         });
       }
     });
@@ -158,6 +151,28 @@ export class ApplicationEditorComponent {
   stopApplication() {
 
   }
+
+  updateServer() {
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation updateServer($server: ServerInput) {
+          updateServer(server: $server)
+        }
+      `,
+      variables: {
+        server: this.server
+      }
+    }).subscribe((result: any) => {
+      if (result.errors) {
+        console.error(result.errors);
+        return
+      }
+      notify('서버가 성공적으로 수정되었습니다.', 'success', 3000);
+      this.saved.emit();
+    });
+  }
+
+
 }
 @NgModule({
   imports: [
@@ -168,6 +183,9 @@ export class ApplicationEditorComponent {
     FormTextboxModule,
     ToolbarFormModule,
     DxValidationGroupModule,
+    DxTextBoxModule,
+    DxSelectBoxModule,
+    NgIf,
   ],
   providers: [],
   exports: [ApplicationEditorComponent],
