@@ -10,6 +10,7 @@ type Menu {
   name: String
   detail: String
   parentId: String
+  parentName: String
   path: String
   type: String
   icon: String

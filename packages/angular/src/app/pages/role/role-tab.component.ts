@@ -16,13 +16,13 @@ import {AuthorityEditComponent, AuthorityEditModule} from "../authority/edit/aut
 import {Authority} from "../authority/authority.service";
 import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
-import {RoleAuthEditComponent, RoleAuthEditModule} from "./edit/roleAuth-edit.component";
-import {RoleUserEditComponent, RoleUserEditModule} from "./edit/roleUser-edit.component";
+import {RoleAuthEditComponent, RoleAuthEditModule} from "./edit/role-auth-edit.component";
+import {RoleUserEditComponent, RoleUserEditModule} from "./edit/role-user-edit.component";
 
 @Component({
   selector: 'roleTab',
   providers: [PageableService],
-  templateUrl: './roleTab.component.html',
+  templateUrl: './role-tab.component.html',
 })
 
 // eslint-disable-next-line @angular-eslint/component-class-suffix

@@ -19,7 +19,7 @@ import {
 } from "../../components/library/dna/group-new-form/group-new-form.component";
 import {TemplateDetailsModule} from "../dna/template-details/template-details.component";
 import {DxTreeViewComponent} from "devextreme-angular/ui/tree-view";
-import {RoleTab, UsersTwoModule} from "./roleTab.component";
+import {RoleTab, UsersTwoModule} from "./role-tab.component";
 import {Role} from "./edit/role.service";
 
 @Component({
@@ -41,8 +41,6 @@ export class RoleComponent {
   treeItems: any[];
   currentItem: Role;
   selectedTreeItem: any;
-  role = "";
-  company = "";
 
   constructor(private apollo: Apollo) {
     this.apollo.query({

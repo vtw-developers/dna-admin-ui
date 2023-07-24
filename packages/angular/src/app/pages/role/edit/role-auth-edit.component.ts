@@ -21,15 +21,15 @@ import {
   DxoSelectionModule,
   DxoToolbarModule
 } from "devextreme-angular/ui/nested";
-import {Users} from "../../user/edit/users.service";
-import {RoleUser} from "./roleUser.service";
+import {RoleAuth} from "./role-auth.service";
+import {Authority} from "../../authority/authority.service";
 
 @Component({
-  selector: 'roleUser-edit-popup',
-  templateUrl: './roleUser-edit.component.html',
+  selector: 'roleAuth-edit-popup',
+  templateUrl: './role-auth-edit.component.html',
 })
 
-export class RoleUserEditComponent {
+export class RoleAuthEditComponent {
 
   @Input() set selectedCurrentItem(currentItem) {
     this.currentItem = currentItem
@@ -37,9 +37,9 @@ export class RoleUserEditComponent {
 
   popupVisible = false;
   currentItem: Role;
-  usersList: Users[] =[];
-  users: Users;
-  roleUser: RoleUser;
+  authorityList: Authority[] =[];
+  authority: Authority;
+  roleAuth: RoleAuth;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onSaved = new EventEmitter<Role>();
@@ -58,11 +58,11 @@ export class RoleUserEditComponent {
 
     this.apollo.query({
       query: gql`
-        query usersList($roleId: ID) {
-          usersList(roleId: $roleId) {
+        query authorityList($roleId: ID) {
+          authorityList(roleId: $roleId) {
             id
-            userId
             name
+            detail
           }
         }
       `,
@@ -71,7 +71,7 @@ export class RoleUserEditComponent {
       }
     }).subscribe({
       next: (result: any) => {
-        this.usersList = result.data.usersList;
+        this.authorityList = result.data.authorityList;
       },
       error: (e) => {
         console.error(e);
@@ -89,32 +89,32 @@ export class RoleUserEditComponent {
     e.preventDefault();
     this.close();
 
-    this.roleUser = {
+    this.roleAuth = {
       id: null,
-      users: this.users,
+      authority: this.authority,
       role: this.currentItem
     }
 
     this.apollo.mutate({
       mutation: gql`
-        mutation createRoleUser($roleUser: RoleUserInput) {
-          createRoleUser(roleUser: $roleUser) {
+        mutation createRoleAuth($roleAuth: RoleAuthInput) {
+          createRoleAuth(roleAuth: $roleAuth) {
             id
           }
         }
       `,
       variables: {
-        roleUser: this.roleUser
+        roleAuth: this.roleAuth
       }
     }).subscribe({
       next: (result: any) => {
         console.log(result);
-        notify('사용자가 등록되었습니다.', 'success', 3000);
-        this.onSaved.emit(result.data.createRoleUser);
+        notify('권한이 등록되었습니다.', 'success', 3000);
+        this.onSaved.emit(result.data.createRoleAuth);
       },
       error: (e) => {
         console.error(e);
-        notify('사용자 등록에 실패하였습니다.', 'error', 3000);
+        notify('권한 등록에 실패하였습니다.', 'error', 3000);
       }
     });
   }
@@ -141,9 +141,9 @@ export class RoleUserEditComponent {
   ],
   providers: [],
   exports: [
-    RoleUserEditComponent
+    RoleAuthEditComponent
   ],
-  declarations: [RoleUserEditComponent],
+  declarations: [RoleAuthEditComponent],
 })
-export class RoleUserEditModule {
+export class RoleAuthEditModule {
 }

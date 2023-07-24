@@ -32,7 +32,7 @@ import {FlowSchedulerComponent} from "./pages/dna/flow-scheduler/flow-scheduler.
 import {ServerMonitoringComponent} from "./pages/dna/ops/server/monitoring/server-monitoring.component";
 import {FlowMonitoringComponent} from "./pages/dna/ops/flow/flow-monitoring.component";
 import {RoleComponent} from "./pages/role/role.component";
-import {RoleGroupComponent} from "./pages/role/roleGroup.component";
+import {RoleGroupComponent} from "./pages/role/role-group.component";
 import {AuthorityComponent} from "./pages/authority/authority.component";
 import {ServerEditorComponent} from "./pages/dna/ops/server/editor/server-editor.component";
 import {ApplicationMonitoringComponent} from "./pages/dna/ops/application/monitoring/application-monitoring.component";
@@ -40,6 +40,7 @@ import {UsersComponent} from "./pages/user/users.component";
 import {ApplicationEditorComponent} from "./pages/dna/ops/application/editor/application-editor.component";
 import {OperationTreeComponent} from "./pages/dna/ops/operation-tree.component";
 import {MenuComponent} from "./pages/menu/menu.component";
+import {RoleMenuComponent} from "./pages/role-menu/role-menu.component";
 
 const routes: Routes = [
   {
@@ -222,6 +223,11 @@ const routes: Routes = [
       {
         path: 'menu',
         component: MenuComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'role-menu',
+        component: RoleMenuComponent,
         canActivate: [AuthGuardService],
       },
       {
