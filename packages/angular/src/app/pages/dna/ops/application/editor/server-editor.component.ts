@@ -21,12 +21,12 @@ import {FormTextboxModule, ToolbarFormModule} from "../../../../../components";
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'application-editor',
-  templateUrl: './application-editor.component.html',
-  styleUrls: ['./application-editor.component.scss'],
+  selector: 'server-editor',
+  templateUrl: './server-editor.component.html',
+  styleUrls: ['./server-editor.component.scss'],
   providers: []
 })
-export class ApplicationEditorComponent {
+export class ServerEditorComponent {
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(ApplicationNewFormComponent, {static: false}) editApplicationPopup: ApplicationNewFormComponent;
 
@@ -89,7 +89,7 @@ export class ApplicationEditorComponent {
     });
   }
 
-   refresh = () => {
+  refresh = () => {
     this.applicationId = null;
     this.selectedApplication = undefined;
     this.isSelected = false;
@@ -174,6 +174,7 @@ export class ApplicationEditorComponent {
 
 
 }
+
 @NgModule({
   imports: [
     DxFormModule,
@@ -188,9 +189,9 @@ export class ApplicationEditorComponent {
     NgIf,
   ],
   providers: [],
-  exports: [ApplicationEditorComponent],
-  declarations: [ApplicationEditorComponent]
+  exports: [ServerEditorComponent],
+  declarations: [ServerEditorComponent]
 })
-export class ApplicationEditorModule {
+export class ServerEditorModule {
 
 }

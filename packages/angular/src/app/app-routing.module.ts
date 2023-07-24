@@ -34,10 +34,10 @@ import {FlowMonitoringComponent} from "./pages/dna/ops/flow/flow-monitoring.comp
 import {RoleComponent} from "./pages/role/role.component";
 import {RoleGroupComponent} from "./pages/role/role-group.component";
 import {AuthorityComponent} from "./pages/authority/authority.component";
-import {ServerEditorComponent} from "./pages/dna/ops/server/editor/server-editor.component";
+import {ServerListComponent} from "./pages/dna/ops/server/editor/server-list.component";
 import {ApplicationMonitoringComponent} from "./pages/dna/ops/application/monitoring/application-monitoring.component";
 import {UsersComponent} from "./pages/user/users.component";
-import {ApplicationEditorComponent} from "./pages/dna/ops/application/editor/application-editor.component";
+import {ServerEditorComponent} from "./pages/dna/ops/application/editor/server-editor.component";
 import {OperationTreeComponent} from "./pages/dna/ops/operation-tree.component";
 import {MenuComponent} from "./pages/menu/menu.component";
 import {RoleMenuComponent} from "./pages/role-menu/role-menu.component";
@@ -197,13 +197,13 @@ const routes: Routes = [
         canActivate: [AuthGuardService],
       },
       {
-        path: 'server-editor',
-        component: ServerEditorComponent,
+        path: 'server-list',
+        component: ServerListComponent,
         canActivate: [AuthGuardService],
       },
       {
         path: 'application-editor',
-        component: ApplicationEditorComponent,
+        component: ServerEditorComponent,
         canActivate: [AuthGuardService],
       },
       {

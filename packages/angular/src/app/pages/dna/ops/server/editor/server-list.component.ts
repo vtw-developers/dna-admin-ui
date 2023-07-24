@@ -25,11 +25,11 @@ import DataSource from "devextreme/data/data_source";
 import notify from "devextreme/ui/notify";
 
 @Component({
-  templateUrl: './server-editor.component.html',
-  styleUrls: ['./server-editor.component.scss'],
+  templateUrl: './server-list.component.html',
+  styleUrls: ['./server-list.component.scss'],
   providers: []
 })
-export class ServerEditorComponent {
+export class ServerListComponent {
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(ServerNewFormComponent, {static: false}) editServerPopup: ServerNewFormComponent;
 
@@ -38,34 +38,6 @@ export class ServerEditorComponent {
   selectedServer;
   servers: DataSource;
   isSelected: boolean;
-
-  /*servers = [
-    {
-      id: 1,
-      name: 'Server1',
-      status: 'Running',
-      os: 'Rocky',
-      privateIp: '192.192.192.192',
-      publicIp: '192.192.192.192'
-    },
-    {
-      id: 2,
-      name: 'Server2',
-      status: 'Error',
-      os: 'CentOS',
-      privateIp: '192.192.192.192',
-      publicIp: '192.192.192.192'
-    },
-    {
-      id: 3,
-      name: 'Server3',
-      status: 'Stopped',
-      os: 'Ubuntu',
-      privateIp: '192.192.192.192',
-      publicIp: '192.192.192.192'
-    }
-  ]*/
-
 
   constructor(private apollo: Apollo) {
     this.reloadServers();
@@ -190,8 +162,8 @@ export class ServerEditorComponent {
     ContactStatusModule,
   ],
   providers: [],
-  exports: [ServerEditorComponent],
-  declarations: [ServerEditorComponent],
+  exports: [ServerListComponent],
+  declarations: [ServerListComponent],
 })
-export class ServerEditorModule {
+export class ServerListModule {
 }

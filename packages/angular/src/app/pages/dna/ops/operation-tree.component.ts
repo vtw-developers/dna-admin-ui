@@ -2,7 +2,7 @@ import {Component, NgModule, ViewChild} from "@angular/core";
 import {DxTreeViewComponent} from "devextreme-angular/ui/tree-view";
 import {Apollo, gql} from "apollo-angular";
 import {DxButtonModule, DxContextMenuModule, DxScrollViewModule, DxTreeViewModule} from "devextreme-angular";
-import {ApplicationEditorComponent, ApplicationEditorModule} from "./application/editor/application-editor.component";
+import {ServerEditorComponent, ServerEditorModule} from "./application/editor/server-editor.component";
 import {NgIf} from "@angular/common";
 import {ApplicationPropertiesModule} from "./application/properties/application-properties.component";
 import {ServerPropertiesModule} from "./server/properties/server-properties.component";
@@ -20,7 +20,7 @@ import notify from "devextreme/ui/notify";
 export class OperationTreeComponent {
 
   @ViewChild(DxTreeViewComponent, {static: false}) treeView: DxTreeViewComponent;
-  @ViewChild(ApplicationEditorComponent, {static: false}) applicationEditor: ApplicationEditorComponent;
+  @ViewChild(ServerEditorComponent, {static: false}) applicationEditor: ServerEditorComponent;
   @ViewChild(ServerNewFormComponent, {static: false}) editServerPopup: ServerNewFormComponent;
 
   treeItems: any[];
@@ -165,7 +165,7 @@ export class OperationTreeComponent {
   imports: [
     DxTreeViewModule,
     DxScrollViewModule,
-    ApplicationEditorModule,
+    ServerEditorModule,
     NgIf,
     ApplicationPropertiesModule,
     ServerPropertiesModule,
