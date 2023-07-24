@@ -262,7 +262,7 @@ export class RoleTab {
   }
 
 
-  protected readonly UsersTwoModule = UsersTwoModule;
+  protected readonly RoleTabModule = RoleTabModule;
 }
 @NgModule({
   imports: [
@@ -284,5 +284,5 @@ export class RoleTab {
   ],
   declarations: [RoleTab],
 })
-export class UsersTwoModule {
+export class RoleTabModule {
 }

@@ -19,7 +19,7 @@ import {
 } from "../../components/library/dna/group-new-form/group-new-form.component";
 import {TemplateDetailsModule} from "../dna/template-details/template-details.component";
 import {DxTreeViewComponent} from "devextreme-angular/ui/tree-view";
-import {RoleTab, UsersTwoModule} from "../role/role-tab.component";
+import {RoleTab, RoleTabModule} from "../role/role-tab.component";
 import {Role} from "../role/edit/role.service";
 import {RoleMenuInnerModule} from "./role-menu-inner.component";
 
@@ -102,7 +102,7 @@ export class RoleMenuComponent {
     FormPopupModule,
     GroupNewFormModule,
     TemplateDetailsModule,
-    UsersTwoModule,
+    RoleTabModule,
     RoleMenuInnerModule,
   ],
   providers: [],
