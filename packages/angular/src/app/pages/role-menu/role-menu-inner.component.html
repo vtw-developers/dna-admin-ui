@@ -1,9 +1,10 @@
 <div class="content-block dx-card responsive-paddings">
 
-  <dx-data-grid
+  <dx-tree-list
     id="gridContainer"
     [dataSource]="menuType"
     keyExpr="id"
+    parentIdExpr="parentId"
     [showBorders]="true"
     [selectedRowKeys]="roleMenuList"
     (onSelectionChanged)="onSelectionChanged($event)"
@@ -40,8 +41,7 @@
     <dxo-paging [enabled]="false"></dxo-paging>
     <dxo-selection mode="multiple"></dxo-selection>
 
-    <dxi-column dataField="parentName" caption="상위메뉴명"></dxi-column>
     <dxi-column dataField="name" caption="메뉴명"></dxi-column>
     <dxi-column dataField="detail" caption="설명"></dxi-column>
-  </dx-data-grid>
+  </dx-tree-list>
 </div>

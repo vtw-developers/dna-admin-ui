@@ -1,7 +1,7 @@
 extend type Mutation {
   createMenu(menu: MenuInput): Menu
   updateMenu(menu: MenuInput): Menu
-  deleteMenu(id: ID): Menu
+  deleteMenu(menu: MenuInput): Menu
 }
 
 input MenuInput {

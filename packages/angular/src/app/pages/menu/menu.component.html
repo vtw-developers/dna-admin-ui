@@ -1,12 +1,11 @@
 <div class="content-block dx-card responsive-paddings">
 
-  <dx-data-grid
+  <dx-tree-list
     #grid
     [dataSource]="menus"
+    keyExpr="id"
+    parentIdExpr="parentId"
     [showBorders]="true"
-    [remoteOperations]="true"
-    [hoverStateEnabled]="true"
-    [selectedRowKeys]="[]"
   >
     <dxo-search-panel
       [visible]="true"
@@ -39,7 +38,6 @@
     <dxi-column dataField="id" dataType="string" caption="ID"></dxi-column>
     <dxi-column dataField="name" dataType="string" caption="메뉴명"></dxi-column>
     <dxi-column dataField="detail" dataType="string" caption="설명"></dxi-column>
-    <dxi-column dataField="parentName" dataType="string" caption="상위메뉴명"></dxi-column>
     <dxi-column dataField="path" dataType="string" caption="경로"></dxi-column>
     <dxi-column type="buttons" caption="수정">
       <dxi-button
@@ -56,14 +54,7 @@
       ></dxi-button>
     </dxi-column>
     <dxo-selection mode="single"></dxo-selection>
-    <dxo-paging [pageSize]="5"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [allowedPageSizes]="[5, 10, 20]"
-      [showInfo]="true"
-      [visible]="true"
-    ></dxo-pager>
-  </dx-data-grid>
+  </dx-tree-list>
 </div>
 
 <menu-edit-popup (onSaved)="onSaved($event)"></menu-edit-popup>
