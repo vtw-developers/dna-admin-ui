@@ -1,9 +1,9 @@
 extend type Query {
     deployedFlows(applicationId: ID): [DeployedFlow]
+    findAllDeployedFlows: [DeployedFlow]
 }
 
 type DeployedFlow {
-    projectId: ID
     id: ID
     application: Application
     flow: MonitoringFlow

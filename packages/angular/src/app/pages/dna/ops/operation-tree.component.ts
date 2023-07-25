@@ -89,6 +89,44 @@ export class OperationTreeComponent {
           e.icon = '/assets/icons/common/application.svg';
           this.treeItems.push(e);
         });
+
+        this.apollo.query({
+          query: gql`
+            query findAllDeployedFlows {
+              findAllDeployedFlows {
+                id
+                flow {
+                  id
+                  name
+                }
+                application {
+                  id
+                  name
+                }
+                autoStartUp
+                deployed
+
+              }
+            }
+          `,
+          variables: {}
+        }).subscribe((result: any) => {
+          if (result.errors) {
+            console.error(result.errors);
+          }
+          console.log(result.data.findAllDeployedFlows);
+          result.data.findAllDeployedFlows.forEach(e => {
+            e.name = e.flow.name;
+            e.type = 'deployedFlow'
+            e.parentId = e.application.id;
+            e.icon = '/assets/icons/common/service.svg';
+            this.treeItems.push(e);
+          });
+
+
+        });
+
+
       });
     });
   }

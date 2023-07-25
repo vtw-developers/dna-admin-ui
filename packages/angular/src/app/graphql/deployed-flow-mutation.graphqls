@@ -1,5 +1,5 @@
 extend type Mutation {
-  createDeployedFlow(deployedFlow: DeployedFlowInput): ID
+    createDeployedFlow(deployedFlow: DeployedFlowInput): ID
 }
 
 input DeployedFlowInput {
