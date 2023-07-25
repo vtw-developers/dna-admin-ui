@@ -2,7 +2,7 @@
 
   <dx-tree-list
     id="gridContainer"
-    [dataSource]="menuType"
+    [dataSource]="menuList"
     keyExpr="id"
     parentIdExpr="parentId"
     [showBorders]="true"
@@ -39,7 +39,7 @@
     </dxo-toolbar>
 
     <dxo-paging [enabled]="false"></dxo-paging>
-    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-selection mode="multiple" recursive={true}></dxo-selection>
 
     <dxi-column dataField="name" caption="메뉴명"></dxi-column>
     <dxi-column dataField="detail" caption="설명"></dxi-column>
