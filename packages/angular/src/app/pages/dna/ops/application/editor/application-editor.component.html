@@ -1,4 +1,45 @@
 <div class="view-wrapper">
+
+  <div class="dx-fieldset">
+    <div class="dx-fieldset-header" style="font-size: 22px; font-weight: 500; padding-right: 25px;">기본 정보</div>
+    <!--<div style="float: right;">
+      <dx-button
+        class="form-item-button"
+        stylingMode="outlined"
+        [text]="'저장'"
+        [type]="'default'"
+        (onClick)="updateApplication()"
+      ></dx-button>
+    </div>-->
+    <!--<div>{{applicaitonItem.isDeployed ? '배포 완료' : '배포 안됨' }}</div>-->
+    <!--<div style="margin-bottom: 16px;">
+      <span>상태</span>
+      <div *ngIf="applicationItem.applicationStatus === 'On'">
+        <i class="dx-icon-isnotblank" style="color:#41b400;"></i>운영중
+      </div>
+      <div *ngIf="applicationItem.applicationStatus !== 'On'">
+        <i class="dx-icon-isnotblank" style="color:#cbc7b9;"></i>정지됨
+      </div>
+    </div>-->
+
+    <div style="margin-bottom: 8px;">
+      <span>이름</span>
+      <dx-text-box [(value)]="application.name">
+      </dx-text-box>
+    </div>
+    <div style="margin-bottom: 8px;">
+      <span>Rest Port</span>
+      <dx-text-box [(value)]="application.restPort">
+      </dx-text-box>
+    </div>
+    <div style="margin-bottom: 8px;">
+      <span>Monitor Port</span>
+      <dx-text-box [(value)]="application.monitorPort">
+      </dx-text-box>
+    </div>
+
+  </div>
+
   <dx-data-grid
     #grid
     class="grid"
@@ -87,7 +128,7 @@
     </dxo-toolbar>
 
     <dxi-column
-      dataField="name"
+      dataField="flow.name"
       caption="서비스 명"
     ></dxi-column>
     <!--<dxi-column
@@ -95,15 +136,15 @@
       caption="상태"
     ></dxi-column>-->
     <dxi-column
-      dataField="restPort"
-      caption="Rest Port"
-      alignment='left'
+      dataField="autoStartUp"
+      caption="Auto StartUp"
     ></dxi-column>
     <dxi-column
-      dataField="monitorPort"
-      caption="Monitor Port"
-      alignment='left'
+      dataField="deployed"
+      caption="배포 상태"
     ></dxi-column>
 
   </dx-data-grid>
+
+  <deployed-flow-new-form (saved)="refresh()"></deployed-flow-new-form>
 </div>

@@ -1,0 +1,80 @@
+<dx-popup
+  [width]="'20vw'"
+  [title]="createMode? '서비스 생성' : '서비스 변경'"
+  height="auto"
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="false"
+  [(visible)]="popupVisible"
+>
+  <dxo-position at="center" my="center"></dxo-position>
+  <div *dxTemplate="let data of 'content'">
+    <dx-validation-group #validationGroup>
+      <form (submit)="save($event)">
+        <dxi-item itemType="group">
+          <dxo-col-count-by-screen [xs]="1" [sm]="1" [md]="1" [lg]="1"></dxo-col-count-by-screen>
+<!--          <dxi-item style="margin-bottom: 10px;">-->
+<!--            <dx-select-box-->
+<!--              label="애플리케이션 선택"-->
+<!--              [dataSource]="applications"-->
+<!--              displayExpr="name"-->
+<!--              [disabled]="!createMode"-->
+<!--              [(value)]="deployedFlow.application"-->
+<!--            >-->
+<!--              <dx-validator>-->
+<!--                <dxi-validation-rule-->
+<!--                  type="required"-->
+<!--                ></dxi-validation-rule>-->
+<!--              </dx-validator>-->
+<!--            </dx-select-box>-->
+<!--          </dxi-item>-->
+
+          <dxi-item style="margin-bottom: 10px;">
+            <dx-select-box
+              label="플로우 선택"
+              [dataSource]="flows"
+              displayExpr="name"
+              [disabled]="!createMode"
+              [(value)]="deployedFlow.flow"
+            >
+              <dx-validator>
+                <dxi-validation-rule
+                  type="required"
+                ></dxi-validation-rule>
+              </dx-validator>
+            </dx-select-box>
+          </dxi-item>
+          <dxi-item style="margin-bottom: 10px;">
+            <div class="dx-field">
+            <div class="dx-field-label" style="font-size: 16px;">{{'Auto-Startup:'}}</div>
+            <dx-radio-group
+              class="dx-field-value"
+              [(value)]="deployedFlow.autoStartUp"
+              [items]="[{value: true, text: 'True'}, {value: false, text: 'False'}]"
+              valueExpr="value"
+              displayExpr="text"
+              layout="horizontal"
+            >
+            </dx-radio-group>
+            </div>
+          </dxi-item>
+        </dxi-item>
+        <br>
+        <div class="popup-buttons">
+          <dx-button
+            text="저장"
+            stylingMode="contained"
+            [useSubmitBehavior]="true"
+          ></dx-button>
+          <dx-button
+            text="취소"
+            stylingMode="contained"
+            type="default"
+            (onClick)="cancel()"
+          ></dx-button>
+        </div>
+      </form>
+    </dx-validation-group>
+  </div>
+</dx-popup>

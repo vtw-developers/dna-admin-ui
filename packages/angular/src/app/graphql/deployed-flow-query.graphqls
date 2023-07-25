@@ -1,0 +1,12 @@
+extend type Query {
+    deployedFlows(applicationId: ID): [DeployedFlow]
+}
+
+type DeployedFlow {
+    projectId: ID
+    id: ID
+    application: Application
+    flow: MonitoringFlow
+    autoStartUp: Boolean
+    deployed: Boolean
+}

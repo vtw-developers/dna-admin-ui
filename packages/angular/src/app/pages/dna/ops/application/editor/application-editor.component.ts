@@ -1,6 +1,7 @@
 import {Component, Input, NgModule, ViewChild} from "@angular/core";
 import {
-  DxButtonModule, DxDataGridComponent,
+  DxButtonModule,
+  DxDataGridComponent,
   DxDataGridModule,
   DxFormModule,
   DxSelectBoxModule,
@@ -13,8 +14,11 @@ import {
 import {FormTextboxModule, ToolbarFormModule} from "../../../../../components";
 import {NgIf} from "@angular/common";
 import DataSource from "devextreme/data/data_source";
-import {Apollo} from "apollo-angular";
+import {Apollo, gql} from "apollo-angular";
 import {RowClickEvent} from "devextreme/ui/data_grid";
+import {
+  DeployedFlowNewFormComponent, DeployedFlowNewFormModule
+} from "../../../../../components/library/dna/deployed-flow-new-form/deployed-flow-new-form.component";
 
 @Component({
   selector: 'application-editor',
@@ -25,11 +29,21 @@ import {RowClickEvent} from "devextreme/ui/data_grid";
 export class ApplicationEditorComponent {
 
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
+  @ViewChild(DeployedFlowNewFormComponent, {static: false}) editDeployedFlowPopup: DeployedFlowNewFormComponent;
 
   @Input() set selectedItem(currentItem) {
     console.log(currentItem);
+    this.application = {
+      id: currentItem.id,
+      name: currentItem.name,
+      restPort: currentItem.restPort,
+      monitorPort: currentItem.monitorPort,
+      server: currentItem.server
+    }
+    this.refresh();
   }
 
+  application;
   deployedFlowId;
   selectedDeployedFlow;
   deployedFlows: DataSource;
@@ -39,7 +53,36 @@ export class ApplicationEditorComponent {
   }
 
   reloadDeployedFlows() {
-
+    this.apollo.query({
+      query: gql`
+        query deployedFlows($applicationId: ID!) {
+          deployedFlows(applicationId: $applicationId) {
+            id
+            application {
+              id
+              name
+              restPort
+              monitorPort
+            }
+            flow {
+              id
+              name
+            }
+            autoStartUp
+            deployed
+          }
+        }
+      `,
+      variables: {
+        applicationId: this.application.id
+      }
+    }).subscribe((result: any) => {
+      if (result.errors) {
+        console.error(result.errors);
+        return
+      }
+      this.deployedFlows = result.data.deployedFlows;
+    });
   }
 
   refresh = () => {
@@ -57,7 +100,7 @@ export class ApplicationEditorComponent {
   }
 
   openAddDeployedFlow() {
-
+    this.editDeployedFlowPopup.openPopup(this.application);
   }
 
   deploy() {
@@ -76,6 +119,13 @@ export class ApplicationEditorComponent {
 
   }
 
+  updateApplication() {
+
+  }
+
+  reloadTree() {
+
+  }
 }
 
 @NgModule({
@@ -90,6 +140,7 @@ export class ApplicationEditorComponent {
     DxTextBoxModule,
     DxSelectBoxModule,
     NgIf,
+    DeployedFlowNewFormModule,
   ],
   providers: [],
   exports: [ApplicationEditorComponent],

@@ -1,0 +1,16 @@
+extend type Mutation {
+  createDeployedFlow(deployedFlow: DeployedFlowInput): ID
+}
+
+input DeployedFlowInput {
+    id: ID
+    application: ApplicationInput
+    flow: MonitoringFlowInput
+    autoStartUp: Boolean
+    deployed: Boolean
+}
+
+input MonitoringFlowInput {
+    id: ID
+    name: String
+}

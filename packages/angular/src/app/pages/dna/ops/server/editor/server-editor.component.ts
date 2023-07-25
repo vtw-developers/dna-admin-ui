@@ -85,7 +85,6 @@ export class ServerEditorComponent {
         console.error(result.errors);
         return
       }
-      console.log(result.data.applications);
       this.applications = result.data.applications;
     });
   }
@@ -133,7 +132,6 @@ export class ServerEditorComponent {
           if (result.errors) {
             console.error(result.errors);
           }
-          console.log(result);
           notify('애플리케이션 삭제가 완료되었습니다.', 'success', 3000);
           this.reloadTree();
         });

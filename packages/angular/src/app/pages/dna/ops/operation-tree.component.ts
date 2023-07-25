@@ -36,7 +36,6 @@ export class OperationTreeComponent {
   }
 
   reloadTree() {
-    console.log(this.currentItem)
     this.apollo.query({
       query: gql`
         query servers {
@@ -72,6 +71,9 @@ export class OperationTreeComponent {
               server {
                 id
                 name
+                os
+                privateIp
+                publicIp
               }
             }
           }
@@ -109,7 +111,6 @@ export class OperationTreeComponent {
   }
 
   treeViewItemContextMenu(e: any) {
-    console.log(e.itemData)
     this.selectedTreeItem = e.itemData;
     if (this.selectedTreeItem.type === 'server') {
       this.contextItems = [
@@ -120,11 +121,16 @@ export class OperationTreeComponent {
           icon: 'trash'
         },
       ]
+    } else if (this.selectedTreeItem.type === 'application') {
+      this.contextItems = [
+        {
+          id: 'deleteApplication',
+          text: '애플리케이션 삭제',
+          type: 'deleteApplication',
+          icon: 'trash'
+        },
+      ]
     }
-  }
-
-  openEditor() {
-
   }
 
   openAddServer() {
@@ -152,11 +158,38 @@ export class OperationTreeComponent {
                 console.error(result.errors);
               }
               notify('서버 삭제가 완료되었습니다.', 'success', 3000);
-              this.refresh();
+              this.reloadTree();
             });
           }
         });
       }
+      case 'deleteApplication': {
+        const result = confirm('<i>정말로 애플리케이션을 삭제하시겠습니까?</i>', '애플리케이션 삭제');
+        result.then(dialogResult => {
+          if (dialogResult) {
+            this.apollo.mutate({
+              mutation: gql`
+                mutation deleteApplication($id: ID) {
+                  deleteApplication(id: $id)
+                }
+              `,
+              variables: {
+                id: this.selectedTreeItem.id
+              }
+            }).subscribe((result: any) => {
+              if (result.errors) {
+                console.error(result.errors);
+              }
+              notify('애플리케이션 삭제가 완료되었습니다.', 'success', 3000);
+              this.currentItem = this.selectedTreeItem.server;
+              this.currentItem = undefined;
+              this.reloadTree();
+            });
+          }
+        });
+
+      }
+
     }
   }
 }
