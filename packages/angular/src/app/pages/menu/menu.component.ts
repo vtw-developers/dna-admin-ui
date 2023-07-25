@@ -4,13 +4,9 @@ import {Apollo, gql} from "apollo-angular";
 import DataSource from "devextreme/data/data_source";
 import {
   DxButtonModule,
-  DxDataGridComponent,
-  DxDataGridModule
+  DxTreeListComponent, DxTreeListModule
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
-import CustomStore from "devextreme/data/custom_store";
-import {firstValueFrom} from "rxjs";
-import {PageableService} from "../../services/pageable.service";
 import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
 import {Menu} from "./menu.service";
@@ -20,58 +16,45 @@ import {MenuEditComponent, MenuEditModule} from "./edit/menu-edit.component";
 
 @Component({
   templateUrl: './menu.component.html',
-  providers: [PageableService],
 })
 export class MenuComponent {
   menus: DataSource;
   filter = '';
-  @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
+  @ViewChild(DxTreeListComponent, {static: false}) grid: DxTreeListComponent;
   @ViewChild(MenuEditComponent, {static: false}) editPopup: MenuEditComponent;
 
-  constructor(private pageableService: PageableService, private apollo: Apollo) {
-    this.menus = new DataSource({
-      store: new CustomStore({
-        key: 'id',
-        load: (loadOptions) => {
-          this.grid.instance.clearSelection();
+  constructor(private apollo: Apollo) {
+    this.searchMenu();
+  }
 
-          const pageable = this.pageableService.getPageable(loadOptions);
-          const page$ = this.apollo.query({
-            query: gql`
-              query menus(
-                $page: Int = 0,
-                $size: Int = 10,
-                $sortBy: String = "id",
-                $sortDir: String = "asc",
-                $filter: String = "") {
-                menus(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
-                  totalElements
-                  content {
-                    id
-                    name
-                    detail
-                    parentId
-                    parentName
-                    path
-                  }
-                }
-              }
-            `,
-            variables: {
-              page: pageable.page,
-              size: pageable.size,
-              sortBy: pageable.sortBy,
-              sortDir: pageable.sortDir,
-              filter: pageable.filter
-            }
-          });
-
-          return firstValueFrom(page$)
-            .then((page: any) => {
-              return this.pageableService.transformPage(page.data.menus);
-            });
-        },
-      })
+  searchMenu(){
+    this.apollo.query({
+      query: gql`
+        query menuList($name: String) {
+          menuList(name: $name) {
+            id
+            name
+            detail
+            parentId
+            parentName
+            path
+            type
+            icon
+            expanded
+          }
+        }
+      `,
+      variables: {
+        name: ''
+      }
+    }).subscribe({
+      next: (result: any) => {
+        this.menus = result.data.menuList;
+      },
+      error: (e) => {
+        console.error(e);
+        notify('오류가 발생하였습니다.', 'error', 3000);
+      }
     });
   }
 
@@ -84,19 +67,19 @@ export class MenuComponent {
   }
 
   delete = (e) => {
-    const result = confirm('<i>권한을 삭제하시겠습니까?</i>', '삭제');
+    const result = confirm('<i>메뉴를 삭제하시겠습니까?</i>', '삭제');
     result.then(dialogResult => {
       if (dialogResult) {
         this.apollo.mutate({
           mutation: gql`
-            mutation deleteMenu($id: ID) {
-              deleteMenu(id: $id) {
+            mutation deleteMenu($menu: MenuInput) {
+              deleteMenu(menu: $menu) {
                 id
               }
             }
           `,
           variables: {
-            id: e.row.data.id
+            menu: e.row.data
           }
         }).subscribe({
           next: (v) => {
@@ -117,18 +100,18 @@ export class MenuComponent {
   }
 
   refresh() {
-    this.menus.reload();
+    this.searchMenu();
   }
 }
 
 @NgModule({
   imports: [
     DxButtonModule,
-    DxDataGridModule,
 
     CommonModule,
     MenuEditModule,
     MenuEditModule,
+    DxTreeListModule,
   ],
   providers: [],
   exports: [],

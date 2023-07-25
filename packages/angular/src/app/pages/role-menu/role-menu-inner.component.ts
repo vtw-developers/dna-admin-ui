@@ -4,35 +4,33 @@ import {Apollo, gql} from "apollo-angular";
 import DataSource from "devextreme/data/data_source";
 import {
   DxButtonModule,
-  DxDataGridComponent,
-  DxDataGridModule
+  DxTreeListComponent, DxTreeListModule
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
-import {PageableService} from "../../services/pageable.service";
-import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
-import {Menu} from "../menu/menu.service";
+import {RoleMenu} from "./roleMenu.service";
 
 @Component({
   selector: 'role-menu-inner',
   templateUrl: './role-menu-inner.component.html',
-  providers: [PageableService],
 })
 export class RoleMenuInnerComponent {
 
   @Input() set selectedCurrentItem(currentItem) {
     this.currentItem = currentItem
+    this.searchRoleMenu();
   };
   menuType: DataSource;
   selectedMenus: Number[] = [];
   currentItem: any;
-  @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
+  roleMenuList: RoleMenu[] = [];
+  @ViewChild(DxTreeListComponent, {static: false}) grid: DxTreeListComponent;
 
-  constructor(private pageableService: PageableService, private apollo: Apollo) {
+  constructor(private apollo: Apollo) {
     this.apollo.query({
       query: gql`
-        query menuType($type: String) {
-          menuType(type: $type) {
+        query menuList($name: String) {
+          menuList(name: $name) {
             id
             name
             detail
@@ -46,11 +44,32 @@ export class RoleMenuInnerComponent {
         }
       `,
       variables: {
-        type: 'Template'
+        name: ''
       }
     }).subscribe({
       next: (result: any) => {
-        this.menuType = result.data.menuType
+        this.menuType = result.data.menuList
+      },
+      error: (e) => {
+        console.error(e);
+        notify('예매 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+      }
+    });
+  }
+
+  searchRoleMenu(){
+    this.apollo.query({
+      query: gql`
+        query roleMenuList($roleId: Int) {
+          roleMenuList(roleId: $roleId)
+        }
+      `,
+      variables: {
+        roleId: parseInt(this.currentItem.id)
+      }
+    }).subscribe({
+      next: (result: any) => {
+        this.roleMenuList = result.data.roleMenuList
       },
       error: (e) => {
         console.error(e);
@@ -97,9 +116,9 @@ export class RoleMenuInnerComponent {
 @NgModule({
   imports: [
     DxButtonModule,
-    DxDataGridModule,
 
     CommonModule,
+    DxTreeListModule,
   ],
   providers: [],
   exports: [

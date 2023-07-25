@@ -105,9 +105,9 @@ export class MenuEditComponent {
         }
       });
     } else {
-      this.popupVisible = true;
       this.selectedParent = null;
       this.menu = {id: null, name: null, detail: null, parentName:null, parentId: null, path: null, type: null, icon: null, expanded: null};
+      this.popupVisible = true;
     }
   }
 
@@ -144,8 +144,10 @@ export class MenuEditComponent {
     this.close();
     if (this.isCreateMode()) {
       this.menu.expanded = true;
-      this.menu.parentId = this.selectedParent.id;
-      this.menu.parentName = this.selectedParent.name;
+      if(this.menu.type == "Template"){
+        this.menu.parentId = this.selectedParent.id;
+        this.menu.parentName = this.selectedParent.name;
+      }
       this.apollo.mutate({
         mutation: gql`
           mutation createMenu($menu: MenuInput) {
