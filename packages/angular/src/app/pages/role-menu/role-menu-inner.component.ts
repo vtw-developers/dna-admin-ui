@@ -20,7 +20,7 @@ export class RoleMenuInnerComponent {
     this.currentItem = currentItem
     this.searchRoleMenu();
   };
-  menuType: DataSource;
+  menuList: DataSource;
   selectedMenus: Number[] = [];
   currentItem: any;
   roleMenuList: RoleMenu[] = [];
@@ -48,7 +48,7 @@ export class RoleMenuInnerComponent {
       }
     }).subscribe({
       next: (result: any) => {
-        this.menuType = result.data.menuList
+        this.menuList = result.data.menuList
       },
       error: (e) => {
         console.error(e);
@@ -109,7 +109,7 @@ export class RoleMenuInnerComponent {
   }
 
   refresh() {
-    this.menuType.reload();
+    this.menuList.reload();
   }
 }
 
