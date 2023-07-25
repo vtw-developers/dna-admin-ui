@@ -9,9 +9,8 @@ import {
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
 import {PageableService} from "../../services/pageable.service";
-import {confirm} from 'devextreme/ui/dialog';
 import notify from "devextreme/ui/notify";
-import {Menu} from "../menu/menu.service";
+import {RoleMenu} from "./roleMenu.service";
 
 @Component({
   selector: 'role-menu-inner',
@@ -22,10 +21,12 @@ export class RoleMenuInnerComponent {
 
   @Input() set selectedCurrentItem(currentItem) {
     this.currentItem = currentItem
+    this.searchRoleMenu();
   };
   menuType: DataSource;
   selectedMenus: Number[] = [];
   currentItem: any;
+  roleMenuList: RoleMenu[] = [];
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
 
   constructor(private pageableService: PageableService, private apollo: Apollo) {
@@ -51,6 +52,27 @@ export class RoleMenuInnerComponent {
     }).subscribe({
       next: (result: any) => {
         this.menuType = result.data.menuType
+      },
+      error: (e) => {
+        console.error(e);
+        notify('예매 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+      }
+    });
+  }
+
+  searchRoleMenu(){
+    this.apollo.query({
+      query: gql`
+        query roleMenuList($roleId: Int) {
+          roleMenuList(roleId: $roleId)
+        }
+      `,
+      variables: {
+        roleId: parseInt(this.currentItem.id)
+      }
+    }).subscribe({
+      next: (result: any) => {
+        this.roleMenuList = result.data.roleMenuList
       },
       error: (e) => {
         console.error(e);

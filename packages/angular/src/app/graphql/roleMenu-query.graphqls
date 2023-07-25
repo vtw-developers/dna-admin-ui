@@ -1,5 +1,5 @@
 extend type Query {
-  roleMenuList(roleId: Int): [RoleMenu]
+  roleMenuList(roleId: Int): [Int]
 }
 
 type RoleMenu {
