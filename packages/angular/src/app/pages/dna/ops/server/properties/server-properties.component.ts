@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, NgModule, Output} from "@angular/core";
 import {DxScrollViewModule, DxTabsModule} from "devextreme-angular";
 import {NgIf} from "@angular/common";
 import {ServerMonitoringModule} from "../monitoring/server-monitoring.component";
-import {ServerEditorModule} from "../../application/editor/server-editor.component";
+import {ServerEditorModule} from "../editor/server-editor.component";
 
 @Component({
   selector: 'server-properties',

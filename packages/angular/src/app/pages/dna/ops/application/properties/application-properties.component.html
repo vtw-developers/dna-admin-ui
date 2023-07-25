@@ -1,8 +1,12 @@
 <dx-tabs #tab [dataSource]="tabs" [selectedIndex]="0"></dx-tabs>
 <dx-scroll-view>
-  <!--<application-editor
+  <application-editor
     *ngIf="tab.selectedIndex === 0"
     [selectedItem]="navItem"
   >
-  </application-editor>-->
+  </application-editor>
+  <application-monitoring
+    *ngIf="tab.selectedIndex === 1"
+    [selectedItem]="navItem"
+  ></application-monitoring>
 </dx-scroll-view>

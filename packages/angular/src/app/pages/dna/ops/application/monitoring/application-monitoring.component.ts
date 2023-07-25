@@ -1,4 +1,4 @@
-import {Component, NgModule} from "@angular/core";
+import {Component, Input, NgModule} from "@angular/core";
 import {SafePipeModule} from "../../../../../pipes/SafePipe";
 import {DxScrollViewModule, DxSelectBoxModule} from "devextreme-angular";
 import {Apollo, gql} from "apollo-angular";
@@ -14,6 +14,11 @@ export class ApplicationMonitoringComponent {
 
   monitoringUrl = 'https://133.186.222.243:3000/grafana/d/JXj23h14k/jvm-micrometer?orgId=1&kiosk';
   applications;
+  navItem;
+  @Input() set selectedItem(currentItem) {
+    console.log(currentItem)
+    this.navItem = currentItem;
+  }
 
   constructor(private apollo: Apollo) {
 

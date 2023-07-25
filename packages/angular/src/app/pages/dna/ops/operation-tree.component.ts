@@ -2,7 +2,7 @@ import {Component, NgModule, ViewChild} from "@angular/core";
 import {DxTreeViewComponent} from "devextreme-angular/ui/tree-view";
 import {Apollo, gql} from "apollo-angular";
 import {DxButtonModule, DxContextMenuModule, DxScrollViewModule, DxTreeViewModule} from "devextreme-angular";
-import {ServerEditorComponent, ServerEditorModule} from "./application/editor/server-editor.component";
+import {ServerEditorComponent, ServerEditorModule} from "./server/editor/server-editor.component";
 import {NgIf} from "@angular/common";
 import {ApplicationPropertiesModule} from "./application/properties/application-properties.component";
 import {ServerPropertiesModule} from "./server/properties/server-properties.component";

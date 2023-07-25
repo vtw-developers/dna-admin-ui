@@ -1,0 +1,109 @@
+<div class="view-wrapper">
+  <dx-data-grid
+    #grid
+    class="grid"
+    noDataText=""
+    height="100%"
+    [dataSource]="deployedFlows"
+    keyExpr="id"
+    [allowColumnReordering]="true"
+    [focusedRowEnabled]="true"
+    [(focusedRowKey)]="deployedFlowId"
+    (onRowClick)="rowClick($event)"
+  >
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="서비스 검색"
+    ></dxo-search-panel>
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <div class="grid-header">서비스 목록</div>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="서비스 생성/변경"
+          icon="plus"
+          type="default"
+          stylingMode="contained"
+          class="createButton"
+          (onClick)="openAddDeployedFlow()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
+        <dx-button
+          text="배포"
+          icon="sortup"
+          type="normal"
+          stylingMode="contained"
+          class="deployButton"
+          (onClick)="deploy()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
+        <dx-button
+          text="실행"
+          icon="video"
+          type="success"
+          stylingMode="contained"
+          class="scheduleButton"
+          (onClick)="startDeployedFlow()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
+        <dx-button
+          text="정지"
+          icon="square"
+          type="danger"
+          stylingMode="contained"
+          class="scheduleButton"
+          (onClick)="stopDeployedFlow()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto" style="margin-left: 10px;">
+        <dx-button
+          text="삭제"
+          icon="clearsquare"
+          type="normal"
+          stylingMode="contained"
+          class="deleteButton"
+          [disabled]="!isSelected"
+          (onClick)="delete()"
+        ></dx-button>
+      </dxi-item>
+
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        showText="inMenu"
+        widget="dxButton"
+        [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+      ></dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <div class="separator"></div>
+      </dxi-item>
+      <dxi-item name="searchPanel" location="after" locateInMenu="auto"></dxi-item>
+    </dxo-toolbar>
+
+    <dxi-column
+      dataField="name"
+      caption="서비스 명"
+    ></dxi-column>
+    <!--<dxi-column
+      dataField="status"
+      caption="상태"
+    ></dxi-column>-->
+    <dxi-column
+      dataField="restPort"
+      caption="Rest Port"
+      alignment='left'
+    ></dxi-column>
+    <dxi-column
+      dataField="monitorPort"
+      caption="Monitor Port"
+      alignment='left'
+    ></dxi-column>
+
+  </dx-data-grid>
+</div>

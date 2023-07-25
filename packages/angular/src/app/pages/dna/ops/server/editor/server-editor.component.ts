@@ -27,6 +27,7 @@ import {NgIf} from "@angular/common";
   providers: []
 })
 export class ServerEditorComponent {
+
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(ApplicationNewFormComponent, {static: false}) editApplicationPopup: ApplicationNewFormComponent;
 
