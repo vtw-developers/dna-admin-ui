@@ -103,6 +103,8 @@ export class OperationTreeComponent {
                 application {
                   id
                   name
+                  restPort
+                  monitorPort
                 }
                 autoStartUp
                 deployed
@@ -169,6 +171,15 @@ export class OperationTreeComponent {
           icon: 'trash'
         },
       ]
+    } else if (this.selectedTreeItem.type === 'deployedFlow') {
+      this.contextItems = [
+        {
+          id: 'deleteDeployedFlow',
+          text: '서비스 삭제',
+          type: 'deleteDeployedFlow',
+          icon: 'trash'
+        },
+      ]
     }
   }
 
@@ -198,6 +209,7 @@ export class OperationTreeComponent {
                 console.error(result.errors);
               }
               notify('서버 삭제가 완료되었습니다.', 'success', 3000);
+              this.currentItem = undefined;
               this.reloadTree();
             });
           }
@@ -205,6 +217,7 @@ export class OperationTreeComponent {
         return;
       }
       case 'deleteApplication': {
+        console.log(this.selectedTreeItem)
         const result = confirm(`<i>애플리케이션 '${this.selectedTreeItem.name}' 을 삭제하시겠습니까?</i>`, '애플리케이션 삭제');
         result.then(dialogResult => {
           if (dialogResult) {
@@ -222,7 +235,32 @@ export class OperationTreeComponent {
                 console.error(result.errors);
               }
               notify('애플리케이션 삭제가 완료되었습니다.', 'success', 3000);
-              this.currentItem = this.selectedTreeItem.server;
+              this.currentItem = undefined;
+              this.reloadTree();
+            });
+          }
+        });
+        return;
+      }
+      case 'deleteDeployedFlow': {
+        console.log(this.selectedTreeItem)
+        const result = confirm(`<i>서비스 '${this.selectedTreeItem.flow.name}' 을 삭제하시겠습니까?</i>`, '애플리케이션 삭제');
+        result.then(dialogResult => {
+          if (dialogResult) {
+            this.apollo.mutate({
+              mutation: gql`
+                mutation deleteDeployedFlow($id: ID) {
+                  deleteDeployedFlow(id: $id)
+                }
+              `,
+              variables: {
+                id: this.selectedTreeItem.id
+              }
+            }).subscribe((result: any) => {
+              if (result.errors) {
+                console.error(result.errors);
+              }
+              notify('서비스 삭제가 완료되었습니다.', 'success', 3000);
               this.currentItem = undefined;
               this.reloadTree();
             });

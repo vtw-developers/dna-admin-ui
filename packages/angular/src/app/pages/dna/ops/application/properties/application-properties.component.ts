@@ -1,4 +1,4 @@
-import {Component, Input, NgModule} from "@angular/core";
+import {Component, EventEmitter, Input, NgModule, Output} from "@angular/core";
 import {DxScrollViewModule, DxTabsModule} from "devextreme-angular";
 import {NgIf} from "@angular/common";
 import {ApplicationEditorModule} from "../editor/application-editor.component";
@@ -10,6 +10,8 @@ import {ApplicationMonitoringModule} from "../monitoring/application-monitoring.
   providers: []
 })
 export class ApplicationPropertiesComponent {
+
+  @Output() saved = new EventEmitter();
 
   navItem;
   @Input() set selectedItem(currentItem) {
@@ -29,6 +31,10 @@ export class ApplicationPropertiesComponent {
       icon: '/assets/icons/common/monitoring.svg',
     }
   ];
+
+  refresh() {
+    this.saved.emit();
+  }
 }
 
 @NgModule({

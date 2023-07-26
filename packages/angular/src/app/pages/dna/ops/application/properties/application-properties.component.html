@@ -3,6 +3,7 @@
   <application-editor
     *ngIf="tab.selectedIndex === 0"
     [selectedItem]="navItem"
+    (saved)="refresh()"
   >
   </application-editor>
   <application-monitoring

@@ -1,4 +1,4 @@
-import {Component, Input, NgModule, ViewChild} from "@angular/core";
+import {Component, EventEmitter, Input, NgModule, Output, ViewChild} from "@angular/core";
 import {
   DxButtonModule,
   DxDataGridComponent,
@@ -19,6 +19,8 @@ import {RowClickEvent} from "devextreme/ui/data_grid";
 import {
   DeployedFlowNewFormComponent, DeployedFlowNewFormModule
 } from "../../../../../components/library/dna/deployed-flow-new-form/deployed-flow-new-form.component";
+import {confirm} from "devextreme/ui/dialog";
+import notify from "devextreme/ui/notify";
 
 @Component({
   selector: 'application-editor',
@@ -30,6 +32,8 @@ export class ApplicationEditorComponent {
 
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
   @ViewChild(DeployedFlowNewFormComponent, {static: false}) editDeployedFlowPopup: DeployedFlowNewFormComponent;
+
+  @Output() saved = new EventEmitter();
 
   @Input() set selectedItem(currentItem) {
     console.log(currentItem);
@@ -92,10 +96,18 @@ export class ApplicationEditorComponent {
     this.reloadDeployedFlows();
   }
 
+  reloadTree() {
+    this.deployedFlowId = null;
+    this.selectedDeployedFlow = undefined;
+    this.isSelected = false;
+    this.reloadDeployedFlows();
+    this.saved.emit();
+  }
+
   rowClick(e: RowClickEvent) {
     const {data} = e;
     this.selectedDeployedFlow = data;
-    this.selectedDeployedFlow = data.id;
+    this.deployedFlowId = data.id;
     this.isSelected = true;
   }
 
@@ -116,16 +128,33 @@ export class ApplicationEditorComponent {
   }
 
   delete() {
-
+    const result = confirm('<i>정말로 서비스를 삭제하시겠습니까?</i>', '애플리케이션 삭제');
+    result.then(dialogResult => {
+      if (dialogResult) {
+        this.apollo.mutate({
+          mutation: gql`
+            mutation deleteDeployedFlow($id: ID) {
+              deleteDeployedFlow(id: $id)
+            }
+          `,
+          variables: {
+            id: this.deployedFlowId
+          }
+        }).subscribe((result: any) => {
+          if (result.errors) {
+            console.error(result.errors);
+          }
+          notify('애플리케이션 삭제가 완료되었습니다.', 'success', 3000);
+          this.reloadTree();
+        });
+      }
+    });
   }
 
   updateApplication() {
 
   }
 
-  reloadTree() {
-
-  }
 }
 
 @NgModule({

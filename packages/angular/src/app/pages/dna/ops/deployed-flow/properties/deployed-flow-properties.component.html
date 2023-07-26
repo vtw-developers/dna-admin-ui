@@ -1,6 +1,9 @@
 <dx-tabs #tab [dataSource]="tabs" [selectedIndex]="0"></dx-tabs>
 <dx-scroll-view>
-
+  <deployed-flow-details
+    *ngIf="tab.selectedIndex === 0"
+    [selectedItem]="navItem"
+  ></deployed-flow-details>
   <deployed-flow-monitoring
     *ngIf="tab.selectedIndex === 1"
     [selectedItem]="navItem"

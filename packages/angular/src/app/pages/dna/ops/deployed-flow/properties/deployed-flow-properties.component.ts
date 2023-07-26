@@ -2,6 +2,7 @@ import {Component, Input, NgModule} from "@angular/core";
 import {DxScrollViewModule, DxTabsModule} from "devextreme-angular";
 import {NgIf} from "@angular/common";
 import {DeployedFlowMonitoringModule} from "../monitoring/deployed-flow-monitoring.component";
+import {DeployedFlowDetailsModule} from "../details/deployed-flow-details.component";
 
 @Component({
   selector: 'deployed-flow-properties',
@@ -36,6 +37,7 @@ export class DeployedFlowPropertiesComponent {
     DxScrollViewModule,
     NgIf,
     DeployedFlowMonitoringModule,
+    DeployedFlowDetailsModule,
   ],
   providers: [],
   exports: [DeployedFlowPropertiesComponent],

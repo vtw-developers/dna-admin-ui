@@ -1,5 +1,6 @@
 extend type Mutation {
     createDeployedFlow(deployedFlow: DeployedFlowInput): ID
+    deleteDeployedFlow(id: ID): ID
 }
 
 input DeployedFlowInput {
