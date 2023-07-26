@@ -39,6 +39,7 @@
         <!--<application-properties *ngIf="currentItem" [selectedItem] = "currentItem"></application-properties>-->
         <server-properties (saved)="refresh()" *ngIf="currentItem?.type === 'server'" [selectedItem] = "currentItem"></server-properties>
         <application-properties *ngIf="currentItem?.type === 'application'" [selectedItem] = "currentItem"></application-properties>
+        <deployed-flow-properties  *ngIf="currentItem?.type === 'deployedFlow'" [selectedItem] = "currentItem"></deployed-flow-properties>
       </div>
     </div>
   </div>

@@ -30,7 +30,7 @@ import {FlowTemplateListComponent} from './pages/dna/flow-template-list/flow-tem
 import {FlowTreeComponent} from './pages/dna/flow-tree/flow-tree.component';
 import {FlowSchedulerComponent} from "./pages/dna/flow-scheduler/flow-scheduler.component";
 import {ServerMonitoringComponent} from "./pages/dna/ops/server/monitoring/server-monitoring.component";
-import {FlowMonitoringComponent} from "./pages/dna/ops/flow/flow-monitoring.component";
+import {DeployedFlowMonitoringComponent} from "./pages/dna/ops/deployed-flow/monitoring/deployed-flow-monitoring.component";
 import {RoleComponent} from "./pages/role/role.component";
 import {RoleGroupComponent} from "./pages/role/role-group.component";
 import {AuthorityComponent} from "./pages/authority/authority.component";
@@ -217,7 +217,7 @@ const routes: Routes = [
       },
       {
         path: 'flow-monitoring',
-        component: FlowMonitoringComponent,
+        component: DeployedFlowMonitoringComponent,
         canActivate: [AuthGuardService],
       },
       {

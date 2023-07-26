@@ -12,6 +12,7 @@ import {
 } from "../../../components/library/dna/server-new-form/server-new-form.component";
 import {confirm} from "devextreme/ui/dialog";
 import notify from "devextreme/ui/notify";
+import {DeployedFlowPropertiesModule} from "./deployed-flow/properties/deployed-flow-properties.component";
 
 @Component({
   templateUrl: './operation-tree.component.html',
@@ -177,9 +178,10 @@ export class OperationTreeComponent {
   }
 
   onTreeMenuClick(e: any) {
+    console.log(e.itemData)
     switch (e.itemData.type) {
       case 'deleteServer': {
-        const result = confirm('<i>정말로 서버를 삭제하시겠습니까?</i>', '서버 삭제');
+        const result = confirm(`<i>서버 '${this.selectedTreeItem.name}' 를 삭제하시겠습니까?</i>`, '서버 삭제');
         result.then(dialogResult => {
           if (dialogResult) {
             this.apollo.mutate({
@@ -200,9 +202,10 @@ export class OperationTreeComponent {
             });
           }
         });
+        return;
       }
       case 'deleteApplication': {
-        const result = confirm('<i>정말로 애플리케이션을 삭제하시겠습니까?</i>', '애플리케이션 삭제');
+        const result = confirm(`<i>애플리케이션 '${this.selectedTreeItem.name}' 을 삭제하시겠습니까?</i>`, '애플리케이션 삭제');
         result.then(dialogResult => {
           if (dialogResult) {
             this.apollo.mutate({
@@ -225,7 +228,7 @@ export class OperationTreeComponent {
             });
           }
         });
-
+        return;
       }
 
     }
@@ -243,6 +246,7 @@ export class OperationTreeComponent {
     DxButtonModule,
     ServerNewFormModule,
     DxContextMenuModule,
+    DeployedFlowPropertiesModule,
   ],
   providers: [],
   exports: [],
