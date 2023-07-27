@@ -97,9 +97,6 @@ export class FlowSchedulerComponent implements OnDestroy {
     this.selectedSchedule = undefined;
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
-      if (this.selectedSchedule.cronExpression === null) {
-        return;
-      }
     }
     const newId = this.dataGrid.instance.getDataSource().items().length + 1;
     this.editSchedulePopup.openPopup(this.selectedSchedule, newId);
@@ -274,24 +271,13 @@ export class FlowSchedulerComponent implements OnDestroy {
   }
 
   openOnetimeExecution() {
-    this.selectedSchedule = undefined;
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
-      if (this.selectedSchedule.cronExpression !== null) {
-        this.dataGrid.instance.clearSelection();
-        this.selectedSchedule = undefined;
-      }
     }
-    const newId = this.dataGrid.instance.getDataSource().items().length + 1;
-    this.editSchedulePopup.openOnetimePopup(this.selectedSchedule, newId);
+    this.editSchedulePopup.openOnetimePopup(this.selectedSchedule);
   }
 
   onetimeExecution(schedule: any) {
-    const list = this.schedules.filter(s => s.cronExpression === null);
-    const before = list?.find(s => s.flowName === schedule.flowName);
-    if (before !== undefined) {
-      schedule = before;
-    }
     this.apollo.mutate<any>({
       mutation: gql`
         mutation onetimeStartFlow($flowSchedule: FlowScheduleInput) {
