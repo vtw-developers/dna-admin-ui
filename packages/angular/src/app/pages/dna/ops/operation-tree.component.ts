@@ -1,4 +1,4 @@
-import {Component, NgModule, ViewChild} from "@angular/core";
+import {Component, EventEmitter, NgModule, Output, ViewChild} from "@angular/core";
 import {DxTreeViewComponent} from "devextreme-angular/ui/tree-view";
 import {Apollo, gql} from "apollo-angular";
 import {DxButtonModule, DxContextMenuModule, DxScrollViewModule, DxTreeViewModule} from "devextreme-angular";
@@ -87,6 +87,7 @@ export class OperationTreeComponent {
         result.data.findAllApplications.forEach(e => {
           e.type = 'application'
           e.parentId = e.server.id;
+          e.expanded = true
           e.icon = '/assets/icons/common/application.svg';
           this.treeItems.push(e);
         });
@@ -210,7 +211,10 @@ export class OperationTreeComponent {
               }
               notify('서버 삭제가 완료되었습니다.', 'success', 3000);
               this.currentItem = undefined;
-              this.reloadTree();
+              const treeItemIndex = this.treeItems.findIndex(item => item.id === this.selectedTreeItem.id);
+              if (treeItemIndex > -1) {
+                this.treeItems.splice(treeItemIndex, 1);
+              }
             });
           }
         });
@@ -236,7 +240,10 @@ export class OperationTreeComponent {
               }
               notify('애플리케이션 삭제가 완료되었습니다.', 'success', 3000);
               this.currentItem = undefined;
-              this.reloadTree();
+              const treeItemIndex = this.treeItems.findIndex(item => item.id === this.selectedTreeItem.id);
+              if (treeItemIndex > -1) {
+                this.treeItems.splice(treeItemIndex, 1);
+              }
             });
           }
         });
@@ -262,7 +269,10 @@ export class OperationTreeComponent {
               }
               notify('서비스 삭제가 완료되었습니다.', 'success', 3000);
               this.currentItem = undefined;
-              this.reloadTree();
+              const treeItemIndex = this.treeItems.findIndex(item => item.id === this.selectedTreeItem.id);
+              if (treeItemIndex > -1) {
+                this.treeItems.splice(treeItemIndex, 1);
+              }
             });
           }
         });
