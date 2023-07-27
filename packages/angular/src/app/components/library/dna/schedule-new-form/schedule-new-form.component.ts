@@ -82,19 +82,11 @@ export class ScheduleNewFormComponent {
     this.popupVisible = true;
   }
 
-  openOnetimePopup(schedule: any, newId: number) {
+  openOnetimePopup(schedule: any) {
     this.flowNames = ['testFlow1', 'testFlow2', 'testFlow3'];
     this.onetimeMode = true;
-    if (schedule === undefined) {
-      this.schedule = {
-        id: newId.toString(),
-        flowName: this.flowNames[0]
-      }
-    } else {
-      this.schedule = {
-        id: schedule.id,
-        flowName: schedule.flowName
-      }
+    this.schedule = {
+      flowName: schedule === undefined? this.flowNames[0] : schedule.flowName
     }
     this.popupVisible = true;
   }
