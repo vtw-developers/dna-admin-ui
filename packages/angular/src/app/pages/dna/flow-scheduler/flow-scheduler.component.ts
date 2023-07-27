@@ -26,7 +26,7 @@ import {
   ScheduleNewFormModule
 } from "../../../components/library/dna/schedule-new-form/schedule-new-form.component";
 import {Apollo, gql} from "apollo-angular";
-import {confirm} from 'devextreme/ui/dialog';
+import {confirm, custom} from 'devextreme/ui/dialog';
 
 type FilterContactStatus = ContactStatus | 'All';
 
@@ -296,8 +296,15 @@ export class FlowSchedulerComponent implements OnDestroy {
         flowSchedule : schedule
       }
     }).subscribe(result => {
+      const executedFlow = result.data.onetimeStartFlow.flowName;
+      const alert = custom({
+        title: '수동실행',
+        messageHtml: [executedFlow]+'<i> 플로우가 실행되었습니다.</i>',
+        buttons: [{text: '확인'}]
+      });
+      alert.show();
       this.reloadFlowSchedules();
-    });
+    })
   }
 
   refresh = () => {
