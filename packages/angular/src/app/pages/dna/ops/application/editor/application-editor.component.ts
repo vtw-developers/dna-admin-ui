@@ -112,7 +112,7 @@ export class ApplicationEditorComponent {
   }
 
   openAddDeployedFlow() {
-    this.editDeployedFlowPopup.openPopup(this.application);
+    this.editDeployedFlowPopup.openPopup(this.application.id, this.application.server.id);
   }
 
   deploy() {
