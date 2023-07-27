@@ -1,0 +1,36 @@
+<dx-scroll-view class="view-wrapper-scroll">
+  <div class="view-wrapper">
+    <div class="panels">
+      <div class="left">
+        <div class="dx-fieldset">
+          <div class="dx-fieldset-header" style="font-size: 22px; font-weight: 500; padding-right: 25px;">기본 정보</div>
+          <div style="margin-bottom: 8px;">
+            <span>플로우 명</span>
+            <dx-text-box value="Service1">
+            </dx-text-box>
+          </div>
+          <div style="margin-bottom: 8px;">
+            <span>유형</span>
+            <dx-text-box value="함수">
+            </dx-text-box>
+          </div>
+          <div style="margin-bottom: 8px;">
+            <span>노드 수</span>
+            <dx-text-box value="2">
+            </dx-text-box>
+          </div>
+        </div>
+      </div>
+
+      <div class="right">
+        <deployed-flow-cards
+          [isLoading]="isLoading"
+          [activities]="contactData?.activities"
+          [activeOpportunities]="activeOpportunities"
+          [closedOpportunities]="closedOpportunities"
+        ></deployed-flow-cards>
+      </div>
+
+    </div>
+  </div>
+</dx-scroll-view>
