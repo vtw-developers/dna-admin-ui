@@ -63,5 +63,8 @@
   },
   "pre-commit": [
     "lint-bundles"
-  ]
+  ],
+  "dependencies": {
+    "cronstrue": "^2.28.0"
+  }
 }

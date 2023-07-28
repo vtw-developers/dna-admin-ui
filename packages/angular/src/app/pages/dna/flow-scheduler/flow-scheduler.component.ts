@@ -39,7 +39,7 @@ export class FlowSchedulerComponent implements OnDestroy {
   @ViewChild(DxDataGridComponent, {static: true}) dataGrid: DxDataGridComponent;
   @ViewChild(ScheduleNewFormComponent, {static: true}) editSchedulePopup: ScheduleNewFormComponent;
 
-  filterStatusList = ['All', 'Running', 'Stopped', 'Error', 'Not Started', 'Waiting', 'Completed'];
+  filterStatusList = ['All', 'Running', 'Stopped', 'Error', 'Not Started'];
   isPanelOpened = false;
   flowName;
   schedule;
@@ -64,13 +64,13 @@ export class FlowSchedulerComponent implements OnDestroy {
       query: gql`
         query flowSchedules {
           flowSchedules {
-              id
-              flowName
-              status
-              cronExpression
-              nextFireTime
-              prevFireTime
-              startTime
+            id
+            flowName
+            status
+            cronExpression
+            nextFireTime
+            prevFireTime
+            startTime
           }
         }
       `
@@ -189,19 +189,19 @@ export class FlowSchedulerComponent implements OnDestroy {
     if (this.dataGrid.instance.getSelectedRowsData().length > 0) {
       this.selectedSchedule = this.dataGrid.instance.getSelectedRowsData()[0];
       this.apollo.mutate<any>({
-          mutation: gql`
-              mutation startFlowSchedule($flowSchedule: FlowScheduleInput) {
-                  startFlowSchedule(flowSchedule: $flowSchedule) {
-                      id
-                      flowName
-                      status
-                      cronExpression
-                      nextFireTime
-                      prevFireTime
-                      startTime
-                  }
-              }
-          `,
+        mutation: gql`
+          mutation startFlowSchedule($flowSchedule: FlowScheduleInput) {
+            startFlowSchedule(flowSchedule: $flowSchedule) {
+                id
+                flowName
+                status
+                cronExpression
+                nextFireTime
+                prevFireTime
+                startTime
+            }
+          }
+        `,
         variables: {
           flowSchedule : this.selectedSchedule
         }
@@ -326,6 +326,13 @@ export class FlowSchedulerComponent implements OnDestroy {
       this.dataGrid.instance.filter(['status', '=', status]);
     }
   };
+
+  convertCronExpression(cron) {
+    const cronstrue = require('cronstrue');
+    require('cronstrue/locales/ko');
+    const converted = cronstrue.toString(cron.value,{ locale: "ko" });
+    return converted;
+  }
 }
 
 @NgModule({
