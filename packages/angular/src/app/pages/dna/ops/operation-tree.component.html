@@ -29,6 +29,7 @@
 
         <dx-context-menu
           [dataSource]="contextItems"
+          target="#treeview .dx-treeview-item"
           (onItemClick)="onTreeMenuClick($event)"
         >
         </dx-context-menu>
@@ -44,4 +45,6 @@
     </div>
   </div>
   <server-new-form (saved)="refresh()"></server-new-form>
+  <application-new-form (saved)="refresh()"></application-new-form>
+  <deployed-flow-new-form (saved)="refresh()"></deployed-flow-new-form>
 </dx-scroll-view>

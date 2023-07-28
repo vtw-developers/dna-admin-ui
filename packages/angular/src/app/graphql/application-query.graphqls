@@ -1,5 +1,5 @@
 extend type Query {
-  applications(server: ServerInput): [Application]
+  applications(serverId: ID): [Application]
   findAllApplications: [Application]
 }
 

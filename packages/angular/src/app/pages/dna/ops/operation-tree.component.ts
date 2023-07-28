@@ -13,6 +13,13 @@ import {
 import {confirm} from "devextreme/ui/dialog";
 import notify from "devextreme/ui/notify";
 import {DeployedFlowPropertiesModule} from "./deployed-flow/properties/deployed-flow-properties.component";
+import {
+  ApplicationNewFormComponent, ApplicationNewFormModule
+} from "../../../components/library/dna/application-new-form/application-new-form.component";
+import {
+  DeployedFlowNewFormComponent,
+  DeployedFlowNewFormModule
+} from "../../../components/library/dna/deployed-flow-new-form/deployed-flow-new-form.component";
 
 @Component({
   templateUrl: './operation-tree.component.html',
@@ -23,6 +30,8 @@ export class OperationTreeComponent {
   @ViewChild(DxTreeViewComponent, {static: false}) treeView: DxTreeViewComponent;
   @ViewChild(ServerEditorComponent, {static: false}) applicationEditor: ServerEditorComponent;
   @ViewChild(ServerNewFormComponent, {static: false}) editServerPopup: ServerNewFormComponent;
+  @ViewChild(ApplicationNewFormComponent, {static: false}) editApplicationPopup: ApplicationNewFormComponent;
+  @ViewChild(DeployedFlowNewFormComponent, {static: false}) editDeployedFlowPopup: DeployedFlowNewFormComponent;
 
   treeItems: any[];
   currentItem;
@@ -157,6 +166,12 @@ export class OperationTreeComponent {
     if (this.selectedTreeItem.type === 'server') {
       this.contextItems = [
         {
+          id: 'createApplication',
+          text: '애플리케이션 생성',
+          type: 'createApplication',
+          icon: 'add'
+        },
+        {
           id: 'deleteServer',
           text: '서버 삭제',
           type: 'deleteServer',
@@ -165,6 +180,12 @@ export class OperationTreeComponent {
       ]
     } else if (this.selectedTreeItem.type === 'application') {
       this.contextItems = [
+        {
+          id: 'createDeployedFlow',
+          text: '서비스 생성',
+          type: 'createDeployedFlow',
+          icon: 'add'
+        },
         {
           id: 'deleteApplication',
           text: '애플리케이션 삭제',
@@ -192,6 +213,15 @@ export class OperationTreeComponent {
   onTreeMenuClick(e: any) {
     console.log(e.itemData)
     switch (e.itemData.type) {
+      case 'createApplication': {
+        this.editApplicationPopup.openPopup(undefined,this.selectedTreeItem.id);
+        return;
+      }
+      case 'createDeployedFlow': {
+        console.log(this.selectedTreeItem)
+        this.editDeployedFlowPopup.openPopup(this.selectedTreeItem.id, this.selectedTreeItem.server.id);
+        return;
+      }
       case 'deleteServer': {
         const result = confirm(`<i>서버 '${this.selectedTreeItem.name}' 를 삭제하시겠습니까?</i>`, '서버 삭제');
         result.then(dialogResult => {
@@ -295,6 +325,8 @@ export class OperationTreeComponent {
     ServerNewFormModule,
     DxContextMenuModule,
     DeployedFlowPropertiesModule,
+    ApplicationNewFormModule,
+    DeployedFlowNewFormModule,
   ],
   providers: [],
   exports: [],

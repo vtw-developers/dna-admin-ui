@@ -59,10 +59,11 @@ export class ServerEditorComponent {
   }
 
   reloadApplications() {
+    console.log(this.server.id);
     this.apollo.query({
       query: gql`
-        query applications($server: ServerInput) {
-          applications(server: $server) {
+        query applications($serverId: ID) {
+          applications(serverId: $serverId) {
             id
             name
             restPort
@@ -78,7 +79,7 @@ export class ServerEditorComponent {
         }
       `,
       variables: {
-        server: this.server
+        serverId: this.server.id
       }
     }).subscribe((result: any) => {
       if (result.errors) {
@@ -86,6 +87,7 @@ export class ServerEditorComponent {
         return
       }
       this.applications = result.data.applications;
+      console.log(this.applications);
     });
   }
 

@@ -33,18 +33,13 @@ export class DeployedFlowNewFormComponent {
   constructor(private apollo: Apollo) {
   }
 
-  openPopup(application: any) {
-    console.log(application)
+  openPopup(applicationId: any, serverId: any) {
+    console.log(applicationId)
     this.createMode = true;
-    this.deployedFlow = {
-      application: application,
-      deployed: false,
-      autoStartUp: false
-    }
-    /*this.apollo.query({
+    this.apollo.query({
       query: gql`
-        query applications($server: ServerInput) {
-          applications(server: $server) {
+        query applications($serverId: ID) {
+          applications(serverId: $serverId) {
             id
             name
             restPort
@@ -60,7 +55,7 @@ export class DeployedFlowNewFormComponent {
         }
       `,
       variables: {
-        server: application.server
+        serverId: serverId
       }
     }).subscribe((result: any) => {
       if (result.errors) {
@@ -69,8 +64,13 @@ export class DeployedFlowNewFormComponent {
       }
       console.log(result.data.applications);
       this.applications = result.data.applications;
-      this.deployedFlow.application = this.applications.find(application => application.id === this.deployedFlow.application.id);
-    });*/
+      const application = this.applications.find(application => application.id === applicationId);
+      this.deployedFlow = {
+        application: application,
+        deployed: false,
+        autoStartUp: false
+      }
+    });
     this.apollo.query({
       query: gql`
         query monitoringFlows {
