@@ -17,7 +17,7 @@ import {
 import DataSource from "devextreme/data/data_source";
 import {confirm} from "devextreme/ui/dialog";
 import notify from "devextreme/ui/notify";
-import {FormTextboxModule, ToolbarFormModule} from "../../../../../components";
+import {ContactStatusModule, FormTextboxModule, ToolbarFormModule} from "../../../../../components";
 import {NgIf} from "@angular/common";
 
 @Component({
@@ -68,6 +68,8 @@ export class ServerEditorComponent {
             name
             restPort
             monitorPort
+            status
+            isDeployed
             server {
               id
               name
@@ -142,15 +144,63 @@ export class ServerEditorComponent {
   }
 
   deploy() {
-
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation deployApplication($id: ID) {
+          deployApplication(id: $id)
+        }
+      `,
+      variables: {
+        id: this.applicationId
+      }
+    }).subscribe((result: any) => {
+      if (result.errors) {
+        console.error(result.errors);
+        return
+      }
+      notify('애플리케이션이 성공적으로 배포되었습니다.', 'success', 3000);
+      this.refresh();
+    });
   }
 
   startApplication() {
-
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation startApplication($id: ID) {
+          startApplication(id: $id)
+        }
+      `,
+      variables: {
+        id: this.applicationId
+      }
+    }).subscribe((result: any) => {
+      if (result.errors) {
+        console.error(result.errors);
+        return
+      }
+      notify('애플리케이션이 실행되었습니다.', 'success', 3000);
+      this.refresh();
+    });
   }
 
   stopApplication() {
-
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation stopApplication($id: ID) {
+          stopApplication(id: $id)
+        }
+      `,
+      variables: {
+        id: this.applicationId
+      }
+    }).subscribe((result: any) => {
+      if (result.errors) {
+        console.error(result.errors);
+        return
+      }
+      notify('애플리케이션이 정지되었습니다.', 'success', 3000);
+      this.refresh();
+    });
   }
 
   updateServer() {
@@ -173,6 +223,15 @@ export class ServerEditorComponent {
     });
   }
 
+  isDeployed() {
+    if (this.isSelected) {
+      if (this.selectedApplication.isDeployed === true) {
+        return true;
+      }
+      return false;
+    }
+  }
+
 
 }
 
@@ -188,6 +247,7 @@ export class ServerEditorComponent {
     DxTextBoxModule,
     DxSelectBoxModule,
     NgIf,
+    ContactStatusModule,
   ],
   providers: [],
   exports: [ServerEditorComponent],

@@ -2,6 +2,9 @@ extend type Mutation {
   createApplication(application: ApplicationInput): ID
   updateApplication(application: ApplicationInput): ID
   deleteApplication(id: ID): ID
+  deployApplication(id: ID): JSON
+  startApplication(id: ID): JSON
+  stopApplication(id: ID): JSON
 }
 
 input ApplicationInput {
@@ -10,4 +13,6 @@ input ApplicationInput {
   restPort: String
   monitorPort: String
   server: ServerInput
+  status: String
+  isDeployed: Boolean
 }

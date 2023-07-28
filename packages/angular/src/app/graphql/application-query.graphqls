@@ -4,9 +4,11 @@ extend type Query {
 }
 
 type Application {
-    id: ID
-    name: String
-    restPort: Int
-    monitorPort: Int
-    server: Server
+  id: ID
+  name: String
+  restPort: Int
+  monitorPort: Int
+  server: Server
+  status: String
+  isDeployed: Boolean
 }
