@@ -326,6 +326,13 @@ export class FlowSchedulerComponent implements OnDestroy {
       this.dataGrid.instance.filter(['status', '=', status]);
     }
   };
+
+  convertCronExpression(cron) {
+    const cronstrue = require('cronstrue');
+    require('cronstrue/locales/ko');
+    const converted = cronstrue.toString(cron.value,{ locale: "ko" });
+    return converted;
+  }
 }
 
 @NgModule({
