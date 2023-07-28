@@ -27,8 +27,6 @@ import {
 } from "../../../components/library/dna/schedule-new-form/schedule-new-form.component";
 import {Apollo, gql} from "apollo-angular";
 
-type FilterContactStatus = ContactStatus | 'All';
-
 @Component({
   templateUrl: './flow-history.component.html',
   styleUrls: ['./flow-history.component.scss'],
@@ -57,17 +55,17 @@ export class FlowHistoryComponent implements OnDestroy {
 
   reloadFlowHistories() {
     this.apollo.query<any>({
-        query: gql`
-            query flowScheduleHistories {
-                flowScheduleHistories {
-                    id
-                    flowName
-                    isSuccess
-                    fireTime
-                    errorMessage
-                }
-            }
-        `
+      query: gql`
+        query flowScheduleHistories {
+          flowScheduleHistories {
+            id
+            flowName
+            isSuccess
+            fireTime
+            errorMessage
+          }
+        }
+      `
     }).subscribe(result => {
       this.histories = result.data.flowScheduleHistories;
       this.reloadFlowSchedulesDataSource(this.histories);
@@ -99,11 +97,13 @@ export class FlowHistoryComponent implements OnDestroy {
   }
 
   filterByStatus = (e: SelectionChangedEvent) => {
-    const {item: status}: { item: FilterContactStatus } = e;
-    if (status === 'All') {
+    const filter = e.item;
+    if (filter === 'All') {
       this.dataGrid.instance.clearFilter();
-    } else {
-      this.dataGrid.instance.filter(['status', '=', status]);
+    } else if (filter === 'Success') {
+      this.dataGrid.instance.filter(['isSuccess', '=', 'true']);
+    } else if (filter === 'Error') {
+      this.dataGrid.instance.filter(['isSuccess', '=', 'false']);
     }
   };
 }
