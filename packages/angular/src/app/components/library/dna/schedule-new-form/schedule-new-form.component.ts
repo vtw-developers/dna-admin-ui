@@ -11,7 +11,7 @@ import {
   DxDateBoxModule,
   DxButtonModule,
   DxValidationGroupModule,
-  DxPopupModule,
+  DxPopupModule, DxRadioGroupModule,
 } from 'devextreme-angular';
 import {
   FormTextboxModule,
@@ -35,8 +35,21 @@ export class ScheduleNewFormComponent {
   createMode: boolean;
   onetimeMode: boolean;
   flowNames = [];
+  cronInputTypes = ['Text', 'Select'];
+  isCronSelect = false;
+  cronSelect = {} as any;
+
+  seconds = Array.from(Array(60).keys()).toString().split(',');
+  minutes = Array.from(Array(60).keys()).toString().split(',');
+  hours = Array.from(Array(24).keys()).toString().split(',');
+  day = Array.from(Array(32).keys()).toString().split(',');
+  month = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC', '*'];
 
   constructor() {
+    this.seconds.push('*');
+    this.minutes.push('*');
+    this.hours.push('*');
+    this.day.push('*');
   }
 
   save(e) {
@@ -76,8 +89,17 @@ export class ScheduleNewFormComponent {
     this.schedule = {
       id: this.createMode? newId.toString() : schedule.id,
       flowName: this.flowNames[0],
-      cronExpression: this.createMode? '0/10 * * * * ?' : schedule.cronExpression,
+      cronExpression: this.createMode? '0/10 * * * * ? *' : schedule.cronExpression,
       startTime: new Date()
+    }
+    this.cronSelect = {};
+    if (!this.createMode) {
+      const cronExSplit = schedule.cronExpression.replace('0/','').split(' ');
+      this.cronSelect.seconds = cronExSplit[0];
+      this.cronSelect.minutes = cronExSplit[1];
+      this.cronSelect.hours = cronExSplit[2];
+      this.cronSelect.day = cronExSplit[3];
+      this.cronSelect.month = cronExSplit[4];
     }
     this.popupVisible = true;
   }
@@ -96,6 +118,46 @@ export class ScheduleNewFormComponent {
     const time = startTime.toTimeString().split(' ')[0];
     return date + ' ' + time;
   }
+
+  cronInputTypeChanged(type) {
+    if (type === 'Select') {
+      this.isCronSelect = true;
+    } else {
+      this.isCronSelect = false;
+    }
+  }
+
+  cronSelectChanged() {
+    let seconds = this.cronSelect.seconds;
+    let minutes = this.cronSelect.minutes;
+    let hours = this.cronSelect.hours;
+    let day = this.cronSelect.day;
+    let month = this.cronSelect.month;
+
+    if (seconds === undefined) {
+      seconds = '*';
+    }
+    if (minutes === undefined) {
+      minutes = '*';
+    }
+    if (hours === undefined) {
+      hours = '*';
+    }
+    if (day === undefined) {
+      day = '*';
+    }
+    if (month === undefined) {
+      month = '*';
+    }
+    if (seconds !== '0' && seconds !== '*' && minutes === '*') {
+      seconds = '0/' + this.cronSelect.seconds;
+    }
+    if (minutes !== '0' && minutes !== '*' && hours === '*') {
+      minutes = '0/' + this.cronSelect.minutes;
+    }
+    const cronEx = seconds+' '+minutes+' '+hours+' '+day+' '+month+' '+'?'+' '+'*';
+    this.schedule.cronExpression = cronEx;
+  }
 }
 
 @NgModule({
@@ -113,6 +175,7 @@ export class ScheduleNewFormComponent {
     DxButtonModule,
     DxValidationGroupModule,
     DxPopupModule,
+    DxRadioGroupModule,
   ],
   declarations: [ScheduleNewFormComponent],
   exports: [ScheduleNewFormComponent],

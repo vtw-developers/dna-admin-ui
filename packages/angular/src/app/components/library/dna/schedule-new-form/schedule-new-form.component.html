@@ -22,6 +22,66 @@
                 [(value)]="schedule.flowName">
               </dx-select-box>
             </dxi-item>
+            <br>
+            <dxi-item>
+              <dx-radio-group
+                [items]="cronInputTypes"
+                [value]="cronInputTypes[0]"
+                (valueChange)="cronInputTypeChanged($event)"
+                layout="horizontal">
+              </dx-radio-group>
+            </dxi-item>
+            <div class="cronSelect" *ngIf="isCronSelect">
+              <dxi-item>
+                <dx-select-box
+                  label="초"
+                  [items]="seconds"
+                  [(value)]="cronSelect.seconds"
+                  (valueChange)="cronSelectChanged()"
+                  placeholder=""
+                  width="20%"
+                  style="width: 20%; display: inline-block;"
+                >
+                </dx-select-box>
+                <dx-select-box
+                  label="분"
+                  [items]="minutes"
+                  [(value)]="cronSelect.minutes"
+                  (valueChange)="cronSelectChanged()"
+                  placeholder=""
+                  width="20%"
+                  style="width: 20%; display: inline-block;"
+                >
+                </dx-select-box>
+                <dx-select-box
+                  label="시"
+                  [items]="hours"
+                  [(value)]="cronSelect.hours"
+                  (valueChange)="cronSelectChanged()"
+                  placeholder=""
+                  style="width: 20%; display: inline-block;"
+                >
+                </dx-select-box>
+                <dx-select-box
+                  label="일"
+                  [items]="day"
+                  [(value)]="cronSelect.day"
+                  (valueChange)="cronSelectChanged()"
+                  placeholder=""
+                  style="width: 20%; display: inline-block;"
+                >
+                </dx-select-box>
+                <dx-select-box
+                  label="월"
+                  [items]="month"
+                  [(value)]="cronSelect.month"
+                  (valueChange)="cronSelectChanged()"
+                  placeholder=""
+                  style="width: 20%; display: inline-block;"
+                >
+                </dx-select-box>
+              </dxi-item>
+            </div>
             <dxi-item>
               <form-textbox
                 label="스케줄"
@@ -29,6 +89,7 @@
                 [isEditing]="true">
               </form-textbox>
             </dxi-item>
+            <br>
             <dxi-item>
               <dx-date-box
                 label="시작시간"
