@@ -14,14 +14,14 @@ export class DownloadIdeComponent {
   }
 
   download() {
-    this.httpClient.get('assets/download/test.exe', {responseType: 'arraybuffer'}).subscribe(data => {
+    this.httpClient.get('assets/files/test.exe', {responseType: 'arraybuffer'}).subscribe(data => {
       const blob = new Blob([new Uint8Array(data)], {type: 'application/vnd.microsoft.portable-executable'});
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `DnASetup.exe`
-      a.click()
-      a.remove()
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `test.exe`;
+      a.click();
+      a.remove();
       window.URL.revokeObjectURL(url);
     });
   }
