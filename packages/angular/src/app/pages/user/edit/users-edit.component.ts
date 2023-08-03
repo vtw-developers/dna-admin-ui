@@ -69,7 +69,7 @@ export class UsersEditComponent {
       });
     } else {
       this.popupVisible = true;
-      this.users = {id: null, userId: null, password: null, name: null, phone: null, mail: null};
+      this.users = {id: null, userId: null, password: null, name: null, phone: null, mail: null, loginAttempts: null};
     }
   }
 
@@ -90,6 +90,7 @@ export class UsersEditComponent {
     e.preventDefault();
     this.close();
     if (this.isCreateMode()) {
+      this.users.loginAttempts = 0;
       this.apollo.mutate({
         mutation: gql`
           mutation createUsers($users: UsersInput) {

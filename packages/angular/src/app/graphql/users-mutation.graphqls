@@ -11,4 +11,5 @@ input UsersInput {
   name: String
   phone: String
   mail: String
+  loginAttempts: Int
 }

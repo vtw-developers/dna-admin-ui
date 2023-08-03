@@ -6,5 +6,6 @@ export interface Users {
   name: string;
   phone: string;
   mail: string;
+  loginAttempts: number;
 }
 
