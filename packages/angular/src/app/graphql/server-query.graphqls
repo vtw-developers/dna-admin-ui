@@ -1,5 +1,6 @@
 extend type Query {
     servers: [Server]
+    serverStatus(serverId: ID): statusResult
 }
 
 type Server {
@@ -9,3 +10,8 @@ type Server {
     privateIp: String
     publicIp: String
 }
+
+type statusResult {
+  result: JSON
+}
+

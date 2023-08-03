@@ -14,9 +14,14 @@ export class ApplicationPropertiesComponent {
   @Output() saved = new EventEmitter();
 
   navItem;
+  items;
   @Input() set selectedItem(currentItem) {
     console.log(currentItem)
     this.navItem = currentItem;
+  }
+  @Input() set treeItems(treeItems) {
+    console.log(treeItems)
+    this.items = treeItems;
   }
 
   tabs = [

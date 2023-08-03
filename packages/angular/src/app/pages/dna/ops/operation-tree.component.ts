@@ -127,7 +127,6 @@ export class OperationTreeComponent {
           if (result.errors) {
             console.error(result.errors);
           }
-          console.log(result.data.findAllDeployedFlows);
           result.data.findAllDeployedFlows.forEach(e => {
             e.name = e.flow.name;
             e.type = 'deployedFlow'
@@ -145,15 +144,15 @@ export class OperationTreeComponent {
   }
 
   selectItem(e) {
-    /*  if (!this.treeItemDbClickTimeout) {
-        this.treeItemDbClickItem = e.itemData;
-        this.treeItemDbClickTimeout = setTimeout(() => {
-          this.treeItemDbClickTimeout = null;
-        }, 500);
-      } else if (e.itemData === this.treeItemDbClickItem) {
-        this.currentItem = e.itemData;
-        console.log(this.currentItem);
-      }*/
+    /*if (!this.treeItemDbClickTimeout) {
+      this.treeItemDbClickItem = e.itemData;
+      this.treeItemDbClickTimeout = setTimeout(() => {
+        this.treeItemDbClickTimeout = null;
+      }, 500);
+    } else if (e.itemData === this.treeItemDbClickItem) {
+      this.currentItem = e.itemData;
+      console.log(this.currentItem);
+    }*/
     this.currentItem = e.itemData;
   }
 
@@ -214,11 +213,10 @@ export class OperationTreeComponent {
     console.log(e.itemData)
     switch (e.itemData.type) {
       case 'createApplication': {
-        this.editApplicationPopup.openPopup(undefined,this.selectedTreeItem.id);
+        this.editApplicationPopup.openPopup(undefined, this.selectedTreeItem.id);
         return;
       }
       case 'createDeployedFlow': {
-        console.log(this.selectedTreeItem)
         this.editDeployedFlowPopup.openPopup(this.selectedTreeItem.id, this.selectedTreeItem.server.id);
         return;
       }
@@ -251,7 +249,6 @@ export class OperationTreeComponent {
         return;
       }
       case 'deleteApplication': {
-        console.log(this.selectedTreeItem)
         const result = confirm(`<i>애플리케이션 '${this.selectedTreeItem.name}' 을 삭제하시겠습니까?</i>`, '애플리케이션 삭제');
         result.then(dialogResult => {
           if (dialogResult) {
@@ -280,7 +277,6 @@ export class OperationTreeComponent {
         return;
       }
       case 'deleteDeployedFlow': {
-        console.log(this.selectedTreeItem)
         const result = confirm(`<i>서비스 '${this.selectedTreeItem.flow.name}' 을 삭제하시겠습니까?</i>`, '애플리케이션 삭제');
         result.then(dialogResult => {
           if (dialogResult) {

@@ -3,6 +3,7 @@
   <server-editor
     *ngIf="tab.selectedIndex === 0"
     [selectedItem]="navItem"
+    [treeItems]="items"
     (saved)="refresh()"
   >
   </server-editor>

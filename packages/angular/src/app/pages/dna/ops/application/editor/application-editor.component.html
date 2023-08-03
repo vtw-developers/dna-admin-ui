@@ -2,7 +2,7 @@
 
   <div class="dx-fieldset">
     <div class="dx-fieldset-header" style="font-size: 22px; font-weight: 500; padding-right: 25px;">기본 정보</div>
-    <!--<div style="float: right;">
+    <div style="float: right;">
       <dx-button
         class="form-item-button"
         stylingMode="outlined"
@@ -10,17 +10,17 @@
         [type]="'default'"
         (onClick)="updateApplication()"
       ></dx-button>
-    </div>-->
+    </div>
     <!--<div>{{applicaitonItem.isDeployed ? '배포 완료' : '배포 안됨' }}</div>-->
-    <!--<div style="margin-bottom: 16px;">
+    <div style="margin-bottom: 16px;">
       <span>상태</span>
-      <div *ngIf="applicationItem.applicationStatus === 'On'">
+      <div *ngIf="applicationStatus === 'On'">
         <i class="dx-icon-isnotblank" style="color:#41b400;"></i>운영중
       </div>
-      <div *ngIf="applicationItem.applicationStatus !== 'On'">
+      <div *ngIf="applicationStatus !== 'On'">
         <i class="dx-icon-isnotblank" style="color:#cbc7b9;"></i>정지됨
       </div>
-    </div>-->
+    </div>
 
     <div style="margin-bottom: 8px;">
       <span>이름</span>

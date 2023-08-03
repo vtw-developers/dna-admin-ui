@@ -95,7 +95,7 @@
         type="success"
         stylingMode="contained"
         class="scheduleButton"
-        [disabled]="!isDeployed()"
+        [disabled]="!isDeployed() || isStarted()"
         (onClick)="startApplication()"
       ></dx-button>
       </dxi-item>
@@ -106,7 +106,7 @@
         type="danger"
         stylingMode="contained"
         class="scheduleButton"
-        [disabled]="!isDeployed()"
+        [disabled]="!isDeployed() || !isStarted()"
         (onClick)="stopApplication()"
       ></dx-button>
       </dxi-item>

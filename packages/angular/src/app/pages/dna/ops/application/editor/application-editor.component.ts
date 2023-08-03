@@ -46,12 +46,18 @@ export class ApplicationEditorComponent {
     }
     this.refresh();
   }
+  @Input() set treeItems(treeItems) {
+    console.log(treeItems)
+    this.items = treeItems;
+  }
 
+  items;
   application;
   deployedFlowId;
   selectedDeployedFlow;
   deployedFlows: DataSource;
   isSelected: boolean;
+  applicationStatus = 'On';
 
   constructor(private apollo: Apollo) {
   }
@@ -152,9 +158,28 @@ export class ApplicationEditorComponent {
   }
 
   updateApplication() {
-
+    this.apollo.mutate<any>({
+      mutation: gql`
+        mutation updateApplication($application: ApplicationInput) {
+          updateApplication(application: $application)
+        }
+      `,
+      variables: {
+        application: this.application
+      }
+    }).subscribe((result: any) => {
+      if (result.errors) {
+        console.error(result.errors);
+        return
+      }
+      const findItem = this.items.find(item => item.id === this.application.id);
+      findItem.name = this.application.name;
+      findItem.restPort = this.application.restPort;
+      findItem.monitorPort = this.application.monitorPort;
+      notify('애플리케이션이 성공적으로 수정되었습니다.', 'success', 3000);
+      // this.saved.emit();
+    });
   }
-
 }
 
 @NgModule({

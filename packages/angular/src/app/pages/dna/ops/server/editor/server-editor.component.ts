@@ -42,10 +42,16 @@ export class ServerEditorComponent {
       privateIp: currentItem.privateIp,
       publicIp: currentItem.publicIp
     }
+    this.status();
     this.refresh();
   }
+  @Input() set treeItems(treeItems) {
+    console.log(treeItems)
+    this.items = treeItems;
+  }
 
-  serverStatus = 'On';
+  items;
+  serverStatus;
   applicationId;
   selectedApplication;
   applications: DataSource;
@@ -59,7 +65,6 @@ export class ServerEditorComponent {
   }
 
   reloadApplications() {
-    console.log(this.server.id);
     this.apollo.query({
       query: gql`
         query applications($serverId: ID) {
@@ -89,7 +94,6 @@ export class ServerEditorComponent {
         return
       }
       this.applications = result.data.applications;
-      console.log(this.applications);
     });
   }
 
@@ -218,8 +222,13 @@ export class ServerEditorComponent {
         console.error(result.errors);
         return
       }
+      const findItem = this.items.find(item => item.id === this.server.id);
+      findItem.name = this.server.name;
+      findItem.os = this.server.os;
+      findItem.privateIp = this.server.privateIp;
+      findItem.push = this.server.publicIp;
       notify('서버가 성공적으로 수정되었습니다.', 'success', 3000);
-      this.saved.emit();
+      // this.saved.emit();
     });
   }
 
@@ -232,6 +241,33 @@ export class ServerEditorComponent {
     }
   }
 
+  isStarted() {
+    if (this.isSelected) {
+      if (this.selectedApplication.status === 'Running') {
+        return true;
+      }
+      return false;
+    }
+  }
+
+  status() {
+    this.apollo.query({
+      query: gql`
+        query serverStatus($serverId: ID) {
+          serverStatus(serverId: $serverId) {
+            result
+          }
+        }
+      `,
+      variables: {
+        serverId: this.server.id
+      }
+    }).subscribe((result: any) => {
+      console.log(result);
+      this.serverStatus = result.data.serverStatus.result;
+      // item.serverStatus = this.serverStatus;
+    })
+  }
 
 }
 
