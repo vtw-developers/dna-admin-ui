@@ -215,6 +215,10 @@ export const navigation = [
         text: '메뉴 설정',
         path: '/role-menu',
       },
+      {
+        text: '다운로드',
+        path: 'download-ide'
+      }
     ]
   }
 

@@ -13,7 +13,6 @@ import {
   CardActivitiesModule,
   ContactStatusModule,
 } from 'src/app/components';
-import {ContactStatus,} from 'src/app/types/contact';
 import {SelectionChangedEvent} from 'devextreme/ui/drop_down_button';
 import DataSource from 'devextreme/data/data_source';
 import {CommonModule} from '@angular/common';

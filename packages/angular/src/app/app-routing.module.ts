@@ -41,6 +41,7 @@ import {OperationTreeComponent} from "./pages/dna/ops/operation-tree.component";
 import {MenuComponent} from "./pages/menu/menu.component";
 import {RoleMenuComponent} from "./pages/role-menu/role-menu.component";
 import {FlowHistoryComponent} from "./pages/dna/flow-history/flow-history.component";
+import {DownloadIdeComponent} from "./pages/dna/download-ide/download-ide.component";
 
 const routes: Routes = [
   {
@@ -229,6 +230,11 @@ const routes: Routes = [
         path: 'role-menu',
         component: RoleMenuComponent,
         canActivate: [AuthGuardService],
+      },
+      {
+        path: 'download-ide',
+        component: DownloadIdeComponent,
+        canActivate: [AuthGuardService]
       },
       {
         path: '**',
