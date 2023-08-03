@@ -3,26 +3,19 @@ import {
   DxButtonModule,
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
-import {Apollo, gql} from "apollo-angular";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   templateUrl: 'download-ide.component.html',
 })
 export class DownloadIdeComponent {
 
-  constructor(private apollo: Apollo) {
+  constructor(private httpClient: HttpClient) {
   }
 
   download() {
-    this.apollo.mutate<any>({
-        mutation: gql`
-            mutation downloadIde {
-                downloadIde
-            }
-        `
-    }).subscribe(result => {
-      const bytes = result.data.downloadIde;
-      const blob = new Blob([new Uint8Array(bytes)], {type: 'application/vnd.microsoft.portable-executable'});
+    this.httpClient.get('assets/download/test.exe', {responseType: 'arraybuffer'}).subscribe(data => {
+      const blob = new Blob([new Uint8Array(data)], {type: 'application/vnd.microsoft.portable-executable'});
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement("a")
       a.href = url
@@ -30,9 +23,8 @@ export class DownloadIdeComponent {
       a.click()
       a.remove()
       window.URL.revokeObjectURL(url);
-    })
+    });
   }
-
 }
 
 @NgModule({
