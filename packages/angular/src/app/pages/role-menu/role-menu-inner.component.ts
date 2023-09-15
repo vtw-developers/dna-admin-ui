@@ -52,7 +52,7 @@ export class RoleMenuInnerComponent {
       },
       error: (e) => {
         console.error(e);
-        notify('예매 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+        notify('메뉴를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
       }
     });
   }
@@ -73,7 +73,7 @@ export class RoleMenuInnerComponent {
       },
       error: (e) => {
         console.error(e);
-        notify('예매 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+        notify('메뉴를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
       }
     });
   }

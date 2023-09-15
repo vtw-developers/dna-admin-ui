@@ -14,7 +14,7 @@ import { AuthService, IResponse, ThemeService } from 'src/app/services';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss'],
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent {
   @Input() resetLink = '/auth/reset-password';
   @Input() createAccountLink = '/auth/create-account';
 
@@ -22,48 +22,46 @@ export class LoginFormComponent implements OnInit {
 
   btnStylingMode: string;
 
-  passwordMode = 'password';
-
   loading = false;
 
   formData: any = {};
-
-  passwordEditorOptions = {
-    placeholder: 'Password',
-    stylingMode:'filled',
-    mode: this.passwordMode,
-    value: 'password',
-    // buttons: [{
-    //   name: 'password',
-    //   location: 'after',
-    //   options: {
-    //     icon: 'info',
-    //     stylingMode:'text',
-    //     onClick: () => this.changePasswordMode(),
-    //   }
-    // }]
-  }
+  username;
+  password;
 
   constructor(private authService: AuthService, private router: Router, private themeService: ThemeService) {
+    this.isRememberMe();
     this.themeService.isDark.subscribe((value: boolean) => {
       this.btnStylingMode = value ? 'outlined' : 'contained';
     });
+
+    const user = localStorage.getItem('user');
+    const username = JSON.parse(user).username;
+    if(username != "") {
+      this.router.navigate(['/menu']);
+    }
   }
 
-  changePasswordMode() {
-    debugger;
-    this.passwordMode = this.passwordMode === 'text' ? 'password' : 'text';
-  };
+  // changePasswordMode() {
+  //   debugger;
+  //   this.passwordMode = this.passwordMode === 'text' ? 'password' : 'text';
+  // };
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { email, password } = this.formData;
+    const { username, password, rememberMe } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.logIn(email, password);
-    this.loading = false;
+    if(rememberMe === true) {
+      localStorage.setItem('rememberId', username);
+    }
+
+    const result = await this.authService.logIn(username, password, rememberMe) as any;
+
     if (!result.isOk) {
+      this.loading = false;
       notify(result.message, 'error', 2000);
+    } else {
+      this.router.navigate(['/menu']);
     }
   }
 
@@ -71,9 +69,15 @@ export class LoginFormComponent implements OnInit {
     this.router.navigate([this.createAccountLink]);
   };
 
-  async ngOnInit(): Promise<void> {
-    this.defaultAuthData = await this.authService.getUser();
+  isRememberMe() {
+    if(localStorage.getItem('rememberId') !== null) {
+      this.username = localStorage.getItem('rememberId');
+    }
   }
+
+  // async ngOnInit(): Promise<void> {
+  //   this.defaultAuthData = await this.authService.getUser();
+  // }
 }
 @NgModule({
   imports: [

@@ -6,22 +6,16 @@
     [showRequiredMark]="false"
   >
     <dxi-item
-      dataField="email"
+      dataField="username"
       editorType="dxTextBox"
       [editorOptions]="{
-        placeholder: 'Email',
         stylingMode: 'filled',
-        mode: 'email',
-        value: defaultAuthData?.data?.email
+        value: username
       }"
     >
       <dxi-validation-rule
         type="required"
-        message="Email is required"
-      ></dxi-validation-rule>
-      <dxi-validation-rule
-        type="email"
-        message="Email is invalid"
+        message="User Id is required"
       ></dxi-validation-rule>
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
@@ -29,7 +23,11 @@
     <dxi-item
       dataField="password"
       editorType="dxTextBox"
-      [editorOptions]="passwordEditorOptions"
+      [editorOptions]="{
+        stylingMode: 'filled',
+        value: password,
+        mode: 'password'
+      }"
     >
       <dxi-validation-rule
         type="required"

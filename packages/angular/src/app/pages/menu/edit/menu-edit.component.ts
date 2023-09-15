@@ -48,6 +48,7 @@ export class MenuEditComponent {
 
   constructor(private apollo: Apollo, service: Service) {
     this.types = service.getTypes();
+    this.getMenuType()
   }
 
   open(editMode: 'create' | 'update', id?: any) {
@@ -80,35 +81,39 @@ export class MenuEditComponent {
         },
         error: (e) => {
           console.error(e);
-          notify('권한 정보를 불러오는데 실패하였습니다.', 'error', 3000);
+          notify('메뉴 정보를 불러오는데 실패하였습니다.', 'error', 3000);
         }
       });
     } else {
-      this.apollo.query({
-        query: gql`
-          query menuType($type: String) {
-            menuType(type: $type) {
-              id
-              name
-            }
-          }
-        `,
-        variables: {
-          type: "Group"
-        }
-      }).subscribe({
-        next: (result: any) => {
-          this.parentId = result.data.menuType;
-        },
-        error: (e) => {
-          console.error(e);
-          notify('권한 정보를 불러오는데 실패하였습니다.', 'error', 3000);
-        }
-      });
+      this.getMenuType();
       this.selectedParent = null;
       this.menu = {id: null, name: null, detail: null, parentName:null, parentId: null, path: null, type: null, icon: null, expanded: null};
       this.popupVisible = true;
     }
+  }
+
+  getMenuType(){
+    this.apollo.query({
+      query: gql`
+        query menuType($type: String) {
+          menuType(type: $type) {
+            id
+            name
+          }
+        }
+      `,
+      variables: {
+        type: "Group"
+      }
+    }).subscribe({
+      next: (result: any) => {
+        this.parentId = result.data.menuType;
+      },
+      error: (e) => {
+        console.error(e);
+        notify('메뉴 정보를 불러오는데 실패하였습니다.', 'error', 3000);
+      }
+    });
   }
 
   close() {

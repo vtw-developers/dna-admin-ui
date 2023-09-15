@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import {firstValueFrom} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {formatMessage} from "devextreme/localization";
 
 export interface IUser {
   email: string;
@@ -14,42 +17,79 @@ export interface IResponse {
 }
 
 const defaultPath = '/';
-export const defaultUser: IUser = {
-  email: 'jheart@corp.com',
-  name: 'John Heart',
+
+const defaultUser ={
+  username: "",
+  userAuth: "",
+  rememberMe: false,
+  tokenType: "",
+  accessToken: "",
   avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/01.png',
-};
+}
 
 @Injectable()
 export class AuthService {
-  private _user: IUser | null = defaultUser;
 
-  get loggedIn(): boolean {
-    return !!this._user;
+  constructor(private router: Router, private http: HttpClient) {
+    localStorage.setItem('user', JSON.stringify(defaultUser));
+  }
+  get user() {
+    return localStorage.getItem('user');
   }
 
+  get loggedIn(): boolean {
+    return !!this.user;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   private _lastAuthenticatedPath: string = defaultPath;
 
   set lastAuthenticatedPath(value: string) {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
-
-  async logIn(email: string, password: string) {
+  async logIn(username: string, password: string, rememberMe: boolean) {
     try {
       // Send request
-      this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
-
-      return {
-        isOk: true,
-        data: this._user,
-      };
+      return firstValueFrom(this.http.post('/dna/example/auth/signin', {
+        username, password, rememberMe
+      })).then(
+        (response: any) => {
+          if (response.accessToken) {
+            localStorage.setItem('user', JSON.stringify(response));
+          }
+          return {
+            isOk: true,
+            data: this.user
+          };
+        },
+        error => {
+          console.log(error);
+          if (error.error.message === 'lockedUser') {
+            return {
+              isOk: false,
+              lockedUser: true,
+              message: 'Locked User'
+            };
+          } else if (error.error.message === 'duplicateLogin') {
+            return {
+              isOk: false,
+              lockedUser: false,
+              duplicateLogin: true,
+              message: 'DuplicateLogin User'
+            }
+          } else {
+            return {
+              isOk: false,
+              lockedUser: false,
+              message: 'Incorrect Information'
+            };
+          }
+        });
     } catch {
       return {
         isOk: false,
-        message: 'Authentication failed',
+        message: 'Authentication failed'
       };
     }
   }
@@ -60,7 +100,7 @@ export class AuthService {
 
       return {
         isOk: true,
-        data: this._user,
+        data: this.user,
       };
     } catch {
       return {
@@ -70,18 +110,36 @@ export class AuthService {
     }
   }
 
-  async createAccount(email: string, password: string) {
+  async createAccount(username: string, password: string) {
     try {
       // Send request
+      return firstValueFrom(this.http.post('/dna/example/auth/signup', {
+        username, password
+      })).then(
+        (result: any) => {
+          // console.log(result);
+          // this.user = result;
+          return {
+            isOk: true,
+            data: this.user
+          };
+        },
+        error => {
+          console.log(error);
+          return {
+            isOk: false,
+            message: formatMessage('AlreadyExistID')
+          };
+        });
 
       this.router.navigate(['/auth/create-account']);
       return {
-        isOk: true,
+        isOk: true
       };
     } catch {
       return {
         isOk: false,
-        message: 'Failed to create account',
+        message: 'Failed to create account'
       };
     }
   }
@@ -117,7 +175,31 @@ export class AuthService {
   }
 
   async logOut() {
-    this.router.navigate(['/auth/login']);
+    const user = localStorage.getItem('user');
+    const rememberMe = JSON.parse(user).rememberMe;
+
+    return firstValueFrom(this.http.post('/dna/example/auth/logout', {
+      username: JSON.parse(localStorage.getItem('user')).username
+    })).then(
+      (result: any) => {
+        localStorage.setItem('user', JSON.stringify(defaultUser));
+        if (rememberMe === false) {
+          localStorage.removeItem('rememberId');
+        }
+        this.router.navigate(['/auth/login']);
+
+        return {
+          isOk: true,
+          data: this.user
+        };
+      },
+      error => {
+        console.log(error);
+        return {
+          isOk: false,
+          message: 'Logout Failed'
+        };
+      });
   }
 }
 
