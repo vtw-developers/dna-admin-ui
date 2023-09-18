@@ -42,6 +42,7 @@ import {MenuComponent} from "./pages/menu/menu.component";
 import {RoleMenuComponent} from "./pages/role-menu/role-menu.component";
 import {FlowHistoryComponent} from "./pages/dna/flow-history/flow-history.component";
 import {DownloadIdeComponent} from "./pages/dna/download-ide/download-ide.component";
+import {BlocklyComponent} from "./pages/blockly/blockly.component";
 
 const routes: Routes = [
   {
@@ -234,6 +235,11 @@ const routes: Routes = [
       {
         path: 'download-ide',
         component: DownloadIdeComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path: 'blockly',
+        component: BlocklyComponent,
         canActivate: [AuthGuardService]
       },
       {
