@@ -9,6 +9,8 @@ input BlocklyInput {
   author: String
   registerDate: Date
   data: String
+  dataName: String
+  dataDetail: String
   finished: Boolean
   finishDate: Date
 }

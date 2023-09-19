@@ -14,13 +14,33 @@
     <pre>{{code}}</pre>
   </div>
 </div>
-<form id="form" (submit)="save($event)">
-  <dx-select-box [items]="['완료', '미완료']" [(value)]="finished" style="width: 150px; margin-right: 15px;" placeholder="작업 완료 여부">
-  </dx-select-box>
-  <dx-button
-    [text]="'생성'"
-    [width]="100"
-    [useSubmitBehavior]="true"
-  >
-  </dx-button>
-</form>
+<div id="form-outer">
+  <form id="form" (submit)="save($event)">
+    <div class="dx-field">
+      <div class="dx-field-label">중심언어명</div>
+      <dx-text-box class="dx-field-value" [(value)]="block.dataName">
+        <dx-validator>
+          <dxi-validation-rule message="중심언어명을 입력하세요."></dxi-validation-rule>
+        </dx-validator>
+      </dx-text-box>
+    </div>
+    <div class="dx-field">
+      <div class="dx-field-label">설명</div>
+      <dx-text-box class="dx-field-value" [(value)]="block.dataDetail">
+        <dx-validator>
+          <dxi-validation-rule message="설명을 입력하세요."></dxi-validation-rule>
+        </dx-validator>
+      </dx-text-box>
+    </div>
+    <div id="form-button">
+      <dx-select-box [items]="['완료', '미완료']" [(value)]="finished" style="width: 150px; margin-right: 15px;" placeholder="작업 완료 여부">
+      </dx-select-box>
+      <dx-button
+        [text]="'생성'"
+        [width]="100"
+        [useSubmitBehavior]="true"
+      >
+      </dx-button>
+    </div>
+  </form>
+</div>

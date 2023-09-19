@@ -28,9 +28,17 @@
   padding: 10px;
 }
 
+#form-outer {
+  display: flex;
+  justify-content: flex-end;
+}
+
 #form {
   margin: 2%;
-  width: 96%;
+  width: 75%;
+}
+
+#form-button {
   display: flex;
   justify-content: flex-end;
 }

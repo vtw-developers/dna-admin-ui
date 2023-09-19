@@ -3,6 +3,8 @@ export interface Block {
   author: string;
   registerDate: Date;
   data: string;
+  dataName: string;
+  dataDetail: string;
   finished: Boolean;
   finishDate: Date;
 }

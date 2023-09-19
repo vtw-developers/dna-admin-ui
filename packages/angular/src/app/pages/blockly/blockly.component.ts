@@ -7,9 +7,10 @@ import Blockly from 'blockly';
 import {Block} from './blockly.service';
 import {javascriptGenerator} from 'blockly/javascript';
 import {ScrollOptions, ScrollBlockDragger, ScrollMetricsManager} from '@blockly/plugin-scroll-options';
-import {DxButtonModule, DxSelectBoxModule} from "devextreme-angular";
+import {DxButtonModule, DxSelectBoxModule, DxTextBoxModule, DxValidatorModule} from "devextreme-angular";
 import {Apollo, gql} from "apollo-angular";
 import notify from "devextreme/ui/notify";
+import {DxiValidationRuleModule} from "devextreme-angular/ui/nested";
 
 @Component({
   templateUrl: './blockly.component.html',
@@ -96,6 +97,9 @@ export class BlocklyComponent implements AfterViewInit {
     CommonModule,
     DxButtonModule,
     DxSelectBoxModule,
+    DxTextBoxModule,
+    DxValidatorModule,
+    DxiValidationRuleModule,
   ],
   providers: [],
   exports: [],
