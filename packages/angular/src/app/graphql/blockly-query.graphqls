@@ -1,0 +1,17 @@
+extend type Query {
+  blockly(id: ID): Blockly
+}
+
+type Blockly {
+  id: ID
+  author: String
+  registerDate: Date
+  data: String
+  finished: Boolean
+  finishDate: Date
+}
+
+type BlocklyPage {
+  totalElements: Int
+  content: [Blockly]
+}

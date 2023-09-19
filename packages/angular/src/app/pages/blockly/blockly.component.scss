@@ -19,11 +19,18 @@
   display: none;
 }
 
-#generator{
+#generator {
   overflow: auto;
   white-space: nowrap;
   border: 1px solid #ddd;
   height: 500px;
   width: 40%;
   padding: 10px;
+}
+
+#form {
+  margin: 2%;
+  width: 96%;
+  display: flex;
+  justify-content: flex-end;
 }

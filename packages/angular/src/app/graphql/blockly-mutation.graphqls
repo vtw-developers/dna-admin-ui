@@ -1,0 +1,14 @@
+extend type Mutation {
+  createBlockly(blockly: BlocklyInput): Blockly
+  updateBlockly(blockly: BlocklyInput): Blockly
+  deleteBlockly(id: ID): Blockly
+}
+
+input BlocklyInput {
+  id: ID
+  author: String
+  registerDate: Date
+  data: String
+  finished: Boolean
+  finishDate: Date
+}
