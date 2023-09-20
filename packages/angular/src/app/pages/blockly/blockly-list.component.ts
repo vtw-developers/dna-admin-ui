@@ -103,9 +103,8 @@ export class BlocklyListComponent{
   }
 
   update = (e) => {
-    const selectedBlock = this.grid?.instance.getSelectedRowKeys()[0];
+    const selectedBlock = e.row.data.id;
     this.router.navigate(['/blockly', {state: selectedBlock}]);
-    this.refresh();
   }
 
   refresh(){

@@ -24,47 +24,10 @@ export class BlocklyComponent implements AfterViewInit {
   block: Block = {} as any;
   finished;
   id;
+  blockJson;
   @ViewChild('toolbox') toolbox: ElementRef;
 
   constructor(public router: Router, private route: ActivatedRoute, private apollo: Apollo) {
-    if (this.route.snapshot.paramMap.get('state') != 'null') {
-      this.id = this.route.snapshot.paramMap.get('state');
-      this.apollo.query({
-        query: gql`
-          query blockly($id: ID) {
-            blockly(id: $id) {
-              id
-              author
-              registerDate
-              data
-              dataName
-              dataDetail
-              finished
-              finishDate
-            }
-          }
-        `,
-        variables: {
-          id: this.id
-        }
-      }).subscribe({
-        next: (result: any) => {
-          console.log(result);
-
-          this.block = result.data.blockly;
-          this.code = this.block.data
-          if (this.block.finished == true){
-            this.finished = "완료";
-          } else if (this.block.finished == false){
-            this.finished = "미완료";
-          }
-        },
-        error: (e) => {
-          console.error(e);
-          notify('블록 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
-        }
-      });
-    }
   }
 
   ngAfterViewInit(): void {
@@ -85,7 +48,51 @@ export class BlocklyComponent implements AfterViewInit {
     this.plugin = new ScrollOptions(this.workspace);
     this.plugin.init();
 
-    this.code = javascriptGenerator.workspaceToCode(this.workspace);
+    this.getBlock();
+  }
+
+  getBlock() {
+    if (this.route.snapshot.paramMap.get('state') != 'null') {
+      this.id = this.route.snapshot.paramMap.get('state');
+      this.apollo.query({
+        query: gql`
+          query blockly($id: ID) {
+            blockly(id: $id) {
+              id
+              author
+              registerDate
+              blockJson
+              data
+              dataName
+              dataDetail
+              finished
+              finishDate
+            }
+          }
+        `,
+        variables: {
+          id: this.id
+        }
+      }).subscribe({
+        next: (result: any) => {
+          this.block = result.data.blockly;
+          this.code = this.block.data
+          if (this.block.finished == true){
+            this.finished = "완료";
+          } else if (this.block.finished == false){
+            this.finished = "미완료";
+          }
+
+          // @ts-ignore
+          const json = JSON.parse(this.block.blockJson);
+          Blockly.serialization.workspaces.load(json, this.workspace);
+        },
+        error: (e) => {
+          console.error(e);
+          notify('블록 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+        }
+      });
+    }
   }
 
   keyDownEvent(e) {
@@ -93,8 +100,8 @@ export class BlocklyComponent implements AfterViewInit {
       e.preventDefault();
       this.code = javascriptGenerator.workspaceToCode(this.workspace);
 
-      // const json = Blockly.serialization.workspaces.save(this.workspace);
-      // console.log(json);
+      const json = Blockly.serialization.workspaces.save(this.workspace);
+      this.blockJson = JSON.stringify(json);
     }
   }
 
@@ -102,6 +109,7 @@ export class BlocklyComponent implements AfterViewInit {
     e.preventDefault();
     this.block.author = JSON.parse(localStorage.getItem('user')).username
     this.block.data = this.code;
+    this.block.blockJson = this.blockJson;
 
     if(this.finished == "완료"){
      this.block.finished = true;
