@@ -1,0 +1,67 @@
+<div class="content-block dx-card responsive-paddings">
+
+  <dx-data-grid
+    #grid
+    [dataSource]="blocklyList"
+    [showBorders]="true"
+    [remoteOperations]="true"
+    [hoverStateEnabled]="true"
+    [selectedRowKeys]="[]"
+  >
+    <dxo-search-panel
+      [visible]="true"
+      placeholder="Blockly 검색"
+    ></dxo-search-panel>
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <div class="header-text">Blockly 목록</div>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="Blockly 추가"
+          icon="plus"
+          type="default"
+          stylingMode="contained"
+          (onClick)="create()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        showText="inMenu"
+        widget="dxButton"
+        [options]="{ text: 'Refresh', icon: 'refresh', onClick: refresh, stylingMode: 'text' }"
+      ></dxi-item>
+      <dxi-item name="searchPanel" locateInMenu="auto" onEnter></dxi-item>
+    </dxo-toolbar>
+
+    <dxi-column dataField="id" dataType="string" caption="ID"></dxi-column>
+    <dxi-column dataField="dataName" dataType="string" caption="중심언어명"></dxi-column>
+    <dxi-column dataField="author" dataType="string" caption="등록자"></dxi-column>
+    <dxi-column dataField="finished" dataType="boolean" caption="완료여부"></dxi-column>
+    <dxi-column dataField="finishDate" dataType="date" caption="완료일자" [format]="{ type: 'yyyy-MM-dd HH:mm:ss' }"></dxi-column>
+    <dxi-column type="buttons" caption="수정">
+      <dxi-button
+        text="수정"
+        icon="../../../assets/icons/common/edit.svg"
+        [onClick]="update"
+      ></dxi-button>
+    </dxi-column>
+    <dxi-column type="buttons" caption="삭제">
+      <dxi-button
+        text="삭제"
+        icon="../../../assets/icons/common/DeleteTest_riderLight.svg"
+        [onClick]="delete"
+      ></dxi-button>
+    </dxi-column>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-paging [pageSize]="5"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[5, 10, 20]"
+      [showInfo]="true"
+      [visible]="true"
+    ></dxo-pager>
+  </dx-data-grid>
+</div>

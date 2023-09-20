@@ -11,6 +11,7 @@ import {DxButtonModule, DxSelectBoxModule, DxTextBoxModule, DxValidatorModule} f
 import {Apollo, gql} from "apollo-angular";
 import notify from "devextreme/ui/notify";
 import {DxiValidationRuleModule} from "devextreme-angular/ui/nested";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   templateUrl: './blockly.component.html',
@@ -22,9 +23,48 @@ export class BlocklyComponent implements AfterViewInit {
   code: string;
   block: Block = {} as any;
   finished;
+  id;
   @ViewChild('toolbox') toolbox: ElementRef;
 
-  constructor(private apollo: Apollo) {
+  constructor(public router: Router, private route: ActivatedRoute, private apollo: Apollo) {
+    if (this.route.snapshot.paramMap.get('state') != 'null') {
+      this.id = this.route.snapshot.paramMap.get('state');
+      this.apollo.query({
+        query: gql`
+          query blockly($id: ID) {
+            blockly(id: $id) {
+              id
+              author
+              registerDate
+              data
+              dataName
+              dataDetail
+              finished
+              finishDate
+            }
+          }
+        `,
+        variables: {
+          id: this.id
+        }
+      }).subscribe({
+        next: (result: any) => {
+          console.log(result);
+
+          this.block = result.data.blockly;
+          this.code = this.block.data
+          if (this.block.finished == true){
+            this.finished = "완료";
+          } else if (this.block.finished == false){
+            this.finished = "미완료";
+          }
+        },
+        error: (e) => {
+          console.error(e);
+          notify('블록 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+        }
+      });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -89,6 +129,7 @@ export class BlocklyComponent implements AfterViewInit {
         notify('블록 저장에 실패하였습니다.', 'error', 3000);
       }
     });
+    this.router.navigate(['/blockly-list']);
    }
 }
 
