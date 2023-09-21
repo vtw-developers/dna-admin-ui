@@ -34,20 +34,13 @@ export class BlocklyComponent implements AfterViewInit {
     this.workspace = Blockly.inject('blocklyDiv',
       {
         toolbox: this.toolbox.nativeElement,
-
-        // 스크롤 작동안함
-        plugins: {
-          'blockDragger': ScrollBlockDragger,
-          'metricsManager': ScrollMetricsManager,
-        },
         move: {
-          wheel: true,
+          scrollbars: {
+            "horizontal": true,
+            "vertical": true,
+          },
         },
       });
-
-    this.plugin = new ScrollOptions(this.workspace);
-    this.plugin.init();
-
     this.getBlock();
   }
 
