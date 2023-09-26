@@ -110,11 +110,11 @@ export class AuthService {
     }
   }
 
-  async createAccount(username: string, password: string) {
+  async createAccount(username: string, password: string, name: string, email: string, phone: string) {
     try {
       // Send request
       return firstValueFrom(this.http.post('/dna/example/auth/signup', {
-        username, password
+        username, password, name, email, phone
       })).then(
         (result: any) => {
           // console.log(result);

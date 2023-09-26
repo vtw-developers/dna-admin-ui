@@ -6,22 +6,17 @@
     [disabled]="loading"
   >
     <dxi-item
-      dataField="email"
+      dataField="username"
       editorType="dxTextBox"
       [editorOptions]="{
-        placeholder: 'Email',
+        placeholder: 'User Id',
         stylingMode: 'filled',
-        mode: 'email',
-        value: defaultAuthData?.data?.email
+        value: username
       }"
     >
       <dxi-validation-rule
         type="required"
-        message="Email is required"
-      ></dxi-validation-rule>
-      <dxi-validation-rule
-        type="email"
-        message="Email is invalid"
+        message="User Id is required"
       ></dxi-validation-rule>
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
@@ -32,7 +27,7 @@
       [editorOptions]="{
         stylingMode: 'filled',
         placeholder: 'Password',
-        value: 'password',
+        value: password,
         mode: 'password'
       }"
     >
@@ -48,21 +43,69 @@
       editorType="dxTextBox"
       [editorOptions]="{
         stylingMode: 'filled',
-        placeholder: 'Confirm Password',
-        value: 'password',
+        placeholder: 'Confirm your password',
+        value: confirmedPassword,
         mode: 'password'
       }"
     >
       <dxi-validation-rule
         type="required"
-        message="Password is required"
+        message="Confirm your password"
+      ></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item
+      dataField="name"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        stylingMode: 'filled',
+        placeholder: 'User name',
+        value: name
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="User name is required"
+      ></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+
+    </dxi-item>
+
+    <dxi-item
+      dataField="phone"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        placeholder: 'Phone',
+        stylingMode: 'filled',
+        value: phone
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Phone number is required"
+      ></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item
+      dataField="email"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        placeholder: 'Email',
+        stylingMode: 'filled',
+        mode: 'email',
+        value: email
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Email is required"
       ></dxi-validation-rule>
       <dxi-validation-rule
-        type="custom"
-        message="Passwords do not match"
-        [validationCallback]="confirmPassword"
-      >
-      </dxi-validation-rule>
+        type="email"
+        message="Email is invalid"
+      ></dxi-validation-rule>
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
