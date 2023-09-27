@@ -42,7 +42,7 @@ export class AppHeaderComponent {
               private router: Router) { }
 
   ngOnInit() {
-    this.user = sessionStorage.getItem('user');
+    this.user = localStorage.getItem('user');
     const username = JSON.parse(this.user).username;
     if(username == "") {
       this.router.navigate(['/auth/login']);

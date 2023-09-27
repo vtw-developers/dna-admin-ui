@@ -31,12 +31,12 @@ const defaultUser ={
 export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) {
-    if(sessionStorage.getItem('user') == null){
-      sessionStorage.setItem('user', JSON.stringify(defaultUser));
+    if(localStorage.getItem('user') == null){
+      localStorage.setItem('user', JSON.stringify(defaultUser));
     }
   }
   get user() {
-    return sessionStorage.getItem('user');
+    return localStorage.getItem('user');
   }
 
   get loggedIn(): boolean {
@@ -58,7 +58,7 @@ export class AuthService {
       })).then(
         (response: any) => {
           if (response.accessToken) {
-            sessionStorage.setItem('user', JSON.stringify(response));
+            localStorage.setItem('user', JSON.stringify(response));
           }
           return {
             isOk: true,
@@ -161,16 +161,16 @@ export class AuthService {
   }
 
   async logOut() {
-    const user = sessionStorage.getItem('user');
+    const user = localStorage.getItem('user');
     const rememberMe = JSON.parse(user).rememberMe;
 
     return firstValueFrom(this.http.post('/dna/example/auth/logout', {
-      username: JSON.parse(sessionStorage.getItem('user')).username
+      username: JSON.parse(localStorage.getItem('user')).username
     })).then(
       (result: any) => {
-        sessionStorage.setItem('user', JSON.stringify(defaultUser));
+        localStorage.setItem('user', JSON.stringify(defaultUser));
         if (rememberMe === false) {
-          sessionStorage.removeItem('rememberId');
+          localStorage.removeItem('rememberId');
         }
         this.router.navigate(['/auth/login']);
 

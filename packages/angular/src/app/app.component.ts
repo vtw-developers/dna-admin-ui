@@ -41,7 +41,7 @@ export class AppComponent implements OnDestroy {
   }
 
   getLocale() {
-    const locale = sessionStorage.getItem('locale');
+    const locale = localStorage.getItem('locale');
     return locale != null ? locale : 'ko';
   }
 }
