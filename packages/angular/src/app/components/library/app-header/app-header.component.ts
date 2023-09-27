@@ -7,8 +7,9 @@ import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
 
 import { UserPanelModule } from '../user-panel/user-panel.component';
-import {AuthService, IUser, ThemeService} from 'src/app/services';
+import {AuthService, ThemeService} from 'src/app/services';
 import { ThemeSwitcherModule } from 'src/app/components/library/theme-switcher/theme-switcher.component';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,7 @@ import { ThemeSwitcherModule } from 'src/app/components/library/theme-switcher/t
   styleUrls: ['./app-header.component.scss'],
 })
 
-export class AppHeaderComponent implements OnInit {
+export class AppHeaderComponent {
   @Output()
   menuToggle = new EventEmitter<boolean>();
 
@@ -26,8 +27,7 @@ export class AppHeaderComponent implements OnInit {
   @Input()
   title!: string;
 
-  user: IUser | null = { email: '' };
-
+  user;
   userMenuItems = [
   {
     text: 'Logout',
@@ -38,10 +38,15 @@ export class AppHeaderComponent implements OnInit {
   }];
 
   constructor(private authService: AuthService,
-              private themeService: ThemeService) { }
+              private themeService: ThemeService,
+              private router: Router) { }
 
   ngOnInit() {
-    this.authService.getUser().then((e) => this.user = e.data);
+    this.user = sessionStorage.getItem('user');
+    const username = JSON.parse(this.user).username;
+    if(username == "") {
+      this.router.navigate(['/auth/login']);
+    }
   }
 
   toggleMenu = () => {

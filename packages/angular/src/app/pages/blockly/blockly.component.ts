@@ -98,7 +98,7 @@ export class BlocklyComponent implements AfterViewInit {
 
   save = (e)=> {
     e.preventDefault();
-    this.block.author = JSON.parse(localStorage.getItem('user')).username
+    this.block.author = JSON.parse(sessionStorage.getItem('user')).username
     this.block.data = this.code;
     this.block.blockJson = this.blockJson;
 

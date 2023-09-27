@@ -2,7 +2,6 @@ import { Component, NgModule, Input, ViewChild, ElementRef } from '@angular/core
 import { CommonModule } from '@angular/common';
 
 import { DxListModule } from 'devextreme-angular/ui/list';
-import { IUser } from '../../../services/auth.service';
 
 @Component({
   selector: 'user-menu-section',
@@ -11,18 +10,28 @@ import { IUser } from '../../../services/auth.service';
 })
 
 export class UserMenuSectionComponent {
-  @Input()
-  menuItems: any;
 
   @Input()
   showAvatar!: boolean;
+  user: any;
+  username: any;
+  menuItems: any;
 
-  @Input()
-  user!: IUser | null;
+  @Input() set selectUser(user) {
+    this.user = user;
+  };
+
+  @Input() set selectMenuItems(userMenuItems) {
+    this.menuItems = userMenuItems
+  };
 
   @ViewChild('userInfoList', { read: ElementRef }) userInfoList: ElementRef<HTMLElement>;
 
-  constructor() {}
+  constructor() { }
+
+  ngAfterViewInit(){
+    this.username = JSON.parse(this.user).username;
+  }
 
   handleListItemClick({ itemData }) {
     itemData.onClick();

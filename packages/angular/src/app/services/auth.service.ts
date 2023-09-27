@@ -31,10 +31,12 @@ const defaultUser ={
 export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) {
-    localStorage.setItem('user', JSON.stringify(defaultUser));
+    if(sessionStorage.getItem('user') == null){
+      sessionStorage.setItem('user', JSON.stringify(defaultUser));
+    }
   }
   get user() {
-    return localStorage.getItem('user');
+    return sessionStorage.getItem('user');
   }
 
   get loggedIn(): boolean {
@@ -56,7 +58,7 @@ export class AuthService {
       })).then(
         (response: any) => {
           if (response.accessToken) {
-            localStorage.setItem('user', JSON.stringify(response));
+            sessionStorage.setItem('user', JSON.stringify(response));
           }
           return {
             isOk: true,
@@ -90,22 +92,6 @@ export class AuthService {
       return {
         isOk: false,
         message: 'Authentication failed'
-      };
-    }
-  }
-
-  async getUser() {
-    try {
-      // Send request
-
-      return {
-        isOk: true,
-        data: this.user,
-      };
-    } catch {
-      return {
-        isOk: false,
-        data: null,
       };
     }
   }
@@ -175,16 +161,16 @@ export class AuthService {
   }
 
   async logOut() {
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
     const rememberMe = JSON.parse(user).rememberMe;
 
     return firstValueFrom(this.http.post('/dna/example/auth/logout', {
-      username: JSON.parse(localStorage.getItem('user')).username
+      username: JSON.parse(sessionStorage.getItem('user')).username
     })).then(
       (result: any) => {
-        localStorage.setItem('user', JSON.stringify(defaultUser));
+        sessionStorage.setItem('user', JSON.stringify(defaultUser));
         if (rememberMe === false) {
-          localStorage.removeItem('rememberId');
+          sessionStorage.removeItem('rememberId');
         }
         this.router.navigate(['/auth/login']);
 

@@ -53,16 +53,16 @@
     <dxi-item location="after" locateInMenu="auto" menuItemTemplate="menuItem">
       <div *dxTemplate="let data of 'item'">
         <user-panel
-          [user]="user"
-          [menuItems]="userMenuItems"
+          [selectUser]="user"
+          [selectMenuItems]="userMenuItems"
           menuMode="context"
         ></user-panel>
       </div>
     </dxi-item>
     <div *dxTemplate="let data of 'menuItem'">
       <user-panel
-        [user]="user"
-        [menuItems]="userMenuItems"
+        [selectUser]="user"
+        [selectMenuItems]="userMenuItems"
         menuMode="list"
       ></user-panel>
     </div>

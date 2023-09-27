@@ -34,7 +34,7 @@ export class LoginFormComponent {
       this.btnStylingMode = value ? 'outlined' : 'contained';
     });
 
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
     const username = JSON.parse(user).username;
     if(username != "") {
       this.router.navigate(['/menu']);
@@ -52,7 +52,7 @@ export class LoginFormComponent {
     this.loading = true;
 
     if(rememberMe === true) {
-      localStorage.setItem('rememberId', username);
+      sessionStorage.setItem('rememberId', username);
     }
 
     const result = await this.authService.logIn(username, password, rememberMe) as any;
@@ -70,8 +70,8 @@ export class LoginFormComponent {
   };
 
   isRememberMe() {
-    if(localStorage.getItem('rememberId') !== null) {
-      this.username = localStorage.getItem('rememberId');
+    if(sessionStorage.getItem('rememberId') !== null) {
+      this.username = sessionStorage.getItem('rememberId');
     }
   }
 

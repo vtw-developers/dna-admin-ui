@@ -11,14 +11,19 @@ import { IUser } from '../../../services/auth.service';
 })
 
 export class UserPanelComponent {
-  @Input()
-  menuItems: any;
 
   @Input()
   menuMode!: string;
+  user: any;
+  menuItems: any;
 
-  @Input()
-  user!: IUser | null;
+  @Input() set selectUser(user) {
+    this.user = user;
+  };
+
+  @Input() set selectMenuItems(userMenuItems) {
+    this.menuItems = userMenuItems
+  };
 
   @ViewChild(UserMenuSectionComponent) userMenuSection: UserMenuSectionComponent;
 
