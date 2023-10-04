@@ -48,8 +48,8 @@ export class BlocklyListComponent{
                   content {
                     id
                     dataName
+                    dataDetail
                     author
-                    finished
                     finishDate
                   }
                 }
