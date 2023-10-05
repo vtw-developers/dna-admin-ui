@@ -23,7 +23,6 @@ export class BlocklyComponent implements AfterViewInit {
   block: Block = {} as any;
   finished;
   id;
-  blockJson;
   @ViewChild('toolbox') toolbox: ElementRef;
 
   constructor(public router: Router, private route: ActivatedRoute, private apollo: Apollo) {
@@ -92,7 +91,7 @@ export class BlocklyComponent implements AfterViewInit {
       e.preventDefault();
       this.code = javascriptGenerator.workspaceToCode(this.workspace);
       const json = Blockly.serialization.workspaces.save(this.workspace);
-      this.blockJson = JSON.stringify(json);
+      this.block.blockJson = JSON.stringify(json);
     }
   }
 
@@ -100,7 +99,6 @@ export class BlocklyComponent implements AfterViewInit {
     e.preventDefault();
     this.block.author = JSON.parse(localStorage.getItem('user')).username
     this.block.data = this.code;
-    this.block.blockJson = this.blockJson;
 
     if(this.finished == "완료"){
       this.block.finished = true;
