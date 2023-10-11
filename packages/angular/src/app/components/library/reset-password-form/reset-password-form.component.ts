@@ -13,7 +13,7 @@ const notificationText = 'We\'ve sent a link to reset your password. Check your 
   templateUrl: './reset-password-form.component.html',
   styleUrls: ['./reset-password-form.component.scss'],
 })
-export class ResetPasswordFormComponent implements OnInit {
+export class ResetPasswordFormComponent /*implements OnInit */{
   @Input() signInLink = '/auth/login';
 
   @Input() buttonLink = '/auth/login';
@@ -42,9 +42,9 @@ export class ResetPasswordFormComponent implements OnInit {
     }
   }
 
-  async ngOnInit(): Promise<void> {
-    this.defaultAuthData = await this.authService.getUser();
-  }
+  // async ngOnInit(): Promise<void> {
+  //   this.defaultAuthData = await this.authService.getUser();
+  // }
 }
 @NgModule({
   imports: [
