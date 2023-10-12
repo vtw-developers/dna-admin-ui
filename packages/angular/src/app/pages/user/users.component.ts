@@ -50,6 +50,7 @@ export class UsersComponent {
                     userId
                     password
                     name
+                    division
                     phone
                     mail
                   }

@@ -49,6 +49,7 @@ export class UsersEditComponent {
               userId
               password
               name
+              division
               phone
               mail
             }
@@ -69,7 +70,7 @@ export class UsersEditComponent {
       });
     } else {
       this.popupVisible = true;
-      this.users = {id: null, userId: null, password: null, name: null, phone: null, mail: null, loginAttempts: null};
+      this.users = {id: null, userId: null, password: null, name: null, division: null, phone: null, mail: null, loginAttempts: null};
     }
   }
 

@@ -1,6 +1,7 @@
 @use "../../../../variables.scss" as *;
 
 .create-account-form {
+  width: 300px;
   .policy-info {
     color: var(--base-text-color-alpha);
     font-size: 12px;
@@ -15,7 +16,6 @@
     color: var(--accent-color);
     font-size: 12px;
     text-align: center;
-    padding: 6px 0 32px 0;
-    border-bottom: 1px solid var(--border-color);
+    padding: 6px 0 16px 0;
   }
 }

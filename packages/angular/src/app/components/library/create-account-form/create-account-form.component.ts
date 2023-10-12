@@ -27,6 +27,7 @@ export class CreateAccountFormComponent {
   password;
   confirmedPassword;
   name;
+  division;
   email;
   phone;
 
@@ -34,11 +35,11 @@ export class CreateAccountFormComponent {
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { username, password, confirmedPassword, name, email, phone } = this.formData;
+    const { username, password, confirmedPassword, name, division, email, phone } = this.formData;
     this.loading = true;
 
     if (this.validationPassword(this.formData.password)) {
-      const result = await this.authService.createAccount(username, password, name, email, phone) as any
+      const result = await this.authService.createAccount(username, password, name, division, email, phone) as any
       notify(formatMessage('SignUpSuccessMessage'), 'success', 2000);
       this.loading = false;
       if (result.isOk) {

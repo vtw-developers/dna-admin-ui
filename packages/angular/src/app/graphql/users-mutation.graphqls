@@ -9,6 +9,7 @@ input UsersInput {
   userId: String
   password: String
   name: String
+  division: String
   phone: String
   mail: String
   loginAttempts: Int

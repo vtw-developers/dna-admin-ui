@@ -73,6 +73,22 @@
     </dxi-item>
 
     <dxi-item
+      dataField="division"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        placeholder: 'Division',
+        stylingMode: 'filled',
+        value: division
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Division is required"
+      ></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item
       dataField="phone"
       editorType="dxTextBox"
       [editorOptions]="{
@@ -109,14 +125,6 @@
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
-    <dxi-item>
-      <div class="policy-info">
-        By creating an account, you agree to the
-        <a [routerLink]="redirectLink">Terms of Service</a> and
-        <a [routerLink]="redirectLink">Privacy Policy</a>
-      </div>
-    </dxi-item>
-
     <dxi-item itemType="button">
       <dxo-button-options
         width="100%"
@@ -144,5 +152,4 @@
   <div class="login-link">
     Have an account? <a [routerLink]="redirectLink">Sign In</a>
   </div>
-  <app-login-oauth></app-login-oauth>
 </form>
