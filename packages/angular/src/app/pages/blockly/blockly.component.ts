@@ -61,6 +61,7 @@ export class BlocklyComponent implements AfterViewInit {
               comment
               finished
               finishDate
+              used
             }
           }
         `,
@@ -101,6 +102,7 @@ export class BlocklyComponent implements AfterViewInit {
   save = (e)=> {
     e.preventDefault();
     this.block.data = this.code;
+    this.block.used = true;
 
     if(this.finished == "완료"){
       this.block.finished = true;

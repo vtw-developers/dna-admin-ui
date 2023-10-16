@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import CustomStore from "devextreme/data/custom_store";
 import {firstValueFrom} from "rxjs";
 import notify from "devextreme/ui/notify";
+import {confirm} from "devextreme/ui/dialog";
 
 @Component({
   templateUrl: './blockly-list.component.html',
@@ -79,25 +80,30 @@ export class BlocklyListComponent{
   }
 
   delete = (e) => {
-    this.apollo.mutate({
-      mutation: gql`
-        mutation deleteBlockly($id: ID) {
-          deleteBlockly(id: $id) {
-            id
+    const result = confirm('<i>블록을 삭제하시겠습니까?</i>', '삭제');
+    result.then(dialogResult => {
+      if (dialogResult) {
+        this.apollo.mutate({
+          mutation: gql`
+            mutation deleteBlockly($id: ID) {
+              deleteBlockly(id: $id) {
+                id
+              }
+            }
+          `,
+          variables: {
+            id: e.row.data.id
           }
-        }
-      `,
-      variables: {
-        id: e.row.data.id
-      }
-    }).subscribe({
-      next: (result: any) => {
-        notify('블록이 삭제되었습니다.', 'success', 3000);
-        this.refresh();
-      },
-      error: (e) => {
-        console.error(e);
-        notify('블록 삭제에 실패하였습니다.', 'error', 3000);
+        }).subscribe({
+          next: (result: any) => {
+            notify('블록이 삭제되었습니다.', 'success', 3000);
+            this.refresh();
+          },
+          error: (e) => {
+            console.error(e);
+            notify('블록 삭제에 실패하였습니다.', 'error', 3000);
+          }
+        });
       }
     });
   }

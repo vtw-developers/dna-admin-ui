@@ -15,6 +15,7 @@ type Blockly {
   comment: String
   finished: Boolean
   finishDate: Date
+  used: Boolean
 }
 
 type BlocklyPage {

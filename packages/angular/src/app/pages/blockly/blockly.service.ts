@@ -10,4 +10,5 @@ export interface Block {
   comment: string;
   finished: Boolean;
   finishDate: Date;
+  used: Boolean;
 }
