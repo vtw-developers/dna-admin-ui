@@ -11,10 +11,10 @@ import {
   DxTextBoxModule,
   DxValidationGroupComponent,
   DxValidationGroupModule, DxValidationSummaryModule, DxValidatorModule,
-  getElement
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
-import DataSource from "devextreme/data/data_source";
+import {formatMessage} from "devextreme/localization";
+import {AuthService} from "../../../services";
 
 
 @Component({
@@ -26,6 +26,8 @@ export class UsersEditComponent {
   users: Users = {} as any;
   editMode: 'create' | 'update';
   popupVisible = false;
+  loading = false;
+  confirmedPassword;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onSaved = new EventEmitter<Users>();
@@ -34,7 +36,7 @@ export class UsersEditComponent {
   @ViewChild(DxValidationGroupComponent, {static: false}) validationGroup: DxValidationGroupComponent;
   @ViewChild(DxPopupComponent, {static: false}) popup: DxPopupComponent;
 
-  constructor(private apollo: Apollo) {
+  constructor(private authService: AuthService, private apollo: Apollo) {
   }
 
   open(editMode: 'create' | 'update', userId?: number) {
@@ -87,32 +89,22 @@ export class UsersEditComponent {
   }
 
   /** Popup Button Events */
-  save = (e) => {
+  save = async (e) => {
     e.preventDefault();
-    this.close();
     if (this.isCreateMode()) {
-      this.users.loginAttempts = 0;
-      this.apollo.mutate({
-        mutation: gql`
-          mutation createUsers($users: UsersInput) {
-            createUsers(users: $users) {
-              id
-            }
-          }
-        `,
-        variables: {
-          users: this.users
+      this.loading = true;
+      if (this.validationPassword(this.users.password)) {
+        const result = await this.authService.createAccount(this.users.userId, this.users.password, this.users.name,
+          this.users.division, this.users.mail, this.users.phone) as any
+        this.loading = false;
+        if (result.isOk) {
+          this.close();
+          notify(formatMessage('SignUpSuccessMessage'), 'success', 2000);
+          this.onSaved.emit(this.users);
+        } else {
+          notify(result.message, 'error', 2000);
         }
-      }).subscribe({
-        next: (result: any) => {
-          notify('사용자가 등록되었습니다.', 'success', 3000);
-          this.onSaved.emit(result.data.createUsers);
-        },
-        error: (e) => {
-          console.error(e);
-          notify('사용자 등록에 실패하였습니다.', 'error', 3000);
-        }
-      });
+      }
     } else {
       this.apollo.mutate({
         mutation: gql`
@@ -136,6 +128,23 @@ export class UsersEditComponent {
         }
       });
     }
+  }
+
+  validationPassword(password: string) {
+    let validationPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
+    if (!validationPass.test(password) || password != this.confirmedPassword) {
+
+      if (!validationPass.test(password)) {
+        notify(formatMessage('validationPass'), 'error', 2000);
+      }
+      if (password != this.confirmedPassword) {
+        notify(formatMessage('passwordDoNotMatch'), 'error', 2000);
+      }
+      this.confirmedPassword = null;
+      this.loading = false;
+      return false;
+    }
+    return true;
   }
 }
 

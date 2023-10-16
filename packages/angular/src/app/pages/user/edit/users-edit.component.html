@@ -1,6 +1,6 @@
 <dx-popup
   [width]="'27vw'"
-  [height]="isCreateMode() ? 430 : 330"
+  [height]="isCreateMode() ? 480 : 330"
   [showTitle]="true"
   [title]="isCreateMode() ? '사용자 등록' : '사용자 정보 변경'"
   [dragEnabled]="true"
@@ -13,7 +13,7 @@
   <div *dxTemplate="let data of 'content'">
     <dx-validation-group>
       <form class="flex flex-col" (submit)="save($event)">
-        <div [style.height]="isCreateMode() ? '320px' : '220px'">
+        <div [style.height]="isCreateMode() ? '370px' : '220px'">
           <div class="dx-field" *ngIf="isCreateMode()">
             <div class="dx-field-label">ID</div>
             <dx-text-box class="dx-field-value" [(value)]="users.userId">
@@ -27,6 +27,14 @@
             <dx-text-box class="dx-field-value" [(value)]="users.password" mode="password">
               <dx-validator>
                 <dxi-validation-rule type="required" message="비밀번호를 입력하세요."></dxi-validation-rule>
+              </dx-validator>
+            </dx-text-box>
+          </div>
+          <div class="dx-field" *ngIf="isCreateMode()">
+            <div class="dx-field-label">비밀번호 확인</div>
+            <dx-text-box class="dx-field-value" [(value)]="confirmedPassword" mode="password">
+              <dx-validator>
+                <dxi-validation-rule type="required" message="비밀번호를 확인하세요."></dxi-validation-rule>
               </dx-validator>
             </dx-text-box>
           </div>

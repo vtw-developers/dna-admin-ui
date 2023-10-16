@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, Input, OnInit } from '@angular/core';
+import { Component, NgModule, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { LoginOauthModule } from 'src/app/components/library/login-oauth/login-oauth.component';
-import { ValidationCallbackData } from 'devextreme-angular/common';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
-import { AuthService, IResponse } from 'src/app/services';
+import { AuthService } from 'src/app/services';
 import {formatMessage} from "devextreme/localization";
 
 @Component({
@@ -19,8 +18,6 @@ export class CreateAccountFormComponent {
   @Input() redirectLink = '/auth/login';
   @Input() buttonLink = '/auth/login';
   loading = false;
-
-  defaultAuthData: IResponse;
 
   formData: any = {};
   username;
@@ -40,10 +37,10 @@ export class CreateAccountFormComponent {
 
     if (this.validationPassword(this.formData.password)) {
       const result = await this.authService.createAccount(username, password, name, division, email, phone) as any
-      notify(formatMessage('SignUpSuccessMessage'), 'success', 2000);
       this.loading = false;
       if (result.isOk) {
         this.router.navigate(['/auth/login']);
+        notify(formatMessage('SignUpSuccessMessage'), 'success', 2000);
       } else {
         notify(result.message, 'error', 2000);
       }
@@ -67,10 +64,6 @@ export class CreateAccountFormComponent {
     }
     return true;
   }
-
-  // async ngOnInit(): Promise<void> {
-  //   this.defaultAuthData = await this.authService.getUser();
-  // }
 }
 @NgModule({
   imports: [
