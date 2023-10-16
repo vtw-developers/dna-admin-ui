@@ -6,7 +6,7 @@ import {CommonModule} from "@angular/common";
 import Blockly from 'blockly';
 import {Block} from './blockly.service';
 import {javascriptGenerator} from 'blockly/javascript';
-import {DxButtonModule, DxSelectBoxModule, DxTextBoxModule, DxValidatorModule} from "devextreme-angular";
+import {DxButtonModule, DxDateBoxModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule, DxValidatorModule} from "devextreme-angular";
 import {Apollo, gql} from "apollo-angular";
 import notify from "devextreme/ui/notify";
 import {DxiValidationRuleModule} from "devextreme-angular/ui/nested";
@@ -40,6 +40,7 @@ export class BlocklyComponent implements AfterViewInit {
         },
       });
     this.getBlock();
+    this.block.author = JSON.parse(localStorage.getItem('user')).username;
   }
 
   getBlock() {
@@ -56,6 +57,8 @@ export class BlocklyComponent implements AfterViewInit {
               data
               dataName
               dataDetail
+              pythonData
+              comment
               finished
               finishDate
             }
@@ -97,7 +100,6 @@ export class BlocklyComponent implements AfterViewInit {
 
   save = (e)=> {
     e.preventDefault();
-    this.block.author = JSON.parse(localStorage.getItem('user')).username
     this.block.data = this.code;
 
     if(this.finished == "완료"){
@@ -438,6 +440,8 @@ export class BlocklyComponent implements AfterViewInit {
     DxTextBoxModule,
     DxValidatorModule,
     DxiValidationRuleModule,
+    DxTextAreaModule,
+    DxDateBoxModule,
   ],
   providers: [],
   exports: [],

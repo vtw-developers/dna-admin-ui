@@ -1,36 +1,15 @@
-#title {
-  margin-left: 2%;
-  font-size: 23px;
-  font-weight: bold;
-}
-
-#container {
-  margin: 2%;
-  width: 96%;
-  display: flex;
-}
-
 #blocklyDiv {
   height: 500px;
-  width: 60%;
+  width: 55%;
 }
 
 #toolbox {
   display: none;
 }
 
-#generator {
-  overflow: auto;
-  white-space: nowrap;
-  border: 1px solid #ddd;
-  height: 500px;
-  width: 40%;
-  padding: 10px;
-}
-
 #form-outer {
-  display: flex;
-  justify-content: flex-end;
+  width: 45%;
+  padding: 2%;
 }
 
 #form {
@@ -41,4 +20,48 @@
 #form-button {
   display: flex;
   justify-content: flex-end;
+}
+
+.generator {
+  overflow: auto;
+  white-space: nowrap;
+  border: 1px solid #ddd;
+  height: 500px;
+  width: 49%;
+  padding: 15px;
+}
+
+.generatorFull {
+  overflow: auto;
+  white-space: nowrap;
+  border: 1px solid #ddd;
+  width: 100%;
+  padding: 15px;
+}
+
+.container {
+  margin: 2%;
+  width: 96%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  margin-left: 2%;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.semi-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0px 0px 15px 0px;
+}
+
+#scroll {
+  border: none;
+  width: 100%;
+  height: 100%;
+  margin-right: 10px;
+  overflow: scroll;
 }

@@ -12,6 +12,8 @@ input BlocklyInput {
   data: String
   dataName: String
   dataDetail: String
+  pythonData: String
+  comment: String
   finished: Boolean
   finishDate: Date
 }

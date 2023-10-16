@@ -1,46 +1,75 @@
-<h1 id="title">Blockly</h1>
-<div id = "container" (keydown)="keyDownEvent($event)">
-  <div id="blocklyDiv"></div>
-  <xml id="toolbox" #toolbox>
-    <block type="controls_if"></block>
-    <block type="logic_compare"></block>
-    <block type="controls_repeat_ext"></block>
-    <block type="math_number"></block>
-    <block type="math_arithmetic"></block>
-    <block type="text"></block>
-    <block type="text_print"></block>
-  </xml>
-  <div id="generator">
-    <pre>{{code}}</pre>
+<div id="scroll">
+  <h1 class="title">Blockly</h1>
+  <div class="container" (keydown)="keyDownEvent($event)">
+    <div id="blocklyDiv"></div>
+    <xml id="toolbox" #toolbox>
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="controls_repeat_ext"></block>
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="text"></block>
+      <block type="text_print"></block>
+    </xml>
+    <div id="form-outer">
+      <form id="form" (submit)="save($event)">
+        <div class="dx-field">
+          <div class="dx-field-label">ID</div>
+          <dx-text-box class="dx-field-value" [(value)]="block.id" [readOnly]="true"></dx-text-box>
+        </div>
+        <div class="dx-field">
+          <div class="dx-field-label">블록명</div>
+          <dx-text-box class="dx-field-value" [(value)]="block.dataName">
+            <dx-validator>
+              <dxi-validation-rule message="블록명을 입력하세요."></dxi-validation-rule>
+            </dx-validator>
+          </dx-text-box>
+        </div>
+        <div class="dx-field">
+          <div class="dx-field-label">설명</div>
+          <dx-text-box class="dx-field-value" [(value)]="block.dataDetail">
+            <dx-validator>
+              <dxi-validation-rule message="설명을 입력하세요."></dxi-validation-rule>
+            </dx-validator>
+          </dx-text-box>
+        </div>
+        <div class="dx-field">
+          <div class="dx-field-label">작성자</div>
+          <dx-text-box class="dx-field-value" [(value)]="block.author" [readOnly]="true"></dx-text-box>
+        </div>
+        <div class="dx-field">
+          <div class="dx-field-label">등록일자</div>
+          <dx-date-box class="dx-field-value" [(value)]="block.registerDate" [readOnly]="true"></dx-date-box>
+        </div>
+        <div class="dx-field">
+          <div class="dx-field-label">완료 여부</div>
+          <dx-select-box [items]="['완료', '미완료']" [(value)]="finished" style="width: 150px; margin-right: 15px;" placeholder="작업 완료 여부">
+          </dx-select-box>
+          <dx-button
+            [text]="'등록'"
+            [width]="100"
+            [useSubmitBehavior]="true"
+          >
+          </dx-button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-<div id="form-outer">
-  <form id="form" (submit)="save($event)">
-    <div class="dx-field">
-      <div class="dx-field-label">블록명</div>
-      <dx-text-box class="dx-field-value" [(value)]="block.dataName">
-        <dx-validator>
-          <dxi-validation-rule message="블록명을 입력하세요."></dxi-validation-rule>
-        </dx-validator>
-      </dx-text-box>
+  <h2 class="title">Code</h2>
+  <div class="container">
+    <div class="generator">
+      <h2 class="semi-title">Javascript</h2>
+      <pre>{{code}}</pre>
     </div>
-    <div class="dx-field">
-      <div class="dx-field-label">설명</div>
-      <dx-text-box class="dx-field-value" [(value)]="block.dataDetail">
-        <dx-validator>
-          <dxi-validation-rule message="설명을 입력하세요."></dxi-validation-rule>
-        </dx-validator>
-      </dx-text-box>
+    <div class="generator">
+      <h2 class="semi-title">Python</h2>
+      <dx-text-area style="height:420px" [(value)]="block.pythonData"></dx-text-area>
     </div>
-    <div id="form-button">
-      <dx-select-box [items]="['완료', '미완료']" [(value)]="finished" style="width: 150px; margin-right: 15px;" placeholder="작업 완료 여부">
-      </dx-select-box>
-      <dx-button
-        [text]="'등록'"
-        [width]="100"
-        [useSubmitBehavior]="true"
-      >
-      </dx-button>
+  </div>
+  <h2 class="title">Comment</h2>
+  <div class="container">
+    <div class="generatorFull">
+      <dx-text-area style="height:300px" [(value)]="block.comment"></dx-text-area>
     </div>
-  </form>
+  </div>
 </div>

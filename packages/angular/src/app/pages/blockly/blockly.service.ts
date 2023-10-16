@@ -1,12 +1,13 @@
 export interface Block {
-  id: number;
+  id: string;
   author: string;
   registerDate: Date;
-  blockJson: String;
+  blockJson: string;
   data: string;
   dataName: string;
   dataDetail: string;
+  pythonData: string;
+  comment: string;
   finished: Boolean;
   finishDate: Date;
 }
-
