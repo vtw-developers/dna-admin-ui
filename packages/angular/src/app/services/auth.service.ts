@@ -130,9 +130,24 @@ export class AuthService {
     }
   }
 
-  async changePassword(email: string, recoveryCode: string) {
+  async updateAccount(id: number, username: string, password: string, name: string, division: string, email: string, phone: string) {
     try {
-      // Send request
+      return firstValueFrom(this.http.post('/dna/example/auth/update', {
+        id, username, password, name, division, email, phone
+      })).then(
+        (result: any) => {
+          return {
+            isOk: true,
+            data: this.user
+          };
+        },
+        error => {
+          console.log(error);
+          return {
+            isOk: false,
+            message: 'Failed to update account'
+          };
+        });
 
       return {
         isOk: true,
@@ -140,7 +155,7 @@ export class AuthService {
     } catch {
       return {
         isOk: false,
-        message: 'Failed to change password',
+        message: 'Failed to update account',
       };
     }
   }

@@ -35,14 +35,14 @@ export class ChangePasswordFormComponent implements OnInit, OnDestroy {
     const { password } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.changePassword(password, this.recoveryCode);
-    this.loading = false;
-
-    if (result.isOk) {
-      this.router.navigate(['/auth/login']);
-    } else {
-      notify(result.message, 'error', 2000);
-    }
+    // const result = await this.authService.changePassword(password, this.recoveryCode);
+    // this.loading = false;
+    //
+    // if (result.isOk) {
+    //   this.router.navigate(['/auth/login']);
+    // } else {
+    //   notify(result.message, 'error', 2000);
+    // }
   }
 
   confirmPassword = (e: ValidationCallbackData) => e.value === this.formData.password;

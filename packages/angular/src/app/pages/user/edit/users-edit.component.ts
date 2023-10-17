@@ -49,7 +49,6 @@ export class UsersEditComponent {
             user(id: $id) {
               id
               userId
-              password
               name
               division
               phone
@@ -63,6 +62,7 @@ export class UsersEditComponent {
       }).subscribe({
         next: (result: any) => {
           this.users = result.data.user;
+          this.users.password = null;
           this.popupVisible = true;
         },
         error: (e) => {
@@ -106,27 +106,22 @@ export class UsersEditComponent {
         }
       }
     } else {
-      this.apollo.mutate({
-        mutation: gql`
-          mutation updateUsers($users: UsersInput) {
-            updateUsers(users: $users) {
-              id
-            }
-          }
-        `,
-        variables: {
-          users: this.users
-        }
-      }).subscribe({
-        next: (result: any) => {
+      let isValidUpdate = true;
+      if(this.users.password != null && !this.validationPassword(this.users.password)) {
+        isValidUpdate = false;
+      }
+      if(isValidUpdate){
+        const result = await this.authService.updateAccount(this.users.id, this.users.userId, this.users.password,
+          this.users.name, this.users.division, this.users.mail, this.users.phone) as any
+        this.loading = false;
+        if (result.isOk) {
+          this.close();
           notify('사용자 변경이 성공적으로 완료되었습니다.', 'success', 3000);
-          this.onSaved.emit(result.data.updateUsers);
-        },
-        error: (e) => {
-          console.error(e);
+          this.onSaved.emit(this.users);
+        } else {
           notify('사용자 변경에 실패하였습니다.', 'error', 3000);
         }
-      });
+      }
     }
   }
 
