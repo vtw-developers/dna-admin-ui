@@ -37,7 +37,7 @@ export class LoginFormComponent {
     const user = localStorage.getItem('user');
     const username = JSON.parse(user).username;
     if(username != "") {
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/blockly-list']);
     }
   }
 
@@ -61,7 +61,7 @@ export class LoginFormComponent {
       this.loading = false;
       notify(result.message, 'error', 2000);
     } else {
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/blockly-list']);
     }
   }
 

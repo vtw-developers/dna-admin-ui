@@ -35,32 +35,37 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
   private _compactMode = false;
 
   constructor(private elementRef: ElementRef, private apollo: Apollo) {
-    this.apollo.query({
-      query: gql`
-        query menuList($name: String) {
-          menuList(name: $name) {
-            id
-            name
-            parentId
-            path
-            type
-            icon
-            expanded
-          }
-        }
-      `,
-      variables: {
-        name: ''
-      }
-    }).subscribe({
-      next: (result: any) => {
-        this.navigation = result.data.menuList;
-      },
-      error: (e) => {
-        console.error(e);
-        notify('오류가 발생하였습니다.', 'error', 3000);
-      }
-    });
+    // this.apollo.query({
+    //   query: gql`
+    //     query menuList($name: String) {
+    //       menuList(name: $name) {
+    //         id
+    //         name
+    //         parentId
+    //         path
+    //         type
+    //         icon
+    //         expanded
+    //       }
+    //     }
+    //   `,
+    //   variables: {
+    //     name: ''
+    //   }
+    // }).subscribe({
+    //   next: (result: any) => {
+    //     this.navigation = result.data.menuList;
+    //   },
+    //   error: (e) => {
+    //     console.error(e);
+    //     notify('오류가 발생하였습니다.', 'error', 3000);
+    //   }
+    // });
+
+    this.navigation = [
+      {id: 1, name: "Blockly", detail: "", parentId: null, parentName: null, path: null, type: "Group", icon: "globe", expanded: true},
+      {id: 2, name: "blockly-list", detail: "", parentId: 1, parentName: "Blockly", path: "/blockly-list", type: "Template", icon: null, expanded: true}
+    ];
   }
 
   @Input()
