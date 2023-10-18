@@ -25,16 +25,16 @@
           <div class="dx-field">
             <div class="dx-field-label">비밀번호</div>
             <dx-text-box class="dx-field-value" [(value)]="users.password" mode="password">
-              <dx-validator *ngIf="isCreateMode()">
-                <dxi-validation-rule type="required" message="비밀번호를 입력하세요."></dxi-validation-rule>
+              <dx-validator>
+                <dxi-validation-rule *ngIf="isCreateMode()" type="required" message="비밀번호를 입력하세요."></dxi-validation-rule>
               </dx-validator>
             </dx-text-box>
           </div>
           <div class="dx-field">
             <div class="dx-field-label">비밀번호 확인</div>
             <dx-text-box class="dx-field-value" [(value)]="confirmedPassword" mode="password">
-              <dx-validator *ngIf="isCreateMode()">
-                <dxi-validation-rule type="required" message="비밀번호를 확인하세요."></dxi-validation-rule>
+              <dx-validator>
+                <dxi-validation-rule *ngIf="isCreateMode()" type="required" message="비밀번호를 확인하세요."></dxi-validation-rule>
               </dx-validator>
             </dx-text-box>
           </div>

@@ -250,7 +250,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'crm-contact-list',
+        redirectTo: 'blockly-list',
         pathMatch: 'full',
       },
     ]

@@ -77,6 +77,12 @@ export class MenuEditComponent {
       }).subscribe({
         next: (result: any) => {
           this.menu = result.data.menu;
+          if(this.menu.type == "Template"){
+            this.selectedParent = {
+              id: this.menu.parentId,
+              name: this.menu.parentName
+            }
+          }
           this.popupVisible = true;
         },
         error: (e) => {
