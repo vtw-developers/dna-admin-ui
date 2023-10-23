@@ -45,6 +45,15 @@
             <div class="dx-field-label">완료일자</div>
             <dx-date-box class="dx-field-value" [(value)]="block.finishDate" [readOnly]="true"></dx-date-box>
           </div>
+          <div class="dx-field">
+            <div class="dx-field-label">Javascript 변환</div>
+            <dx-button
+              [text]="'변환'"
+              [width]="90"
+              (onClick)="createCode()"
+            >
+            </dx-button>
+          </div>
       </div>
     </div>
     <h2 class="title">Code</h2>

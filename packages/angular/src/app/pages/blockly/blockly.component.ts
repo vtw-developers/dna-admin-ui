@@ -93,10 +93,14 @@ export class BlocklyComponent implements AfterViewInit {
   keyDownEvent(e) {
     if (e.ctrlKey && e.key === 's' || e.ctrlKey && e.key === 'S') {
       e.preventDefault();
-      this.code = javascriptGenerator.workspaceToCode(this.workspace);
-      const json = Blockly.serialization.workspaces.save(this.workspace);
-      this.block.blockJson = JSON.stringify(json);
+      this.createCode();
     }
+  }
+
+  createCode() {
+    this.code = javascriptGenerator.workspaceToCode(this.workspace);
+    const json = Blockly.serialization.workspaces.save(this.workspace);
+    this.block.blockJson = JSON.stringify(json);
   }
 
   save = (e)=> {
