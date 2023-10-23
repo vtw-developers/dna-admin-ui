@@ -13,7 +13,6 @@ import {
   DxValidationGroupModule, DxValidationSummaryModule, DxValidatorModule,
 } from "devextreme-angular";
 import {CommonModule} from "@angular/common";
-import {formatMessage} from "devextreme/localization";
 import {AuthService} from "../../../services";
 
 
@@ -99,7 +98,7 @@ export class UsersEditComponent {
         this.loading = false;
         if (result.isOk) {
           this.close();
-          notify(formatMessage('SignUpSuccessMessage'), 'success', 2000);
+          notify('계정이 생성되었습니다.', 'success', 3000);
           this.onSaved.emit(this.users);
         } else {
           notify(result.message, 'error', 2000);
@@ -130,10 +129,11 @@ export class UsersEditComponent {
     if (!validationPass.test(password) || password != this.confirmedPassword) {
 
       if (!validationPass.test(password)) {
-        notify(formatMessage('validationPass'), 'error', 2000);
+        notify('비밀번호는 영문, 숫자, 특수문자를 조합한 8자리 이상으로 만들어 주세요.', 'error', 3000);
+
       }
       if (password != this.confirmedPassword) {
-        notify(formatMessage('passwordDoNotMatch'), 'error', 2000);
+        notify('비밀번호 확인란이 일치하지 않습니다', 'error', 3000);
       }
       this.confirmedPassword = null;
       this.loading = false;

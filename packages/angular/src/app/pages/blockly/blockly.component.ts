@@ -40,7 +40,7 @@ export class BlocklyComponent implements AfterViewInit {
         },
       });
     this.getBlock();
-    this.block.author = JSON.parse(localStorage.getItem('user')).username;
+    this.block.author = JSON.parse(localStorage.getItem('user')).name;
   }
 
   getBlock() {
@@ -114,27 +114,33 @@ export class BlocklyComponent implements AfterViewInit {
       this.block.finished = false;
     }
 
-    this.apollo.mutate({
-      mutation: gql`
-        mutation createBlockly($blockly: BlocklyInput) {
-          createBlockly(blockly: $blockly) {
-            id
+    if(this.block.dataName == null || this.block.dataName == ""){
+      notify('블록명을 입력하세요.', 'error', 3000);
+    } else if(this.block.data == null || this.block.blockJson == null || this.block.data == "" || this.block.blockJson == ""){
+      notify('저장할 블록이 없습니다.', 'error', 3000);
+    } else {
+      this.apollo.mutate({
+        mutation: gql`
+          mutation createBlockly($blockly: BlocklyInput) {
+            createBlockly(blockly: $blockly) {
+              id
+            }
           }
+        `,
+        variables: {
+          blockly: this.block
         }
-      `,
-      variables: {
-        blockly: this.block
-      }
-    }).subscribe({
-      next: (result: any) => {
-        notify('블록이 저장되었습니다.', 'success', 3000);
-      },
-      error: (e) => {
-        console.error(e);
-        notify('블록 저장에 실패하였습니다.', 'error', 3000);
-      }
-    });
-    this.router.navigate(['/blockly-list']);
+      }).subscribe({
+        next: (result: any) => {
+          this.router.navigate(['/blockly-list']);
+          notify('블록이 저장되었습니다.', 'success', 3000);
+        },
+        error: (e) => {
+          console.error(e);
+          notify('블록 저장에 실패하였습니다.', 'error', 3000);
+        }
+      });
+    }
   }
 
   initToolbox(): any {

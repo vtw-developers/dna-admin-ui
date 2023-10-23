@@ -7,7 +7,6 @@ import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
 import { AuthService } from 'src/app/services';
-import {formatMessage} from "devextreme/localization";
 
 @Component({
   selector: 'app-create-account-form',
@@ -40,7 +39,7 @@ export class CreateAccountFormComponent {
       this.loading = false;
       if (result.isOk) {
         this.router.navigate(['/auth/login']);
-        notify(formatMessage('SignUpSuccessMessage'), 'success', 2000);
+        notify('계정이 생성되었습니다.', 'success', 3000);
       } else {
         notify(result.message, 'error', 2000);
       }
@@ -52,10 +51,10 @@ export class CreateAccountFormComponent {
     if (!validationPass.test(password) || this.formData.password != this.formData.confirmedPassword) {
 
       if (!validationPass.test(password)) {
-        notify(formatMessage('validationPass'), 'error', 2000);
+        notify('비밀번호는 영문, 숫자, 특수문자를 조합한 8자리 이상으로 만들어 주세요.', 'error', 3000);
       }
       if (this.formData.password != this.formData.confirmedPassword) {
-        notify(formatMessage('passwordDoNotMatch'), 'error', 2000);
+        notify('비밀번호 확인란이 일치하지 않습니다', 'error', 3000);
       }
       this.formData.password = null;
       this.confirmedPassword = null;
