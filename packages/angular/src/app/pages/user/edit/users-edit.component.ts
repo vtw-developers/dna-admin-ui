@@ -38,15 +38,14 @@ export class UsersEditComponent {
   constructor(private authService: AuthService, private apollo: Apollo) {
   }
 
-  open(editMode: 'create' | 'update', userId?: number) {
+  open(editMode: 'create' | 'update', userId?: string) {
     this.validationGroup?.instance.reset();
     this.editMode = editMode;
     if(this.isUpdateMode()){
       this.apollo.query({
         query: gql`
-          query user($id: ID) {
-            user(id: $id) {
-              id
+          query user($userId: String) {
+            user(userId: $userId) {
               userId
               name
               division
@@ -56,7 +55,7 @@ export class UsersEditComponent {
           }
         `,
         variables: {
-          id: userId
+          userId: userId
         }
       }).subscribe({
         next: (result: any) => {
@@ -71,7 +70,7 @@ export class UsersEditComponent {
       });
     } else {
       this.popupVisible = true;
-      this.users = {id: null, userId: null, password: null, name: null, division: null, phone: null, mail: null, loginAttempts: null};
+      this.users = {userId: null, password: null, name: null, division: null, phone: null, mail: null, loginAttempts: null};
     }
   }
 
@@ -110,7 +109,7 @@ export class UsersEditComponent {
         isValidUpdate = false;
       }
       if(isValidUpdate){
-        const result = await this.authService.updateAccount(this.users.id, this.users.userId, this.users.password,
+        const result = await this.authService.updateAccount(this.users.userId, this.users.password,
           this.users.name, this.users.division, this.users.mail, this.users.phone) as any
         this.loading = false;
         if (result.isOk) {

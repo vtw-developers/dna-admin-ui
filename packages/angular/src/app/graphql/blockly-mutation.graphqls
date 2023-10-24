@@ -6,7 +6,7 @@ extend type Mutation {
 
 input BlocklyInput {
   id: ID
-  author: String
+  users: UsersInput
   registerDate: Date
   blockJson: String
   data: String

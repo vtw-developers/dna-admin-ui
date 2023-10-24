@@ -30,7 +30,7 @@ export class UsersComponent {
   constructor(private pageableService: PageableService, private apollo: Apollo) {
     this.users = new DataSource({
       store: new CustomStore({
-        key: 'id',
+        key: 'userId',
         load: (loadOptions) => {
           this.grid.instance.clearSelection();
 
@@ -40,13 +40,12 @@ export class UsersComponent {
               query users(
                 $page: Int = 0,
                 $size: Int = 10,
-                $sortBy: String = "id",
+                $sortBy: String = "userId",
                 $sortDir: String = "asc",
                 $filter: String = "") {
                 users(page: $page, size: $size, sortBy: $sortBy, sortDir: $sortDir, filter: $filter) {
                   totalElements
                   content {
-                    id
                     userId
                     password
                     name
@@ -80,7 +79,7 @@ export class UsersComponent {
   }
 
   update= (e) =>{
-    this.editPopup.open('update', e.row.data.id);
+    this.editPopup.open('update', e.row.data.userId);
   }
 
   delete = (e) => {
@@ -89,14 +88,14 @@ export class UsersComponent {
       if (dialogResult) {
         this.apollo.mutate({
           mutation: gql`
-            mutation deleteUsers($id: ID) {
-              deleteUsers(id: $id) {
-                id
+            mutation deleteUsers($userId: String) {
+              deleteUsers(userId: $userId) {
+                userId
               }
             }
           `,
           variables: {
-            id: e.row.data.id
+            userId: e.row.data.userId
           }
         }).subscribe({
           next: (v) => {

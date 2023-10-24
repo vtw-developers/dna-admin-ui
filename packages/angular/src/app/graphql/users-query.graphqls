@@ -1,11 +1,10 @@
 extend type Query {
   users(page: Int, size: Int, sortBy: String, sortDir: String, filter: String): UsersPage
   usersList(roleId: ID): [Users]
-  user(id: ID): Users
+  user(userId: String): Users
 }
 
 type Users {
-  id: ID
   userId: String
   password: String
   name: String

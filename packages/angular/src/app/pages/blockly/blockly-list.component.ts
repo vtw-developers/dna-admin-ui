@@ -20,6 +20,7 @@ export class BlocklyListComponent{
   blocklyList: DataSource;
   filter: any;
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @ViewChild(DxDataGridComponent, {static: false}) grid: DxDataGridComponent;
 
   constructor(private pageableService: PageableService, private apollo: Apollo, private router: Router) {
@@ -49,7 +50,10 @@ export class BlocklyListComponent{
                   content {
                     id
                     dataName
-                    author
+                    users {
+                      userId
+                      name
+                    }
                     registerDate
                     finishDate
                   }

@@ -1,6 +1,8 @@
+import {Users} from "../user/edit/users.service";
+
 export interface Block {
   id: string;
-  author: string;
+  users: Users;
   registerDate: Date;
   blockJson: string;
   data: string;

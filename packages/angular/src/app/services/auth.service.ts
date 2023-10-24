@@ -130,10 +130,10 @@ export class AuthService {
     }
   }
 
-  async updateAccount(id: number, username: string, password: string, name: string, division: string, email: string, phone: string) {
+  async updateAccount(username: string, password: string, name: string, division: string, email: string, phone: string) {
     try {
       return firstValueFrom(this.http.post('/dna/example/auth/update', {
-        id, username, password, name, division, email, phone
+        username, password, name, division, email, phone
       })).then(
         (result: any) => {
           return {

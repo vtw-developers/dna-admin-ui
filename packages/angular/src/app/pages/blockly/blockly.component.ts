@@ -11,6 +11,7 @@ import {Apollo, gql} from "apollo-angular";
 import notify from "devextreme/ui/notify";
 import {DxiValidationRuleModule} from "devextreme-angular/ui/nested";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Users} from "../user/edit/users.service";
 
 @Component({
   templateUrl: './blockly.component.html',
@@ -20,12 +21,48 @@ export class BlocklyComponent implements AfterViewInit {
   workspace: any;
   plugin: any;
   code: string;
-  block: Block = {} as any;
+  user: Users;
+  block: Block = {
+    dataName: '',
+    dataDetail: '',
+    users: {
+      userId: '',
+      name: ''
+    }
+  } as any;
   finished;
   id;
   @ViewChild('toolbox') toolbox: ElementRef;
 
   constructor(public router: Router, private route: ActivatedRoute, private apollo: Apollo) {
+    const userId = JSON.parse(localStorage.getItem('user')).username;
+    this.apollo.query({
+      query: gql`
+        query user($userId: String) {
+          user(userId: $userId) {
+            userId
+            name
+            password
+            division
+            phone
+            mail
+            loginAttempts
+          }
+        }
+      `,
+      variables: {
+        userId: userId
+      }
+    }).subscribe({
+      next: (result: any) => {
+        this.user = result.data.user;
+        this.block.users = this.user;
+      },
+      error: (e) => {
+        console.error(e);
+        notify('블록 정보를 불러오는데 오류가 발생하였습니다.', 'error', 3000);
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -40,7 +77,6 @@ export class BlocklyComponent implements AfterViewInit {
         },
       });
     this.getBlock();
-    this.block.author = JSON.parse(localStorage.getItem('user')).name;
   }
 
   getBlock() {
@@ -51,7 +87,10 @@ export class BlocklyComponent implements AfterViewInit {
           query blockly($id: ID) {
             blockly(id: $id) {
               id
-              author
+              users {
+                userId
+                name
+              }
               registerDate
               blockJson
               data
@@ -110,7 +149,7 @@ export class BlocklyComponent implements AfterViewInit {
 
     if(this.finished == "완료"){
       this.block.finished = true;
-    } else if (this.finished == "미완료") {
+    } else {
       this.block.finished = false;
     }
 

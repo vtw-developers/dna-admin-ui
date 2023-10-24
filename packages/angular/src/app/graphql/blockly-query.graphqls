@@ -5,7 +5,7 @@ extend type Query {
 
 type Blockly {
   id: ID
-  author: String
+  users: Users
   registerDate: Date
   blockJson: String
   data: String

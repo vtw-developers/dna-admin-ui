@@ -1,11 +1,10 @@
 extend type Mutation {
   createUsers(users: UsersInput): Users
   updateUsers(users: UsersInput): Users
-  deleteUsers(id: ID): Users
+  deleteUsers(userId: String): Users
 }
 
 input UsersInput {
-  id: ID
   userId: String
   password: String
   name: String
