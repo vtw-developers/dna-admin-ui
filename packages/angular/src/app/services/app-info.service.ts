@@ -5,7 +5,7 @@ export class AppInfoService {
   constructor() {}
 
   public get title() {
-    return 'DnA Admin';
+    return '공동연구포털';
   }
 
   public get currentYear() {
