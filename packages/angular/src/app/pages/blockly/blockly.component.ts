@@ -6,6 +6,7 @@ import {CommonModule} from "@angular/common";
 import Blockly from 'blockly';
 import {Block} from './blockly.service';
 import {javascriptGenerator} from 'blockly/javascript';
+import {pythonGenerator} from 'blockly/python';
 import {DxButtonModule, DxDateBoxModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule, DxValidatorModule} from "devextreme-angular";
 import {Apollo, gql} from "apollo-angular";
 import notify from "devextreme/ui/notify";
@@ -21,6 +22,7 @@ export class BlocklyComponent implements AfterViewInit {
   workspace: any;
   plugin: any;
   code: string;
+  codePython: string;
   user: Users;
   block: Block = {
     dataName: '',
@@ -97,6 +99,7 @@ export class BlocklyComponent implements AfterViewInit {
               dataName
               dataDetail
               pythonData
+              pythonToJs
               comment
               finished
               finishDate
@@ -111,6 +114,7 @@ export class BlocklyComponent implements AfterViewInit {
         next: (result: any) => {
           this.block = result.data.blockly;
           this.code = this.block.data
+          this.codePython = this.block.pythonData;
           if (this.block.finished == true){
             this.finished = "완료";
           } else if (this.block.finished == false){
@@ -138,6 +142,7 @@ export class BlocklyComponent implements AfterViewInit {
 
   createCode() {
     this.code = javascriptGenerator.workspaceToCode(this.workspace);
+    this.codePython = pythonGenerator.workspaceToCode(this.workspace);
     const json = Blockly.serialization.workspaces.save(this.workspace);
     this.block.blockJson = JSON.stringify(json);
   }
@@ -145,6 +150,7 @@ export class BlocklyComponent implements AfterViewInit {
   save = (e)=> {
     e.preventDefault();
     this.block.data = this.code;
+    this.block.pythonData = this.codePython;
     this.block.used = true;
 
     if(this.finished == "완료"){

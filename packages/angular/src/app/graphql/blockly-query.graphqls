@@ -12,6 +12,7 @@ type Blockly {
   dataName: String
   dataDetail: String
   pythonData: String
+  pythonToJs: String
   comment: String
   finished: Boolean
   finishDate: Date

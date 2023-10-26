@@ -38,7 +38,7 @@
             <dx-date-box class="dx-field-value" [(value)]="block.finishDate" [readOnly]="true"></dx-date-box>
           </div>
           <div class="dx-field">
-            <div class="dx-field-label">Javascript 변환</div>
+            <div class="dx-field-label">코드 변환</div>
             <dx-button
               [text]="'변환'"
               [width]="90"
@@ -56,12 +56,16 @@
       </div>
       <div class="generator">
         <h2 class="semi-title">Python</h2>
-        <dx-text-area style="height:420px" [(value)]="block.pythonData"></dx-text-area>
+        <pre>{{codePython}}</pre>
       </div>
     </div>
-    <h2 class="title">검증 결과</h2>
     <div class="container">
-      <div class="generatorFull">
+      <div style="width: 49%;">
+        <h2 class="title2">Python to JS</h2>
+        <dx-text-area style="height:300px" [(value)]="block.pythonToJs"></dx-text-area>
+      </div>
+      <div style="width: 49%;">
+        <h2 class="title2">검증 결과</h2>
         <dx-text-area style="height:300px" [(value)]="block.comment"></dx-text-area>
       </div>
     </div>

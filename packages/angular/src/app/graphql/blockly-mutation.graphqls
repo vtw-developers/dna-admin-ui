@@ -13,6 +13,7 @@ input BlocklyInput {
   dataName: String
   dataDetail: String
   pythonData: String
+  pythonToJs: String
   comment: String
   finished: Boolean
   finishDate: Date

@@ -21,16 +21,8 @@
   overflow: auto;
   white-space: nowrap;
   border: 1px solid #ddd;
-  height: 500px;
+  height: 450px;
   width: 49%;
-  padding: 15px;
-}
-
-.generatorFull {
-  overflow: auto;
-  white-space: nowrap;
-  border: 1px solid #ddd;
-  width: 100%;
   padding: 15px;
 }
 
@@ -43,6 +35,12 @@
 
 .title {
   margin-left: 2%;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.title2 {
+  margin-top: 0px;
   font-size: 23px;
   font-weight: bold;
 }

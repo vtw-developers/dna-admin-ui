@@ -9,6 +9,7 @@ export interface Block {
   dataName: string;
   dataDetail: string;
   pythonData: string;
+  pythonToJs: string;
   comment: string;
   finished: Boolean;
   finishDate: Date;
